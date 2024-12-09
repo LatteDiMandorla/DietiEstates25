@@ -6,7 +6,7 @@ function LoginPage() {
     return (
         <div className="flex h-full">
             <div className="flex flex-1 overflow-hidden justify-center items-center">
-                <img src={image} />
+                <img className="object-cover w-full h-full" src={image} />
             </div>
             <div className="w-full h-full flex-1 flex flex-col justify-center items-center space-y-6">
                 <LoginForm />
