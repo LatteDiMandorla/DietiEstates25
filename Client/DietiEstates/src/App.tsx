@@ -1,18 +1,11 @@
-import Topbar from "./components/Topbar"
-import HomePage from "./pages/HomePage"
-import ImmobilePage from "./pages/ImmobilePage";
+import { Outlet } from "react-router-dom";
 
 function App() {
 
-  const home : boolean = false;
-
   return (
-    <>
-      <Topbar title="Topbar" />
-      {
-        home ? <HomePage /> : <ImmobilePage />
-      }
-    </>
+    <div className="h-screen overflow-hidden">
+      <Outlet />
+    </div>
   )
 }
 
