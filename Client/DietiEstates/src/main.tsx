@@ -7,6 +7,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import LoginPage from './pages/LoginPage.tsx'
 import HomePage from './pages/HomePage.tsx'
 import Layout from './pages/Layout.tsx'
+import { FirstStep } from './pages/FirstStep.tsx'
 
 const router = createBrowserRouter([
   {
@@ -20,13 +21,19 @@ const router = createBrowserRouter([
           {
             path: "",
             element: <HomePage />
+          },
+
+          {
+            path: "FirstStep",
+            element: <FirstStep />
           }
         ]
       },
       {
         path: "/login",
         element: <LoginPage />,
-      }
+      },
+
     ]
   }
 ]);
