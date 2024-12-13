@@ -10,15 +10,19 @@ export const FirstStep = () => {
       {    /* Header*/     }
       <header className="w-full #fafafa py-4 shadow-md">
         <div className="flex justify-between items-center w-full px-10">
-            <span>
-                Indietro
-            </span>
-            <span>
+            <button onClick={() => ("something_to_do")}
+              className="text-blue-950 font-mono">
+               <span className="text-xl">‹ </span>
+               <span className="underline"> Indietro</span>
+            </button>
+            <span className="text-blue-950 font-mono">
                 È un locale in vendita o in affitto?
             </span>
-            <span>
-                Avanti
-            </span>
+            <button onClick={() => ("something_to_do")} 
+              className="text-blue-950 font-mono">
+                <span className="underline"> Avanti</span> 
+                <span className="text-xl"> ›</span>
+            </button>
 
         </div>
       </header>
@@ -26,7 +30,7 @@ export const FirstStep = () => {
       {/* Step indicator */}
       <div className="my-6">
         <div className="flex items-center space-x-1">
-          <span className="w-3 h-3 rounded-full bg-blue-600"></span>
+          <span className="w-3 h-3 rounded-full bg-blue-900"></span>
           <span className="w-2.5 h-2.5 rounded-full bg-gray-300"></span>
           <span className="w-2 h-2 rounded-full bg-gray-200"></span>
         </div>
