@@ -9,8 +9,17 @@ export const FirstStep = () => {
     <div className="flex flex-col items-center #fafafa min-h-screen">
       {    /* Header*/     }
       <header className="w-full #fafafa py-4 shadow-md">
-        <div className="container mx-auto px-7 text-center">
-            È un locale in affitto o in vendita?     
+        <div className="flex justify-between items-center w-full px-10">
+            <span>
+                Indietro
+            </span>
+            <span>
+                È un locale in vendita o in affitto?
+            </span>
+            <span>
+                Avanti
+            </span>
+
         </div>
       </header>
 
