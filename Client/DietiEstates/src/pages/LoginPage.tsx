@@ -11,7 +11,10 @@ function LoginPage() {
             <div className="w-full h-full flex-1 flex flex-col justify-center items-center space-y-6">
                 <LoginForm />
                 <AlternativeLogin />
-                <div className="flex space-x-1 font-semibold"><div>Non hai un Account?</div><div className="text-blue-500 font-bold underline hover:cursor-pointer">Registrati Ora</div></div>
+                <div className="flex space-x-1 font-semibold">
+                    <div>Non hai un Account?</div>
+                    <div className="text-blue-500 font-bold underline hover:cursor-pointer">Registrati Ora</div>
+                </div>
             </div>
         </div>
     )
