@@ -1,3 +1,6 @@
+import apartment from '../assets/Apartment.png'
+
+
 
 export const FirstStep = () => {
 
@@ -8,14 +11,14 @@ export const FirstStep = () => {
   return (
     <div className="flex flex-col items-center #fafafa min-h-screen">
       {    /* Header*/     }
-      <header className="w-full #fafafa py-4 shadow-md">
+      <header className="py-4 shadow-md w-full">
         <div className="flex justify-between items-center w-full px-10">
             <button onClick={() => ("something_to_do")}
               className="text-blue-950 font-mono">
                <span className="text-xl">‹ </span>
                <span className="underline"> Indietro</span>
             </button>
-            <span className="text-blue-950 font-mono">
+            <span className="text-blue-950 text-opacity-65 font-bold text-xl">
                 È un locale in vendita o in affitto?
             </span>
             <button onClick={() => ("something_to_do")} 
@@ -37,31 +40,39 @@ export const FirstStep = () => {
       </div>
 
       {/* Main option */}
-      <div className="flex space-x-6 justify-center px-6 w-full">
+      <div className="flex h-full space-x-6 justify-center px-6 w-full">
         {/* Button for "Sale" */}
         <button
           onClick={() => handleOptionClick("vendita")}
-          className="relative flex-grow h-[60vh] bg-transparent bg-center bg-cover rounded-lg shadow-lg border-2 border-gray-100 hover:shadow-xl hover:scale-105 transition-transform duration-300"
+          className="relative flex-grow h-[60vh] bg-blue-400 bg-opacity-20 bg-transparent bg-center bg-cover rounded-lg shadow-lg border-2 border-gray-100 hover:shadow-xl hover:scale-105 transition-transform duration-300"
           style={{
             backgroundImage: "",
+  
           }}
         >
-          <span className="center bg-white bg-opacity-80 text-center text-blue-900 font-bold py-4">
-            IN VENDITA
-          </span>
+          <div className="full-w bg-white py-4 shadow-md" > 
+            <span className="relative bg-white text-center text-blue-900 font-bold py-4">
+              IN VENDITA
+            </span>
+          </div>
         </button>
 
         {/* Button for "Rent" */}
         <button
           onClick={() => handleOptionClick("affitto")}
-          className="relative flex-grow h-[60vh] bg-transparent bg-center bg-cover rounded-lg shadow-lg border-2 border-gray-100 hover:shadow-xl hover:scale-105 transition-transform duration-300"
+          className="relative flex-grow h-[60vh] bg-blue-400 bg-opacity-20 bg-transparent bg-center bg-cover rounded-lg shadow-lg border-2 border-gray-100 hover:shadow-xl hover:scale-105 transition-transform duration-300"
           style={{
             backgroundImage: "",
+            backgroundSize:     "cover",
+            backgroundPosition: "center",
           }}
         >
-          <span className="center bg-white bg-opacity-80 text-center text-blue-900 font-bold py-4">
-            IN AFFITTO
-          </span>
+          <div className="full-w bg-white py-4 shadow-md" > 
+            <span className="relative bg-white text-center text-blue-900 font-bold py-4">
+              IN AFFITTO
+            </span>
+          </div>
+ 
         </button>
       </div> 
 
