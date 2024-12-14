@@ -1,21 +1,43 @@
+import axios from "axios";
 import React, { useState } from "react";
-import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
-import "leaflet/dist/leaflet.css";
-import { LatLngExpression } from "leaflet";
-import '@geoapify/geocoder-autocomplete/styles/minimal.css';
-import {
-  GeoapifyGeocoderAutocomplete,
-  GeoapifyContext
-} from '@geoapify/react-geocoder-autocomplete';
+import ClipLoader from "react-spinners/ClipLoader";
 
 const MapComponent: React.FC = () => {
-  const geoapifyApiKey = "5f915e0c5501410a8ac26dd8d67aae97"; // Sostituisci con la tua chiave API
-  const defaultPosition : LatLngExpression = [45.4642, 9.19]; // Milano, come esempio
-    const map = useMap();
-  const [location, setLocation] = useState<{lat: number, lon: number}>();
+  const [suggestions, setSuggestions] = useState<any>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [timeoutId, setTimeoutId] = useState<ReturnType<typeof setTimeout> >(); 
+
+  const fetchSuggestions = async (text: string) => {
+    const { data } = await axios.get("http://localhost:3000/map/autocomplete", { params: { text } });
+    console.log(data);
+    setSuggestions(data);
+    setIsLoading(false);
+  };
+  
+
+  // Funzione di input debounced
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    
+    clearTimeout(timeoutId);
+    setIsLoading(true);
+    if (e.target.value.length < 3) {
+      setIsLoading(false);
+      setSuggestions([]);
+    } else {
+      const timeoutId = setTimeout(() => fetchSuggestions(e.target.value), 1000); 
+      setTimeoutId(timeoutId);
+    }
+  };
 
   return (
     <>
+      <div className="flex items-center space-x-3">
+        <input onChange={handleInputChange} className="border border-red-600" placeholder="type" />
+        <ClipLoader size={20} loading={isLoading} />
+      </div>
+      <div>
+        {suggestions.map((s : any, index: number) => (<div key={index}>{s.text + "  " + s.lat + "  " + s.lon}</div>))}
+      </div>
     </>
   );
 };

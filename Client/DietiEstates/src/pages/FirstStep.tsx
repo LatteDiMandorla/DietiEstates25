@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import affitto from '../assets/AffittoPicture.png'
 import vendita from '../assets/VenditaPicture.png'
 import StepIndicator from '../components/StepIndicator';
@@ -11,6 +10,7 @@ export const FirstStep = () => {
   const {counter: step, prev, next} = useRangeCounter(steps);
 
   const handleOptionClick = (option: "vendita" | "affitto") => {
+    console.log(option);
     { /*TODO*/ }
   };
 

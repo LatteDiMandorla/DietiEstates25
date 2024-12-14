@@ -1,16 +1,7 @@
 import './App.css'
 import SearchBar from '../components/SearchBar';
 
-const HomePage = () => {
-    const containerStyle = {
-      display: 'flex',
-      flexDirection: 'column',
-      width: '100%',
-      padding: '20px',
-      backgroundColor: '#DDF5FF',
-      
-    };
-  
+const HomePage = () => {  
     const itemStyle = {
       display: 'flex',
       justifyContent: 'space-between',

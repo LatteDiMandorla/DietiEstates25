@@ -10,6 +10,7 @@ import HomePage from './pages/HomePage.tsx'
 import Layout from './pages/Layout.tsx'
 import { FirstStep } from './pages/FirstStep.tsx'
 import ImmobilePage from './pages/ImmobilePage.tsx';
+import { MapPage } from './pages/MapPage.tsx';
 
 const router = createBrowserRouter([
   {
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
           {
             path: "/FirstStep",
             element: <FirstStep />
+          },
+          {
+            path: "/map",
+            element: <MapPage />
           }
         ]
       },
