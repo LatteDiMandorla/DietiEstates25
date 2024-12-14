@@ -9,6 +9,7 @@ import useRangeCounter from '../hooks/useRangeCounter';
 export const FirstStep = () => {
   const steps = 3;
   const {counter: step, prev, next} = useRangeCounter(steps);
+
   const handleOptionClick = (option: "vendita" | "affitto") => {
     { /*TODO*/ }
   };

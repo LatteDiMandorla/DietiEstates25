@@ -2,6 +2,7 @@ import express, { Express } from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import { ImmobileRoute } from "./routes/immobile";
+import { MapRoute } from "./routes/map";
 
 class App {
   private readonly app: Express;
@@ -33,6 +34,8 @@ class App {
   private initRoutes() {
     const immobileRoute = new ImmobileRoute();
     this.app.use("/immobile", immobileRoute.router);
+    const mapRoute = new MapRoute();
+    this.app.use("/map", mapRoute.router);
   }
 
   private initErrorHandling() {

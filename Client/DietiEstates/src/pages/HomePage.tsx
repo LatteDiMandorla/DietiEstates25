@@ -12,7 +12,11 @@ import { FaRegBell } from "react-icons/fa";
 const HomePage = () => {
   
     return (
+<<<<<<< HEAD
       <div className='flex flex-col w-full p-5 bg-[#DDF5FF] '>
+=======
+      <div className="flex">
+>>>>>>> refs/remotes/origin/main
         {/* Primo item */}
         <div className='flex justify-between items-center p-2.5 mb-2.5 rounded-lg'>
           <div className='flex gap-[35px]'>
