@@ -15,7 +15,6 @@ interface house_card_props {
 
 
 export const HouseCard = (props: house_card_props) => {
-
     return (
       <div className="max-w-sm bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl hover:cursor-pointer transition-all">
         {/* Immagine di copertina */}
