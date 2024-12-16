@@ -1,45 +1,36 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ClipLoader from "react-spinners/ClipLoader";
-
+import { MapContainer, Marker, Popup, TileLayer, useMap } from 'react-leaflet'
+import 'leaflet/dist/leaflet.css';
 const MapComponent: React.FC = () => {
-  const [suggestions, setSuggestions] = useState<any>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [timeoutId, setTimeoutId] = useState<ReturnType<typeof setTimeout> >(); 
-
-  const fetchSuggestions = async (text: string) => {
-    const { data } = await axios.get("http://localhost:3000/map/autocomplete", { params: { text } });
-    console.log(data);
-    setSuggestions(data);
-    setIsLoading(false);
-  };
-  
-
-  // Funzione di input debounced
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    
-    clearTimeout(timeoutId);
-    setIsLoading(true);
-    if (e.target.value.length < 3) {
-      setIsLoading(false);
-      setSuggestions([]);
-    } else {
-      const timeoutId = setTimeout(() => fetchSuggestions(e.target.value), 1000); 
-      setTimeoutId(timeoutId);
-    }
-  };
+  const [coordinates, setCoordinates] = useState<{lat: number, lon: number}>({lat: 12, lon: 120});
 
   return (
     <>
-      <div className="flex items-center space-x-3">
-        <input onChange={handleInputChange} className="border border-red-600" placeholder="type" />
-        <ClipLoader size={20} loading={isLoading} />
-      </div>
+
       <div>
-        {suggestions.map((s : any, index: number) => (<div key={index}>{s.text + "  " + s.lat + "  " + s.lon}</div>))}
+        <MapContainer center={[coordinates?.lat, coordinates?.lon]} zoom={10} className="h-96 w-96">
+          <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+          <Marker position={[-22, 120]}>
+          <Popup>
+            A pretty CSS3 popup. <br /> Easily customizable.
+          </Popup>
+          <SetSearchCoordinates lat={coordinates.lat} lon={coordinates.lon}  />
+        </Marker>
+        </MapContainer>
       </div>
     </>
   );
 };
+
+const SetSearchCoordinates = ({lat, lon} : any) => {
+  const map = useMap();
+  useEffect(() => {
+    map.setView([lat, lon]);
+  }, [lat, lon]);
+
+  return null;
+}
 
 export default MapComponent;

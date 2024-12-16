@@ -9,7 +9,6 @@ import { FaRegBell } from "react-icons/fa";
 
 
 const HomePage = () => {
-  
     return (
       <div className='flex flex-col w-full p-5 bg-[#DDF5FF] '>
         {/* Primo item */}
