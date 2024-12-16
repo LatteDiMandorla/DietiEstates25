@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import ClipLoader from "react-spinners/ClipLoader";
 import { MapContainer, Marker, Popup, TileLayer, useMap } from 'react-leaflet'
-import 'leaflet/dist/leaflet.css';
+
 const MapComponent: React.FC = () => {
   const [coordinates, setCoordinates] = useState<{lat: number, lon: number}>({lat: 12, lon: 120});
 
