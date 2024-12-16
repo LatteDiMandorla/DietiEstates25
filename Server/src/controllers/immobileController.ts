@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { DAOFactory } from "../daos/DAOFactory";
-import { ImmobileDAO } from "../daos/ImmobileDAO";
+import { DAOFactory } from "../daos/factory/DAOFactory";
+import { ImmobileDAO } from "../daos/interfaces/ImmobileDAO";
 
 export class ImmobileController {
     private ImmobileDAO : ImmobileDAO | undefined;
@@ -17,7 +17,7 @@ export class ImmobileController {
             return;
         }
 
-        const immobile = await this.ImmobileDAO?.getById(id);
+        const immobile = await this.ImmobileDAO?.findById(id);
         if(!immobile) {
             res.status(404).send("Immobile not found"); 
             return;

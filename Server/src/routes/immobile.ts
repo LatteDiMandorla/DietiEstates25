@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { ImmobileController } from "../controllers/immobile";
+import { ImmobileController } from "../controllers/immobileController";
 import { Route } from "./route";
 
 export class ImmobileRoute extends Route {

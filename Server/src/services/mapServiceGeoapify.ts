@@ -1,7 +1,8 @@
 import axios from "axios";
-import { Suggestion } from "../intefaces/SuggestionT";
+import { Suggestion } from "../models/SuggestionT";
+import { MapService } from "./interfaces/mapService";
 
-export class MapService {
+export class MapServiceGeoapify implements MapService {
     private readonly apiKey: string;
     private readonly baseUrl: string;
   
@@ -10,7 +11,7 @@ export class MapService {
       this.baseUrl = 'https://api.geoapify.com/v1/geocode';
     }
   
-    public async autocomplete(text: string): Promise<Suggestion[]> {
+    public async getAutocompleteSuggestions(text: string): Promise<Suggestion[]> {
       const url = `${this.baseUrl}/autocomplete`;
       const params = {
         text: text,
