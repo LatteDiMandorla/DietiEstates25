@@ -21,7 +21,7 @@ function SearchBar({text} : {text?: string}) {
         defaultValue={text || ""}
         onChange={(e) => setSearch(e.target.value)}
       />
-      <IoIosSearch className="w-6 h-6 ml-2 hover:cursor-pointer" type="submit" onClick={() => navigate(`/search/${encodeURIComponent(search)}`)} />
+      <IoIosSearch className="w-6 h-6 ml-2 hover:cursor-pointer" type="submit" onClick={() => search && navigate(`/search/${encodeURIComponent(search)}`)} />
     </div>
   );
 }
