@@ -45,7 +45,7 @@ export const FirstStep = () => {
       <div className="w-full h-full overflow-hidden flex space-x-6 justify-evenly p-6">
 
         {/* Button for "Sale" */}
-        <button onClick={() => handleOptionClick("vendita")} className="relative bg-[#DDF5FF] flex justify-center items-center overflow-hidden rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition-transform duration-300">
+        <button onClick={() => handleOptionClick("vendita")} className="relative flex-1 bg-[#DDF5FF] flex justify-center items-center overflow-hidden rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition-transform duration-300">
           <div className="absolute flex items-center justify-center text-blue-900 text-xl font-bold bg-white px-4 py-2 z-20 w-full h-14">
             Vendita
           </div>
@@ -53,7 +53,7 @@ export const FirstStep = () => {
         </button>
 
         {/* Button for "Rent" */}
-        <button onClick={() => handleOptionClick("affitto")} className="relative bg-[#DDF5FF] flex justify-center items-center overflow-hidden rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition-transform duration-300">
+        <button onClick={() => handleOptionClick("affitto")} className="relative flex-1 bg-[#DDF5FF] flex justify-center items-center overflow-hidden rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition-transform duration-300">
           <div className="absolute flex items-center justify-center text-blue-900 text-xl font-bold bg-white px-4 py-2 z-20 w-full h-14">
             Affitto
           </div>
