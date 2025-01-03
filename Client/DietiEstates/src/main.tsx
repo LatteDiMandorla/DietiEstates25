@@ -9,6 +9,7 @@ import LoginPage from './pages/LoginPage.tsx'
 import HomePage from './pages/HomePage.tsx'
 import Layout from './pages/Layout.tsx'
 import { FirstStep } from './pages/FirstStep.tsx'
+import { SecondStep } from './pages/SecondStep.tsx'
 import ImmobilePage from './pages/ImmobilePage.tsx';
 import { MapPage } from './pages/MapPage.tsx';
 
@@ -43,6 +44,11 @@ const router = createBrowserRouter([
       {
         path: "/Home",
         element: <HomePage />
+      },
+
+      {
+        path: "/SecondStep",
+        element: <SecondStep/>
       },
 
     ]
