@@ -5,7 +5,7 @@ function Topbar(){
     const {query} = useParams();
     return(
         <div className="font-bold bg-blue-200 h-16 flex justify-center py-2">
-            <SearchBar text={query || ""} />
+            <SearchBar text={decodeURIComponent(query || "")} />
         </div>
     )
 }
