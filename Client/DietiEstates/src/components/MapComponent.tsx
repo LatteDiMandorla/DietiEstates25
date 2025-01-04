@@ -1,24 +1,26 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-import ClipLoader from "react-spinners/ClipLoader";
+import { useEffect, useState } from "react";
 import { MapContainer, Marker, Popup, TileLayer, useMap } from 'react-leaflet'
-import AddressSearchBar from "./AddressSearchBar";
 
-const MapComponent = ({className = "", width = "96" } : {className?: string, width?: string}) => {
+const MapComponent = ({className = ""} : {className?: string, width?: string}) => {
   const [coordinates, setCoordinates] = useState<{lat: number, lon: number}>({lat: 12, lon: 120});
 
+  useEffect(() => {
+    if(localStorage.getItem("startCoordinates")){
+      const c = JSON.parse(localStorage.getItem("startCoordinates") || "");
+      setCoordinates({lat: c.lat, lon: c.lon});
+    }
+  }, [])
   return (
     <>
-
-      <div className={"rounded-lg overflow-hidden " + className} >
-        <MapContainer center={[coordinates?.lat, coordinates?.lon]} zoom={15} className={`h-96 w-[30rem]`}>
+      <div className={"rounded-lg overflow-hidden flex w-full h-full " + className} >
+        <MapContainer center={[coordinates?.lat, coordinates?.lon]} zoom={15} className={`flex-1`}>
           <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-          <Marker position={[-22, 120]}>
-          <Popup>
-            A pretty CSS3 popup. <br /> Easily customizable.
-          </Popup>
-          <SetSearchCoordinates lat={coordinates.lat} lon={coordinates.lon}  />
-        </Marker>
+          <Marker position={[coordinates?.lat, coordinates?.lon]}>
+            <Popup>
+              A pretty CSS3 popup. <br /> Easily customizable.
+            </Popup>
+            <SetSearchCoordinates lat={coordinates.lat} lon={coordinates.lon}  />
+          </Marker>
         </MapContainer>
       </div>
     </>

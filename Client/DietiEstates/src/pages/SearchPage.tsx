@@ -21,10 +21,12 @@ const SearchPage = () => {
                 </div>
             </div>
             <div className="flex-1 hidden flex-col items-center justify-end space-y-2  lg:flex">
-                <div className="bg-white shadow-md rounded-lg w-11/12 flex-1 flex flex-col p-4 ">
+                <div className="bg-white shadow-md rounded-lg w-11/12 flex-1 flex flex-col p-4 " >
 
                 </div>
-                <MapComponent className="shadow-sm" />
+                <div className="w-11/12 flex-1">
+                    <MapComponent className="shadow-sm" />
+                </div>
             </div>
         </div>
     )

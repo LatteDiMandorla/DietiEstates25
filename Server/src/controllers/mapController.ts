@@ -11,15 +11,15 @@ export class MapController {
     }
 
     public async getAutocomplete(req: Request, res: Response): Promise<void> {
-        const {text} = req.query;
+        const {text, lang} = req.query;
     
-        if (!text || typeof text !== 'string') {
+        if (!text || typeof text !== 'string' || !lang || typeof lang !== 'string') {
           res.status(400).json({ error: 'The "text" query parameter is required and must be a string.' });
           return;
         }
     
         try {
-          const suggestions = await this.mapService?.getAutocompleteSuggestions(text);
+          const suggestions = await this.mapService?.getAutocompleteSuggestions(text, lang);
           res.json(suggestions);
         } catch (error) {
           console.error('Autocomplete error:', error);

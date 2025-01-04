@@ -1,5 +1,5 @@
 import { Suggestion } from "../../models/SuggestionT";
 
 export interface MapService {
-    getAutocompleteSuggestions(query: string) : Promise<Suggestion[]>;
+    getAutocompleteSuggestions(query: string, lang: string) : Promise<Suggestion[]>;
 }

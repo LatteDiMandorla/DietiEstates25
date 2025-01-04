@@ -11,12 +11,13 @@ export class MapServiceGeoapify implements MapService {
       this.baseUrl = 'https://api.geoapify.com/v1/geocode';
     }
   
-    public async getAutocompleteSuggestions(text: string): Promise<Suggestion[]> {
+    public async getAutocompleteSuggestions(text: string, lang: string): Promise<Suggestion[]> {
       const url = `${this.baseUrl}/autocomplete`;
       const params = {
         text: text,
         apiKey: this.apiKey,
         format: "json",
+        lang: lang.slice(0, 2),
       };
 
       try {
