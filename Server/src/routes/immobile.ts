@@ -11,6 +11,7 @@ export class ImmobileRoute extends Route {
     }
 
     protected override initRoutes() : void {
+        this.router.get("/bounds", (req, res) => this.immobileController.getByRange(req, res));
         this.router.get("/:id", (req, res) => this.immobileController.getById(req, res));
     }
 }

@@ -7,4 +7,6 @@ export interface Immobile {
     agent_image: string; 
     price: string;
     images: string[];
+    lat: number;
+    lon: number;
 }

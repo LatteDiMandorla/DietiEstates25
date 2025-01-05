@@ -1,13 +1,14 @@
 import { Request, Response } from "express";
 import { DAOFactory } from "../daos/factory/DAOFactory";
 import { ImmobileDAO } from "../daos/interfaces/ImmobileDAO";
+import { Immobili } from "./immobili";
+import { ImmobileService } from "../services/immobileService";
 
 export class ImmobileController {
-    private ImmobileDAO : ImmobileDAO | undefined;
+    private immobileService : ImmobileService | undefined;
 
     constructor() {
-        const daoFactory = new DAOFactory();
-        this.ImmobileDAO = daoFactory.getImmobileDAO(process.env.DAOTYPE || "mock");
+        this.immobileService = new ImmobileService();
     }
 
     public async getById(req : Request, res : Response) : Promise<void> {
@@ -17,12 +18,16 @@ export class ImmobileController {
             return;
         }
 
-        const immobile = await this.ImmobileDAO?.findById(id);
-        if(!immobile) {
-            res.status(404).send("Immobile not found"); 
+        res.json("Fatto");
+    }
+
+    public async getByRange(req: Request, res: Response) : Promise<void> {
+        const {neLat, neLon, swLat, swLon} = req.query;
+        if (!neLat || typeof neLat !== 'string' || !parseFloat(neLat) || !neLon || typeof neLon !== 'string' || !parseFloat(neLon) || !swLat || typeof swLat !== 'string' || !parseFloat(swLat) || !swLon || typeof swLon !== 'string' || !parseFloat(swLon)) {
+            res.status(400).json({ error: 'The query parameters are required and must be numbers.' });
             return;
         }
-
-        res.json(immobile);
+        const data = await this.immobileService?.getInRange(parseFloat(neLat), parseFloat(neLon), parseFloat(swLat), parseFloat(swLon));
+        res.json(data);
     }
 }

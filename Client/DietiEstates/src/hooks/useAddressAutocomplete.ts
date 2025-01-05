@@ -23,7 +23,7 @@ const useAddressAutocomplete = () => {
         setIsLoading(false);
         setSuggestions([]);
       } else {
-        const timeoutId = setTimeout(() => fetchSuggestions(e.target.value), 1000); 
+        const timeoutId = setTimeout(() => fetchSuggestions(e.target.value), 200); 
         setTimeoutId(timeoutId);
       }
     };

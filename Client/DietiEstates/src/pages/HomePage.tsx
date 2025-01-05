@@ -3,7 +3,7 @@ import { LuUsersRound } from "react-icons/lu";
 import { FaDollarSign } from "react-icons/fa";
 import { CiMap } from "react-icons/ci";
 import { FiLifeBuoy } from "react-icons/fi";
-import Logo from "../assets/Logo.png";
+import Logo from "../assets/Logo.svg";
 import Avatar from "../assets/Avatar.png";
 import { FaRegBell } from "react-icons/fa";
 

@@ -28,7 +28,7 @@ const router = createBrowserRouter([
             element: <ImmobilePage />
           },
           {
-            path: "/search/:query",
+            path: "/search",
             element: <SearchPage />
           },
           {
