@@ -1,13 +1,19 @@
 
+import { useState } from 'react';
 import StepIndicator from '../components/StepIndicator';
 import useRangeCounter from '../hooks/useRangeCounter';
 
 
 export const SecondStep = () => {
 
-    const HandleOptionClick = (option : "Casa" | "Villa" | "Appartamento" | "Baita") => {
+    {/*State to set button on click, null as initial state*/}
+    const [activeOption, setActiveOption] = useState<string | null>(null);
+
+    const HandleOptionClick = (option : string) => {
         console.log(option);
+        setActiveOption(option);
     }
+
 
     const steps = 3;
     const {counter: step, prev, next} = useRangeCounter(steps);
@@ -53,19 +59,23 @@ export const SecondStep = () => {
                     {/* First Part */}
                     <div className="grid grid-cols-2 gap-3 mt-10">
                         <button onClick={() => HandleOptionClick("Casa")}
-                                className="bg-blue-200 p-20 rounded-lg shadow-md hover:scale-95 transition-transform">
+                                className={`bg-blue-200 p-20 rounded-lg shadow-md transition-all text-blue-950 ${
+                                            activeOption === "Casa" ? "scale-95 bg-blue-400" : "hover:scale-95 hover:bg-blue-400"}`}>
                                 Casa
                         </button>
                         <button onClick={() => HandleOptionClick("Villa")}
-                                className="bg-blue-200 p-20 rounded-lg shadow-md hover:scale-95 transition-transform"> 
+                                className={`bg-blue-200 p-20 rounded-lg shadow-md transition-all text-blue-950 ${
+                                            activeOption === "Villa" ? "scale-95 bg-blue-400" : "hover:scale-95 hover:bg-blue-400"}`} > 
                                 Villa
                         </button>
                         <button onClick={() => HandleOptionClick("Appartamento")}
-                                className="bg-blue-200 p-20 rounded-lg shadow-md hover:scale-95 transition-transform">
+                                className={`bg-blue-200 p-20 rounded-lg shadow-md transition-all text-blue-950 ${
+                                            activeOption === "Appartamento" ? "scale-95 bg-blue-400" : "hover:scale-95 hover:bg-blue-400"}`} >
                                 Appartamento
                         </button>
                         <button onClick={() => HandleOptionClick("Baita")}
-                                className="bg-blue-200 p-20 rounded-lg shadow-md hover:scale-95 transition-transform">
+                                className={`bg-blue-200 p-20 rounded-lg shadow-md transition-all text-blue-950 ${
+                                            activeOption === "Baita" ? "scale-95 bg-blue-400" : "hover:scale-95 hover:bg-blue-400"}`} > 
                                 Baita
                         </button>
                     </div>
