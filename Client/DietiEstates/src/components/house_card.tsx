@@ -9,7 +9,7 @@ export const HouseCard = (props: Immobile) => {
         {/* Immagine di copertina */}
         <div className="relative">
           <img src={props.images[0]} alt="apartment_image" className="w-full h-52 object-cover" />
-          <img src={props.agent_image} alt="User_profile_image" className="absolute top-2 right-2 w-14 h-14 object-cover rounded-full border-2 border-white shadow-lg" />
+          <img src={props.agentImage} alt="User_profile_image" className="absolute top-2 right-2 w-14 h-14 object-cover rounded-full border-2 border-white shadow-lg" />
         </div>
         {/* Contenuto */}
         <div className="py-2 px-4">
@@ -25,11 +25,11 @@ export const HouseCard = (props: Immobile) => {
             </div>
             <div className="flex items-center space-x-1">
               <PiToiletFill />
-              <span>{props.bathroom_number} bagni</span>
+              <span>{props.bathrooms} bagni</span>
             </div>
             <div className="flex items-center space-x-1">
               <FaDoorOpen />
-              <span>{props.local_number} stanze</span>
+              <span>{props.locals} stanze</span>
             </div>
           </div>
         </div>

@@ -3,14 +3,18 @@ import cors from "cors";
 import dotenv from "dotenv";
 import { ImmobileRoute } from "./routes/immobile";
 import { MapRoute } from "./routes/map";
+import Database from "./sequelize/database";
 
 class App {
   private readonly app: Express;
   private readonly port: number;
+  private readonly db: Database;
 
   constructor() {
     this.app = express();
     this.port = parseInt(process.env.PORT || "3000");
+    this.db = Database.getInstance();
+
     this.init();
   }
 
@@ -19,6 +23,16 @@ class App {
     this.initMiddlewares();
     this.initRoutes();
     this.initErrorHandling();
+    this.initDatabase();
+  }
+
+  private async initDatabase() {
+    try {
+      await this.db.connect();
+      await this.db.sync();
+    } catch (error) {
+      console.log("Error Initializing DB", error);
+    }
   }
 
   private initConfig() {

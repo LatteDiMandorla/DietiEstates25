@@ -3,6 +3,7 @@ import { Immobile } from "../Interfaces/interfaces";
 import { HouseCard } from "../components/house_card";
 import MapComponent from "../components/MapComponent";
 import axios from "axios";
+import { FaArrowDownWideShort } from "react-icons/fa6";
 
 const SearchPage = () => {
     const [immobili, setImmobili] = useState<Immobile[]>();

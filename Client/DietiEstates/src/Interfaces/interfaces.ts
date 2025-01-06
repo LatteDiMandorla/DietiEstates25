@@ -1,10 +1,11 @@
 export interface Immobile {
+    id?: number;
     title: string;
     street: string;
     size: string;
-    bathroom_number: string;
-    local_number: string;
-    agent_image: string; 
+    bathrooms: string;
+    locals: string;
+    agentImage: string; 
     price: string;
     images: string[];
     lat: number;
