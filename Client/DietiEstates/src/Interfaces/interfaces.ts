@@ -1,5 +1,4 @@
 export interface Immobile {
-    id?: number;
     title: string;
     street: string;
     size: string;

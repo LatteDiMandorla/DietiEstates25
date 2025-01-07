@@ -4,7 +4,14 @@ import { useSearchParams } from "react-router-dom";
 import { IoMdPin } from "react-icons/io";
 import { Marker } from '@adamscybot/react-leaflet-component-marker'
 
-const MapComponent = ({className = "", onMove, markers} : {className?: string, onMove?: (arg: any) => Promise<void>, markers?: {lat: number, lon: number, text: string}[]}) => {
+interface MapComponentProps{
+  className?: string;
+  onMove?: (arg: any) => Promise<void>;
+  markers?: {lat: number, lon: number, text: string}[];
+  onMarkerClick?: (arg: any) => void;
+}
+
+const MapComponent = ({className = "", onMove, markers, onMarkerClick} : MapComponentProps) => {
   const [coordinates, setCoordinates] = useState<{lat: number, lon: number}>({lat: 40.827373, lon: 14.191577});
   const [bounds, setBounds] = useState<{ne: {lat: number, lon: number}, sw: {lat: number, lon: number}}>();
   const [params] = useSearchParams();
@@ -27,7 +34,7 @@ const MapComponent = ({className = "", onMove, markers} : {className?: string, o
       <div className={"rounded-lg overflow-hidden flex w-full h-full " + className} >
         <MapContainer center={[coordinates?.lat, coordinates?.lon]} zoom={13} className={`flex-1`}>
           <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-          {markers?.map((marker, index) => <Marker key={index} position={[marker.lat, marker.lon]} icon={<IoMdPin className="text-red-600" size={24} />}>
+          {markers?.map((marker, index) => <Marker key={index} position={[marker.lat, marker.lon]} icon={<IoMdPin className="text-red-600" size={24} onClick={() => onMarkerClick?.(index)} />}>
               <Popup autoPan={false} autoClose>
                 {marker.text}
               </Popup>

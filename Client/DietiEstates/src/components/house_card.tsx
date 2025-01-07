@@ -2,10 +2,24 @@ import { FaRulerCombined } from "react-icons/fa";
 import { PiToiletFill } from "react-icons/pi";
 import { FaDoorOpen } from "react-icons/fa";
 import { Immobile } from "../Interfaces/interfaces";
+import { forwardRef, useImperativeHandle, useRef, useState } from "react";
 
-export const HouseCard = (props: Immobile) => {
+interface ChildRef {
+  pulse: () => void;
+  scrollIntoView: () => void;
+}
+
+export const HouseCard = forwardRef<ChildRef, Immobile>((props: Immobile, ref) => {
+    const [animate, setAnimate] = useState(false);
+    const divRef = useRef<HTMLDivElement>(null);
+
+    useImperativeHandle(ref, () => ({
+      pulse: () => setAnimate(true),
+      scrollIntoView: () => divRef.current?.scrollIntoView({behavior: "smooth", block: "start"}),
+    }));
+
     return (
-      <div className="w-full max-w-md bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl hover:cursor-pointer transition-all">
+      <div ref={divRef} className={"w-full max-w-md bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl hover:cursor-pointer transition-all " + (animate && "animate-[pulse_2s_ease-in-out]")} onAnimationEnd={() => setAnimate(false)}>
         {/* Immagine di copertina */}
         <div className="relative">
           <img src={props.images[0]} alt="apartment_image" className="w-full h-52 object-cover" />
@@ -35,4 +49,4 @@ export const HouseCard = (props: Immobile) => {
         </div>
       </div>
     );
-};
+});
