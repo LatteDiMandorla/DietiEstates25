@@ -62,7 +62,19 @@ export default class Immobile extends Model {
         lon: {
             type: DataTypes.FLOAT,
             allowNull: false,
-        }
+        },
+        tags: {
+            type: DataTypes.TEXT, // Memorizzato come JSON
+            allowNull: true,
+            defaultValue: '[]', // Default: array vuoto
+            get() {
+              const rawValue = this.getDataValue('tags');
+              return rawValue ? JSON.parse(rawValue) : [];
+            },
+            set(value: string[]) {
+              this.setDataValue('tags', JSON.stringify(value));
+            },
+        },
       },
       {
         sequelize,

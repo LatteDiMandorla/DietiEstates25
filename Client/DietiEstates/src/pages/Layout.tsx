@@ -4,7 +4,7 @@ import Topbar from "../components/Topbar";
 function Layout() {
     return (
         <div className="flex flex-col w-full h-full">
-            <Topbar title="topbar" />
+            <Topbar />
             <Outlet />
         </div>
     )

@@ -1,11 +1,16 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Immobile } from "../Interfaces/interfaces";
 import { HouseCard } from "../components/house_card";
 import MapComponent from "../components/MapComponent";
 import axios from "axios";
+import CheckBoxList from "../components/CheckBoxList";
+import { FaRegMap } from "react-icons/fa";
+import ConditionalDrawer from "../components/ConditionalDrawer";
 
 const SearchPage = () => {
     const [immobili, setImmobili] = useState<Immobile[]>();
+    const [filter, setFilter] = useState<string[]>();
+    const [openDrawer, setOpenDrawer] = useState<boolean>(false);
     const itemRefs = useRef<any>([]); // Array di riferimenti agli elementi
 
     const fetchImmobili = async (bounds: any) => {
@@ -21,8 +26,13 @@ const SearchPage = () => {
         }
     }
 
+    useEffect(() => {
+        console.log(filter);
+    }, [filter])
+
     const handleScrollToId = (id: number) => {
         if(itemRefs && itemRefs.current && itemRefs.current[id]){
+            setOpenDrawer(false);
             itemRefs.current[id].scrollIntoView();
             itemRefs.current[id].pulse();
         }
@@ -30,19 +40,20 @@ const SearchPage = () => {
 
     return (
         <div className="h-full w-full flex bg-[#FAFAFA] overflow-hidden">
+            <div className="absolute lg:hidden mt-1 right-4 border-2 border-black rounded-full w-8 h-8 flex justify-center items-center"><FaRegMap className="hover:cursor-pointer" size={22} onClick={() => setOpenDrawer(true)} /></div>
             <div className="h-full overflow-y-scroll flex-1  no-scrollbar px-6">
                 <div className="flex flex-col space-y-3 p-3 items-center">
-                    {immobili?.map((imm, index) => <HouseCard key={index} ref={(el) => (itemRefs.current[index] = el)} {...imm} />)}
+                    {immobili?.filter((imm) => !filter || filter.length == 0 || filter?.some(f => imm.tags?.includes(f))).map((imm, index) => <HouseCard key={index} ref={(el) => (itemRefs.current[index] = el)} {...imm} />)}
                 </div>
             </div>
-            <div className="flex-1 hidden flex-col items-center justify-end space-y-2  lg:flex border-l border-gray-300 my-2 py-1">
+            <ConditionalDrawer close={() => setOpenDrawer(false)} className="flex-1 flex-col items-center justify-end space-y-2 flex border-l border-gray-300 my-2 py-1" open={openDrawer}>
                 <div className="bg-white shadow-md rounded-lg w-11/12 flex-1 flex flex-col p-4 " >
-
+                    <CheckBoxList elements={["Monolocale", "Attico", "Multipiano"]} setFilter={setFilter} />
                 </div>
                 <div className="w-11/12 flex-1">
-                    <MapComponent className="shadow-sm" onMove={fetchImmobili} markers={immobili?.map((imm) => ({...imm, text: imm.title}))} onMarkerClick={handleScrollToId} />
+                    <MapComponent className="shadow-sm" onMove={fetchImmobili} markers={immobili?.filter((imm) => !filter || filter.length == 0 || filter?.some(f => imm.tags?.includes(f))).map((imm) => ({...imm, text: imm.title}))} onMarkerClick={handleScrollToId} />
                 </div>
-            </div>
+            </ConditionalDrawer>
         </div>
     )
 }

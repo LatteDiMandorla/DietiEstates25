@@ -10,4 +10,5 @@ export interface Immobile {
     images: string[];
     lat: number;
     lon: number;
+    tags?: string[];
 }
