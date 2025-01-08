@@ -14,7 +14,7 @@ interface MapComponentProps{
 const MapComponent = ({className = "", onMove, markers, onMarkerClick} : MapComponentProps) => {
   const [coordinates, setCoordinates] = useState<{lat: number, lon: number}>();
   const [bounds, setBounds] = useState<{ne: {lat: number, lon: number}, sw: {lat: number, lon: number}}>();
-  const [params] = useSearchParams();
+  const [params, setParams] = useSearchParams();
   const lat = params.get("lat");
   const lon = params.get("lon");
 
@@ -28,7 +28,7 @@ const MapComponent = ({className = "", onMove, markers, onMarkerClick} : MapComp
 
   useEffect(() => {
     if(bounds && bounds.ne.lat - bounds.sw.lat > 0 && bounds.ne.lon - bounds.sw.lon > 0){
-      console.log("fetch");
+      console.log("onmove");
       onMove?.(bounds);
     }
   }, [bounds]);
@@ -43,7 +43,7 @@ const MapComponent = ({className = "", onMove, markers, onMarkerClick} : MapComp
               </Popup>
           </Marker>)}
           <SetSearchCoordinates lat={coordinates?.lat} lon={coordinates?.lon} setBounds={setBounds} />
-          <GetSearchCoordinates setPosition={setBounds} />
+          <GetSearchCoordinates setPosition={setBounds} setParams={setParams} params={params} />
         </MapContainer>
       </div>
     </>
@@ -53,19 +53,24 @@ const MapComponent = ({className = "", onMove, markers, onMarkerClick} : MapComp
 const SetSearchCoordinates = ({lat, lon, setBounds} : any) => {
   const map = useMap();
   useEffect(() => {
-    map.setView([lat, lon]);
+    map.setView([lat, lon], map.getZoom(), {animate: false});
     setBounds({ne: {lat: map.getBounds().getNorthEast().lat, lon: map.getBounds().getNorthEast().lng}, sw: {lat: map.getBounds().getSouthWest().lat, lon: map.getBounds().getSouthWest().lng}})
   }, [lat, lon]);
 
   return null;
 }
 
-const GetSearchCoordinates = ({setPosition} : {setPosition: ({ne, sw} : {ne: {lat: number, lon: number}, sw: {lat: number, lon: number}}) => void}) => {
+const GetSearchCoordinates = ({setParams} : {setPosition: ({ne, sw} : {ne: {lat: number, lon: number}, sw: {lat: number, lon: number}}) => void, setParams: any, params: any}) => {
   const map = useMap();
   const onMove = useCallback(() => {
-    console.log("dragged");
     if(map.getSize().x >= 0 && map.getSize().y >= 0){
-      setPosition({ne: {lat: map.getBounds().getNorthEast().lat, lon: map.getBounds().getNorthEast().lng}, sw: {lat: map.getBounds().getSouthWest().lat, lon: map.getBounds().getSouthWest().lng}})
+      setParams((prev : URLSearchParams) => {
+        const copy = new URLSearchParams(prev);
+        copy.set('lat', map.getCenter().lat.toString());
+        copy.set('lon', map.getCenter().lng.toString());
+        return copy;
+      });
+      //setPosition({ne: {lat: map.getBounds().getNorthEast().lat, lon: map.getBounds().getNorthEast().lng}, sw: {lat: map.getBounds().getSouthWest().lat, lon: map.getBounds().getSouthWest().lng}})
     }
   }, [map])
 

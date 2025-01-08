@@ -3,6 +3,7 @@ import { PiToiletFill } from "react-icons/pi";
 import { FaDoorOpen } from "react-icons/fa";
 import { Immobile } from "../Interfaces/interfaces";
 import { forwardRef, useImperativeHandle, useRef, useState } from "react";
+import Skeleton from "react-loading-skeleton";
 
 interface ChildRef {
   pulse: () => void;
@@ -50,3 +51,37 @@ export const HouseCard = forwardRef<ChildRef, Immobile>((props: Immobile, ref) =
       </div>
     );
 });
+
+export const HouseCardSkeleton = () => {
+  return (
+    <div className={"w-full max-w-md bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl hover:cursor-pointer transition-all "}>
+    {/* Immagine di copertina */}
+    <div className="relative h-52 overflow-hidden p-0">
+      <Skeleton width={'100%'} height={'120%'} className="m-0 relative bottom-10" />
+      <div className="absolute top-2 right-2 w-14 h-14 border-2 rounded-full border-white shadow-lg z-20 overflow-hidden"><Skeleton height={'100%'} width={'100%'} /></div>
+    </div>
+    {/* Contenuto */}
+    <div className="py-2 px-4">
+      <Skeleton width={"12%"}/>
+      <Skeleton/>
+      <Skeleton width={"50%"} height={10}/>
+      {/* Icone e dati */}
+      <div className="border-b border-gray-300 mt-4 mb-2"></div>
+      <div className="flex justify-between text-sm text-gray-600">
+        <div className="flex items-center space-x-1">
+          <FaRulerCombined />
+          <Skeleton width={25} className="ml-2" />
+        </div>
+        <div className="flex items-center space-x-1">
+          <PiToiletFill />
+          <Skeleton width={25} className="ml-2" />
+        </div>
+        <div className="flex items-center space-x-1">
+          <FaDoorOpen />
+          <Skeleton width={25} className="ml-2" />
+        </div>
+      </div>
+    </div>
+  </div>
+  )
+}

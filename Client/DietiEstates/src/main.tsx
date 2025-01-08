@@ -4,6 +4,7 @@ import './index.css'
 import App from './App.tsx'
 import 'leaflet/dist/leaflet.css';
 import 'react-modern-drawer/dist/index.css'
+import 'react-loading-skeleton/dist/skeleton.css'
 
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import LoginPage from './pages/LoginPage.tsx'

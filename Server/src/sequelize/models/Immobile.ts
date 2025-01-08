@@ -40,7 +40,7 @@ export default class Immobile extends Model {
             allowNull: false,
         },
         price: {
-            type: DataTypes.FLOAT,
+            type: DataTypes.STRING,
             allowNull: false,
         },
         images: {

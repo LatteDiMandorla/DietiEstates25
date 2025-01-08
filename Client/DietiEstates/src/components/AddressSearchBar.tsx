@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../api/axios";
 import { useState } from "react";
 import { ClipLoader } from "react-spinners";
 
@@ -8,7 +8,7 @@ const AddressSearchBar = ({setCoordinates}: {setCoordinates: ({lat, lon} : {lat:
       const [timeoutId, setTimeoutId] = useState<ReturnType<typeof setTimeout> >(); 
     
       const fetchSuggestions = async (text: string) => {
-        const { data } = await axios.get("http://localhost:3000/map/autocomplete", { params: { text } });
+        const { data } = await axios.get("/map/autocomplete", { params: { text } });
         console.log(data);
         setSuggestions(data);
         setIsLoading(false);

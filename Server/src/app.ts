@@ -40,7 +40,7 @@ class App {
   }
 
   private initMiddlewares() {
-    this.app.use(cors());
+    this.app.use(cors({origin: '*', methods: ['GET', 'POST']}));
     this.app.use(express.json());
     dotenv.config();
   }
