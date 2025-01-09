@@ -2,6 +2,18 @@
 import { useState } from 'react';
 import StepIndicator from '../components/StepIndicator';
 import useRangeCounter from '../hooks/useRangeCounter';
+import { ErrorMessage, Field, Form, Formik, FormikHelpers } from "formik";
+import * as Yup from 'yup';
+
+
+interface Values {
+    n_batrhoom: string,
+    metres:     string,
+    n_locals:   string,
+    street:     string,
+    cap:        string,
+    title:      string
+}
 
 
 export const SecondStep = () => {
@@ -59,24 +71,24 @@ export const SecondStep = () => {
                     {/* First Part */}
                     <div className="grid grid-cols-2 gap-3 mt-10">
                         <button onClick={() => HandleOptionClick("Casa")}
-                                className={`bg-blue-200 p-20 rounded-lg shadow-md transition-all text-blue-950 ${
+                                className={`bg-blue-200 py-20 rounded-lg shadow-md transition-all text-blue-950 ${
                                             activeOption === "Casa" ? "scale-95 bg-blue-400" : "hover:scale-95 hover:bg-blue-400"}`}>
-                                Casa
+                                <span className="text-center"> Casa </span>
                         </button>
                         <button onClick={() => HandleOptionClick("Villa")}
-                                className={`bg-blue-200 p-20 rounded-lg shadow-md transition-all text-blue-950 ${
-                                            activeOption === "Villa" ? "scale-95 bg-blue-400" : "hover:scale-95 hover:bg-blue-400"}`} > 
-                                Villa
+                                className={`bg-blue-200 py-20 rounded-lg shadow-md transition-all text-blue-950 ${
+                                            activeOption === "Villa" ? "scale-95 bg-blue-400" : "hover:scale-95 hover:bg-blue-400"}`}> 
+                                <span className="text-center"> Villa </span>
                         </button>
                         <button onClick={() => HandleOptionClick("Appartamento")}
-                                className={`bg-blue-200 p-20 rounded-lg shadow-md transition-all text-blue-950 ${
-                                            activeOption === "Appartamento" ? "scale-95 bg-blue-400" : "hover:scale-95 hover:bg-blue-400"}`} >
-                                Appartamento
+                                className={`bg-blue-200 py-20 rounded-lg shadow-md transition-all text-blue-950 overflow-hidden text-center ${
+                                            activeOption === "Appartamento" ? "scale-95 bg-blue-400" : "hover:scale-95 hover:bg-blue-400"}`}>
+                                <span className="text-center"> Appartamento </span>  
                         </button>
                         <button onClick={() => HandleOptionClick("Baita")}
-                                className={`bg-blue-200 p-20 rounded-lg shadow-md transition-all text-blue-950 ${
-                                            activeOption === "Baita" ? "scale-95 bg-blue-400" : "hover:scale-95 hover:bg-blue-400"}`} > 
-                                Baita
+                                className={`bg-blue-200 py-20 rounded-lg shadow-md transition-all text-blue-950 ${
+                                            activeOption === "Baita" ? "scale-95 bg-blue-400" : "hover:scale-95 hover:bg-blue-400"}`}> 
+                                <span className="text-center"> Baita </span>
                         </button>
                     </div>
 
@@ -87,6 +99,9 @@ export const SecondStep = () => {
                     <h1 className="text-blue-950 font-mono text-center underline text-2xl">
                         Delinea l'immobile
                     </h1>
+                    <div className="mt-4 w-full h-3/4">
+                                  <DetailBox />
+                    </div>
                 </div>
 
 
@@ -97,3 +112,71 @@ export const SecondStep = () => {
         </div>
     );
 };
+
+
+const DetailSchema = Yup.object().shape({
+    metres:     Yup.number().positive("Metres cannot be negative!").required("Metres are required!"),
+    n_locals:   Yup.number().min(1, "At least one local should exist!").max(6, "Maximum 6 locals").required("Number of locals is required!"),
+    n_bathroom: Yup.number().min(1, "At least one bathroom should exist!").required("Number of locals is required!"),
+    street:     Yup.string().required("The street is required!"),
+    cap:        Yup.string().required("The cap is required!"),
+    title:      Yup.string().required("You must assign a title to your estate!")
+})
+
+const DetailBox = () => {
+
+    const handleSubmit = (values: Values, {resetForm} : FormikHelpers<Values>) => {
+        console.log(values);
+        resetForm();
+    }
+
+    return (
+        <Formik initialValues={{n_batrhoom: "", metres: "", n_locals: "", street: "", cap: "", title: ""}} validationSchema={DetailSchema} onSubmit={handleSubmit}>
+            {({errors, touched}) => (
+            <Form>
+                <div className="flex w-full mt-10"> 
+                    <div className="flex w-full flex-col justify-between">
+                        <Field type="number"name="metres" maxLength="15" placeholder="m²..." className={"bg-gray-100 hover:bg-gray-200 ml-2 w-28 px-2 h-10 " + ((errors.metres && touched.metres) ? "border border-red-500" : (touched.metres && "border border-green-500"))} />
+                        <ErrorMessage name="metres">{msg => <div className="text-xs text-center text-red-500">{msg}</div>}</ErrorMessage>
+
+                    </div>
+                    <div className="flex w-full flex-col justify-between">
+                        <Field type="number"name="n_locals" maxLength="15" placeholder="N.locals" className={"bg-gray-100 hover:bg-gray-200 ml-2 w-28 px-2 h-10 " + ((errors.n_locals && touched.n_locals) ? "border border-red-500" : (touched.n_locals && "border border-green-500"))} />
+                        <ErrorMessage name="n_locals">{msg => <div className="text-xs text-center text-red-500">{msg}</div>}</ErrorMessage>
+                    </div>
+                    <div className="flex w-full flex-col justify-between">
+                        <Field name="n_bathroom" maxLength="15" placeholder="N.bathroom" className={"bg-gray-100 hover:bg-gray-200 ml-2 w-28 px-2 h-10 " + ((errors.n_batrhoom && touched.n_batrhoom) ? "border border-red-500" : (touched.n_batrhoom && "border border-green-500"))} />
+                        <ErrorMessage name="n_bathroom">{msg => <div className="text-xs text-center text-red-500">{msg}</div>}</ErrorMessage>    
+                    </div>
+
+                </div>     
+                <div className="flex w-full mt-10">
+                    <div className="flex flex-col justify-between">
+                        <Field name="title" maxLength="15" placeholder="Title" className={"bg-gray-100 hover:bg-gray-200 ml-2 w-46 px-2 h-10 " + ((errors.title && touched.title) ? "border border-red-500" : (touched.title && "border border-green-500"))} />
+                        <ErrorMessage name="title">{msg => <div className="text-xs text-center text-red-500">{msg}</div>}</ErrorMessage> 
+                    </div>
+
+                    
+
+                </div>   
+                <div className="flex w-full mt-10"> 
+                    <div className="flex w-full flex-col justify-between">
+                        <Field type="number"name="" maxLength="15" placeholder="m²..." className={"bg-gray-100 hover:bg-gray-200 ml-2 w-28 px-2 h-10 " + ((errors.metres && touched.metres) ? "border border-red-500" : (touched.metres && "border border-green-500"))} />
+                        <ErrorMessage name="metres">{msg => <div className="text-xs text-center text-red-500">{msg}</div>}</ErrorMessage>
+
+                    </div>
+                    <div className="flex w-full flex-col justify-between">
+                        <Field type="number"name="" maxLength="15" placeholder="N.locals" className={"bg-gray-100 hover:bg-gray-200 ml-2 w-28 px-2 h-10 " + ((errors.n_locals && touched.n_locals) ? "border border-red-500" : (touched.n_locals && "border border-green-500"))} />
+                        <ErrorMessage name="n_locals">{msg => <div className="text-xs text-center text-red-500">{msg}</div>}</ErrorMessage>
+                    </div>
+                    <div className="flex w-full flex-col justify-between">
+                        <Field name="" maxLength="15" placeholder="N.bathroom" className={"bg-gray-100 hover:bg-gray-200 ml-2 w-28 px-2 h-10 " + ((errors.n_batrhoom && touched.n_batrhoom) ? "border border-red-500" : (touched.n_batrhoom && "border border-green-500"))} />
+                        <ErrorMessage name="n_bathroom">{msg => <div className="text-xs text-center text-red-500">{msg}</div>}</ErrorMessage>    
+                    </div>
+
+                </div>                       
+            </Form>
+            )}
+        </Formik>
+    )
+}
