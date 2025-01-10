@@ -14,7 +14,8 @@ interface Values {
     cap:        string,
     title:      string,
     city:       string,
-    civic:      string
+    civic:      string,
+    price:      string
 }
 
 
@@ -124,7 +125,8 @@ const DetailSchema = Yup.object().shape({
     cap:        Yup.number().min(4, "You must put 4 numbers for CAP!").required("The cap is required!"),
     title:      Yup.string().required("You must assign a title to your estate!"),
     city:       Yup.string().required("You must indicate the city where your property is located"),
-    civic:      Yup.number().min(1, "Civic number start from 1")
+    civic:      Yup.number().min(1, "Civic number start from 1"),
+    price:      Yup.number().positive("Price cannot be negative").required("Un prezzo indicativo deve essere inserito!")
 })
 
 const DetailBox = () => {
@@ -177,7 +179,7 @@ const DetailBox = () => {
 
                 </div>
 
-                    <div className="flex w-full mt-10"> 
+                <div className="flex w-full mt-10"> 
                     <div className="flex w-full flex-col justify-between">
                         <Field name="city" maxLength="30" placeholder="City..." className={"bg-gray-100 hover:bg-gray-200 rounded-md ml-2 w-60 px-2 h-10 transition-all duration-75 " + ((errors.city && touched.city) ? "border border-red-500" : (touched.city && "border border-green-500"))} />
                         <ErrorMessage name="city">{msg => <div className="text-xs text-red-500">{msg}</div>}</ErrorMessage>
@@ -188,7 +190,15 @@ const DetailBox = () => {
                         <ErrorMessage name="number">{msg => <div className="text-xs text-red-500">{msg}</div>}</ErrorMessage>
                     </div>
 
-                </div>                          
+                </div>
+
+                <div className="flex w-full mt-10 justify-center"> 
+                    <div className="flex w-full flex-col">
+                        <Field name="price" maxLength="30" placeholder="Prezzo..." className={"bg-green-100 hover:bg-green-200 rounded-md ml-2 w-60 px-2 h-10 transition-all duration-75 " + ((errors.price && touched.price) ? "border border-red-500" : (touched.price && "border border-green-500"))} />
+                        <ErrorMessage name="price">{msg => <div className="text-xs text-red-500">{msg}</div>}</ErrorMessage>
+
+                    </div>
+                </div>                               
             </Form>
             )}
         </Formik>
