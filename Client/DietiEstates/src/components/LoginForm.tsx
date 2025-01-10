@@ -8,7 +8,7 @@ interface Values {
 
 const LoginSchema = Yup.object().shape({
     email: Yup.string().email("Email is invalid").required("Email is required"),
-    password: Yup.string().min(5, "Password must contain 5 characters minimum").max(20, "Password must contain 6 characters maximum").required("Password is required").matches(/^[a-zA-Z0-9._@!?-]+$/, "Special character invalid"),
+    password: Yup.string().min(5, "Password must contain 5 characters minimum").max(20, "Password must contain 20 characters maximum").required("Password is required").matches(/^[a-zA-Z0-9._@!?-]+$/, "Special character invalid"),
 })
 
 function LoginForm() {

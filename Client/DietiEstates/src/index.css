@@ -13,3 +13,21 @@
         scrollbar-width: none;  /* Firefox */
   }
   }
+
+  /* Barra di scorrimento sottile, trasparente e opaca */
+::-webkit-scrollbar {
+    width: 6px; /* Imposta la larghezza della scrollbar */
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2); /* Colore opaco per la parte che scorre */
+    border-radius: 10px; /* Arrotonda gli angoli */
+}
+
+::-webkit-scrollbar-track {
+    background: transparent; /* Rende il tracciato della scrollbar trasparente */
+}
+
+::-webkit-scrollbar-corner {
+    background: transparent; /* Rende l'angolo della scrollbar trasparente */
+}

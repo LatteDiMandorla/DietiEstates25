@@ -16,7 +16,7 @@ type ConditionalDrawerProps = {
 
     return (
         !isLargeScreen ?
-        <Drawer enableOverlay={false} open={open} direction='right' size={"90%"} className="flex flex-col space-y-2 items-center py-2 bg-[#FAFAFA]" >
+        <Drawer open={open} onClose={() => close()} direction='right' size={"90%"} className="flex flex-col space-y-2 items-center py-2 bg-[#FAFAFA]" >
             <div className="font-bold ml-auto mr-2 hover:cursor-pointer" onClick={close}>X</div>
             {children}
         </Drawer>

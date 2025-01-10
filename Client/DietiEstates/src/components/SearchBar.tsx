@@ -22,13 +22,13 @@ function SearchBar() {
   }, [query])
 
   return (
-    <div tabIndex={1} className="group md:w-2/3 w-full ">
+    <div tabIndex={1} className=" lg:w-11/12 group flex-1 items-center">
       <form  className="flex items-center bg-white rounded-full px-4 py-2 w-full shadow-md max-h-full  " onSubmit={(e) => {e.preventDefault(); (document.activeElement as HTMLElement).blur()}}>
-        <FiHome className="w-6 h-6 mr-2"/>
-        <IoMdArrowDropdown className="w-6 h-6 mr-2"/>
+        <FiHome size={24} />
+        <IoMdArrowDropdown size={24}/>
         <input
           type="text"
-          className="flex-1 text-lg font-semibold border-none outline-none text-gray-800 py-2 placeholder-gray-400 h-full"
+          className="flex-1 text-lg font-semibold border-none outline-none border text-gray-800 py-2 placeholder-gray-400 h-full"
           placeholder="Dove vuoi andare a vivere?"
           value={search}
           onChange={(e) => {setSearch(e.target.value); handleInputChange(e)}}

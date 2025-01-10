@@ -3,9 +3,10 @@ import { Immobile } from "../Interfaces/interfaces";
 import { HouseCard, HouseCardSkeleton } from "../components/house_card";
 import MapComponent from "../components/MapComponent";
 import axios from "../api/axios";
-import CheckBoxList from "../components/CheckBoxList";
+import { FaRegBuilding } from "react-icons/fa";
 import { FaRegMap } from "react-icons/fa";
 import ConditionalDrawer from "../components/ConditionalDrawer";
+import {DropdownMenuMultiple, DropdownMenuSingle} from "../components/DropdownMenu";
 
 const SearchPage = () => {
     const [immobili, setImmobili] = useState<Immobile[]>();
@@ -21,7 +22,7 @@ const SearchPage = () => {
                 const { data } = await axios.get("/immobile/bounds", { params: { neLat: bounds.ne.lat, neLon: bounds.ne.lon, swLat: bounds.sw.lat, swLon: bounds.sw.lon}});
                 if(data){
                     setImmobili(data);
-                    setIsLoading(false);
+                    setTimeout(() =>  setIsLoading(false), 1000);
                 }
             } catch (error) {
                 console.log(error);
@@ -42,6 +43,11 @@ const SearchPage = () => {
     }
 
     return (
+        <>
+        <div className="bg-[#DDF5FF] w-full h-16 flex justify-around items-center">
+            <DropdownMenuSingle options={["Opzione 1", "Opzione 2", "Opzione 3"]} />
+            <DropdownMenuMultiple text="Tipo" options={["Opzione 1", "Opzione 2", "Opzione 3", "Opzione 4", "Opzione 5", "Opzione 6"]} icons={FaRegBuilding} />
+        </div>
         <div className="h-full w-full flex bg-[#FAFAFA] overflow-hidden">
             <div className="absolute lg:hidden mt-1 right-4 border-2 border-black rounded-full w-8 h-8 flex justify-center items-center"><FaRegMap className="hover:cursor-pointer" size={22} onClick={() => setOpenDrawer(true)} /></div>
             <div className="h-full overflow-y-scroll flex-1  no-scrollbar px-6">
@@ -56,14 +62,12 @@ const SearchPage = () => {
                 </div>
             </div>
             <ConditionalDrawer close={() => setOpenDrawer(false)} className="flex-1 flex-col items-center justify-end space-y-2 flex border-l border-gray-300 my-2 py-1" open={openDrawer}>
-                <div className="bg-white shadow-md rounded-lg w-11/12 flex-1 flex flex-col p-4 " >
-                    <CheckBoxList elements={["Monolocale", "Attico", "Multipiano"]} setFilter={setFilter} />
-                </div>
                 <div className="w-11/12 flex-1">
                     <MapComponent className="shadow-sm" onMove={fetchImmobili} markers={immobili?.filter((imm) => !filter || filter.length == 0 || filter?.some(f => imm.tags?.includes(f))).map((imm) => ({...imm, text: imm.title}))} onMarkerClick={handleScrollToId} />
                 </div>
             </ConditionalDrawer>
         </div>
+        </>
     )
 }
 

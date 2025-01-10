@@ -1,17 +1,23 @@
-import { useState } from "react"
+import { ChangeEvent } from "react"
 
-const CheckBoxList = ({elements, setFilter}: {elements: string[], setFilter: (filter: string[]) => void}) => {
-    const [selected, setSelected] = useState<boolean[]>(elements.map(() => false));
+const CheckBoxList = ({elements, setSelected, selected}: {elements: string[], setSelected: React.Dispatch<React.SetStateAction<string[]>>, selected: string[]}) => {
+    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        const isChecked = e.target.checked;
 
-    const handleChange = (index: number) => {
-        setSelected(selected.map((e, i) => (index == i ? !e : e) ));
-        setFilter(elements.filter((_, i) => (index == i ? !selected[i] : selected[i])));
-    }
+        setSelected(prev => {
+            if(isChecked) {
+                return [...prev, value];
+            } else {
+                return prev.filter((s) => (s != value));
+            }
+        });
+    };
 
     return (
         elements.map((_, index) => 
             <div className="flex space-x-2 font-semibold">
-            <input type="checkbox" value={elements[index]} name={elements[index]} checked={selected[index]} onChange={() => handleChange(index)} />
+            <input type="checkbox" value={elements[index]} name={elements[index]} checked={selected.includes(elements[index])} onChange={(e) => handleChange(e)} />
             <p>{elements[index]}</p>
             </div>
         )
