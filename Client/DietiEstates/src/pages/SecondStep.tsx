@@ -140,23 +140,23 @@ const DetailBox = () => {
             <Form>
                 <div className="flex w-full mt-10"> 
                     <div className="flex w-full flex-col justify-between">
-                        <Field type="number"name="metres" maxLength="15" placeholder="m²..." className={"bg-gray-100 hover:bg-gray-200 rounded-md ml-2 w-28 px-2 h-10 transition-all duration-75" + ((errors.metres && touched.metres) ? "border border-red-500" : (touched.metres && "border border-green-500"))} />
+                        <Field type="number" name="metres" maxLength="15" placeholder="m²..." className={"bg-gray-100 hover:bg-gray-200 rounded-md ml-2 w-28 px-2 h-10 transition-all duration-75 " + ((errors.metres && touched.metres) ? "border border-red-500" : (touched.metres && "border border-green-500"))} />
                         <ErrorMessage name="metres">{msg => <div className="text-xs text-red-500">{msg}</div>}</ErrorMessage>
 
                     </div>
                     <div className="flex w-full flex-col justify-between">
-                        <Field type="number"name="n_locals" maxLength="15" placeholder="N.locals" className={"bg-gray-100 hover:bg-gray-200 rounded-md ml-2 w-28 px-2 h-10 transition-all duration-75 " + ((errors.n_locals && touched.n_locals) ? "border border-red-500" : (touched.n_locals && "border border-green-500"))} />
+                        <Field type="number" name="n_locals" maxLength="15" placeholder="N.locals" className={"bg-gray-100 hover:bg-gray-200 rounded-md ml-2 w-28 px-2 h-10 transition-all duration-75 " + ((errors.n_locals && touched.n_locals) ? "border border-red-500" : (touched.n_locals && "border border-green-500"))} />
                         <ErrorMessage name="n_locals">{msg => <div className="text-xs text-red-500">{msg}</div>}</ErrorMessage>
                     </div>
                     <div className="flex w-full flex-col justify-between">
-                        <Field name="n_bathroom" maxLength="15" placeholder="N.bathroom" className={"bg-gray-100 hover:bg-gray-200 rounded-md ml-2 w-28 px-2 h-10 transition-all duration-75" + ((errors.n_batrhoom && touched.n_batrhoom) ? "border border-red-500" : (touched.n_batrhoom && "border border-green-500"))} />
+                        <Field type="number" name="n_bathroom" maxLength="15" placeholder="N.bathroom" className={"bg-gray-100 hover:bg-gray-200 rounded-md ml-2 w-28 px-2 h-10 transition-all duration-75 " + ((errors.n_batrhoom && touched.n_batrhoom) ? "border border-red-500" : (touched.n_batrhoom && "border border-green-500"))} />
                         <ErrorMessage name="n_bathroom">{msg => <div className="text-xs text-red-500">{msg}</div>}</ErrorMessage>    
                     </div>
 
                 </div>     
                 <div className="flex w-full mt-10">
                     <div className="flex flex-col justify-between">
-                        <Field name="title" maxLength="30" placeholder="Title" className={"bg-gray-100 hover:bg-gray-200 rounded-md ml-2 w-46 px-2 h-10 transition-all duration-75" + ((errors.title && touched.title) ? "border border-red-500" : (touched.title && "border border-green-500"))} />
+                        <Field name="title" maxLength="30" placeholder="Title" className={"bg-gray-100 hover:bg-gray-200 rounded-md ml-2 w-46 px-2 h-10 transition-all duration-75 " + ((errors.title && touched.title) ? "border border-red-500" : (touched.title && "border border-green-500"))} />
                         <ErrorMessage name="title">{msg => <div className="text-xs text-red-500">{msg}</div>}</ErrorMessage> 
                     </div>
 
@@ -165,12 +165,12 @@ const DetailBox = () => {
                 </div>   
                 <div className="flex w-full mt-10"> 
                     <div className="flex w-full flex-col justify-between">
-                        <Field name="street" maxLength="15" placeholder="Street..." className={"bg-gray-100 hover:bg-gray-200 rounded-md ml-2 w-48 px-2 h-10 transition-all duration-75" + ((errors.metres && touched.metres) ? "border border-red-500" : (touched.metres && "border border-green-500"))} />
+                        <Field name="street" maxLength="15" placeholder="Street..." className={"bg-gray-100 hover:bg-gray-200 rounded-md ml-2 w-48 px-2 h-10 transition-all duration-75 " + ((errors.metres && touched.metres) ? "border border-red-500" : (touched.metres && "border border-green-500"))} />
                         <ErrorMessage name="street">{msg => <div className="text-xs text-red-500">{msg}</div>}</ErrorMessage>
 
                     </div>
                     <div className="flex w-full flex-col justify-between">
-                        <Field type="number"name="civic" maxLength="15" placeholder="N." className={"bg-gray-100 hover:bg-gray-200 rounded-md ml-2 w-16 px-2 h-10 transition-all duration-75" + ((errors.civic && touched.civic) ? "border border-red-500" : (touched.civic && "border border-green-500"))} />
+                        <Field type="number"name="civic" maxLength="15" placeholder="N." className={"bg-gray-100 hover:bg-gray-200 rounded-md ml-2 w-16 px-2 h-10 transition-all duration-75 " + ((errors.civic && touched.civic) ? "border border-red-500" : (touched.civic && "border border-green-500"))} />
                         <ErrorMessage name="civic">{msg => <div className="text-xs text-red-500">{msg}</div>}</ErrorMessage>
                     </div>
 
@@ -179,12 +179,12 @@ const DetailBox = () => {
 
                     <div className="flex w-full mt-10"> 
                     <div className="flex w-full flex-col justify-between">
-                        <Field name="city" maxLength="30" placeholder="City..." className={"bg-gray-100 hover:bg-gray-200 rounded-md ml-2 w-60 px-2 h-10 transition-all duration-75" + ((errors.city && touched.city) ? "border border-red-500" : (touched.city && "border border-green-500"))} />
+                        <Field name="city" maxLength="30" placeholder="City..." className={"bg-gray-100 hover:bg-gray-200 rounded-md ml-2 w-60 px-2 h-10 transition-all duration-75 " + ((errors.city && touched.city) ? "border border-red-500" : (touched.city && "border border-green-500"))} />
                         <ErrorMessage name="city">{msg => <div className="text-xs text-red-500">{msg}</div>}</ErrorMessage>
 
                     </div>
                     <div className="flex w-full flex-col justify-between">
-                        <Field type="number"name="cap" maxLength="4" placeholder="CAP" className={"bg-gray-100 hover:bg-gray-200 rounded-md ml-2 w-28 px-2 h-10 transition-all duration-75" + ((errors.cap && touched.cap) ? "border border-red-500" : (touched.cap && "border border-green-500"))} />
+                        <Field type="number"name="cap" maxLength="4" placeholder="CAP" className={"bg-gray-100 hover:bg-gray-200 rounded-md ml-2 w-28 px-2 h-10 transition-all duration-75 " + ((errors.cap && touched.cap) ? "border border-red-500" : (touched.cap && "border border-green-500"))} />
                         <ErrorMessage name="number">{msg => <div className="text-xs text-red-500">{msg}</div>}</ErrorMessage>
                     </div>
 
