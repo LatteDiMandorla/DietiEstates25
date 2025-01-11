@@ -6,7 +6,7 @@ import axios from "../api/axios";
 import { FaRegBuilding } from "react-icons/fa";
 import { FaRegMap } from "react-icons/fa";
 import ConditionalDrawer from "../components/ConditionalDrawer";
-import {DropdownMenuMultiple, DropdownMenuSingle} from "../components/DropdownMenu";
+import {DropdownMenuMultiple, DropdownMenuRange, DropdownMenuSingle} from "../components/DropdownMenu";
 
 const SearchPage = () => {
     const [immobili, setImmobili] = useState<Immobile[]>();
@@ -47,6 +47,7 @@ const SearchPage = () => {
         <div className="bg-[#DDF5FF] w-full h-16 flex justify-around items-center">
             <DropdownMenuSingle options={["Opzione 1", "Opzione 2", "Opzione 3"]} />
             <DropdownMenuMultiple text="Tipo" options={["Opzione 1", "Opzione 2", "Opzione 3", "Opzione 4", "Opzione 5", "Opzione 6"]} icons={FaRegBuilding} />
+            <DropdownMenuRange min={1} max={20} step={1} text="Ciao" icon={FaRegBuilding} />
         </div>
         <div className="h-full w-full flex bg-[#FAFAFA] overflow-hidden">
             <div className="absolute lg:hidden mt-1 right-4 border-2 border-black rounded-full w-8 h-8 flex justify-center items-center"><FaRegMap className="hover:cursor-pointer" size={22} onClick={() => setOpenDrawer(true)} /></div>

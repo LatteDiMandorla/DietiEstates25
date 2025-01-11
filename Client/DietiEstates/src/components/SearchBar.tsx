@@ -22,8 +22,8 @@ function SearchBar() {
   }, [query])
 
   return (
-    <div tabIndex={1} className=" lg:w-11/12 group flex-1 items-center">
-      <form  className="flex items-center bg-white rounded-full px-4 py-2 w-full shadow-md max-h-full  " onSubmit={(e) => {e.preventDefault(); (document.activeElement as HTMLElement).blur()}}>
+    <div tabIndex={1} className="flex-1 group justify-center flex flex-col">
+      <form  className="flex flex-1 lg:w-11/12 items-center bg-white rounded-full px-4 py-2 shadow-md max-h-full  " onSubmit={(e) => {e.preventDefault(); (document.activeElement as HTMLElement).blur()}}>
         <FiHome size={24} />
         <IoMdArrowDropdown size={24}/>
         <input
@@ -37,7 +37,7 @@ function SearchBar() {
         {(search) ? 
           <button className="w-6 h-6 ml-2 hover:cursor-pointer" type="submit" onClick={() => {setSearch(""); navigate("/search")}}>X</button>
           :
-          <button className="w-6 h-6 ml-2 hover:cursor-pointer" onClick={() => {navigate(`/search?query=${encodeURIComponent(suggestions[0].text)}&lat=${suggestions[0].lat}&lon=${suggestions[0].lon}`)}}><IoIosSearch size={22} /></button>
+          <button className="w-6 h-6 ml-2 hover:cursor-pointer" onClick={() => {navigate(`/search?query=${encodeURIComponent(suggestions[0].text)}&lat=${suggestions[0].lat}&lon=${suggestions[0].lon}&zoom=13`)}}><IoIosSearch size={22} /></button>
         }
       </form>
       { suggestions && suggestions.length > 0 &&
