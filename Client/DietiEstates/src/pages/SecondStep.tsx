@@ -3,7 +3,9 @@ import { useState } from 'react';
 import StepIndicator from '../components/StepIndicator';
 import useRangeCounter from '../hooks/useRangeCounter';
 import { ErrorMessage, Field, Form, Formik, FormikHelpers } from "formik";
+import  MapButton from '../components/MapButton'
 import * as Yup from 'yup';
+import map from '../assets/placeholder.png'
 
 
 interface Values {
@@ -197,6 +199,9 @@ const DetailBox = () => {
                         <Field name="price" maxLength="30" placeholder="Prezzo..." className={"bg-green-100 hover:bg-green-200 rounded-md ml-2 w-60 px-2 h-10 transition-all duration-75 " + ((errors.price && touched.price) ? "border border-red-500" : (touched.price && "border border-green-500"))} />
                         <ErrorMessage name="price">{msg => <div className="text-xs text-red-500 absolute top-full mt-1">{msg}</div>}</ErrorMessage>
 
+                    </div>
+                    <div className="bg-white w-full ">
+                        <MapButton />
                     </div>
                 </div>                               
             </Form>
