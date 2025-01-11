@@ -14,10 +14,7 @@ interface Values {
     n_locals:   string,
     street:     string,
     cap:        string,
-    title:      string,
-    city:       string,
-    civic:      string,
-    price:      string
+    title:      string
 }
 
 

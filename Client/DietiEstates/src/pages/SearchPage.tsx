@@ -6,7 +6,7 @@ import axios from "../api/axios";
 import { FaRegBuilding } from "react-icons/fa";
 import { FaRegMap } from "react-icons/fa";
 import ConditionalDrawer from "../components/ConditionalDrawer";
-import {DropdownMenuMultiple, DropdownMenuSingle} from "../components/DropdownMenu";
+import {DropdownMenuMultiple, DropdownMenuSingle, DropdownMenuRange} from "../components/DropdownMenu";
 import MapButton from "../components/MapButton";
 
 const SearchPage = () => {
@@ -48,6 +48,7 @@ const SearchPage = () => {
         <div className="bg-[#DDF5FF] w-full h-16 flex justify-around items-center">
             <DropdownMenuSingle options={["Opzione 1", "Opzione 2", "Opzione 3"]} />
             <DropdownMenuMultiple text="Tipo" options={["Opzione 1", "Opzione 2", "Opzione 3", "Opzione 4", "Opzione 5", "Opzione 6"]} icons={FaRegBuilding} />
+            <DropdownMenuRange min={1} max={20} step={1} text="Ciao" icon={FaRegBuilding} />
         </div>
         <div className="h-full w-full flex bg-[#FAFAFA] overflow-hidden">
             <div className="absolute lg:hidden mt-1 right-4 rounded-full flex justify-center items-center"><MapButton onClick={() => setOpenDrawer(true)} /></div>

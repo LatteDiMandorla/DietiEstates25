@@ -17,13 +17,16 @@ const MapComponent = ({className = "", onMove, markers, onMarkerClick} : MapComp
   const [params, setParams] = useSearchParams();
   const lat = params.get("lat");
   const lon = params.get("lon");
+  const zoom = params.get("zoom");
 
   useEffect(() => {
-    const lt = parseFloat(lat || "");
-    const ln = parseFloat(lon || "");
+    const lt = parseFloat(lat || "40.827373");
+    const ln = parseFloat(lon || "14.191577");
     if(lt && ln){
       setCoordinates({lat: lt, lon: ln});
     }
+
+    console.log("z", zoom);
   }, [lat, lon])
 
   useEffect(() => {
@@ -35,7 +38,7 @@ const MapComponent = ({className = "", onMove, markers, onMarkerClick} : MapComp
   return (
     <>
       <div className={"rounded-lg overflow-hidden flex w-full h-full " + className} >
-        <MapContainer center={[coordinates?.lat || 40.827373, coordinates?.lon || 14.191577]} zoom={13} className={`flex-1`}>
+        <MapContainer center={[coordinates?.lat || 40.827373, coordinates?.lon || 14.191577]} zoom={(zoom && parseInt(zoom)) || 13} className={`flex-1`}>
           <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
           {markers?.map((marker, index) => <Marker key={index} position={[marker.lat, marker.lon]} icon={<IoMdPin className="text-red-600" size={24} onClick={() => onMarkerClick?.(index)} />}>
               <Popup autoPan={false} autoClose>
@@ -68,6 +71,7 @@ const GetSearchCoordinates = ({setParams} : {setPosition: ({ne, sw} : {ne: {lat:
         const copy = new URLSearchParams(prev);
         copy.set('lat', map.getCenter().lat.toString());
         copy.set('lon', map.getCenter().lng.toString());
+        copy.set('zoom', map.getZoom().toString());
         return copy;
       });
       //setPosition({ne: {lat: map.getBounds().getNorthEast().lat, lon: map.getBounds().getNorthEast().lng}, sw: {lat: map.getBounds().getSouthWest().lat, lon: map.getBounds().getSouthWest().lng}})
