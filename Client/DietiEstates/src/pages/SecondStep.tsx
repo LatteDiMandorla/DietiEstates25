@@ -7,7 +7,7 @@ import * as Yup from 'yup';
 
 
 interface Values {
-    n_batrhoom: string,
+    n_bathroom: string,
     metres:     string,
     n_locals:   string,
     street:     string,
@@ -118,15 +118,15 @@ export const SecondStep = () => {
 
 
 const DetailSchema = Yup.object().shape({
-    metres:     Yup.number().positive("Metres cannot be negative!").required("Metres are required!"),
-    n_locals:   Yup.number().min(1, "At least one local should exist!").max(6, "Maximum 6 locals").required("Number of locals is required!"),
-    n_bathroom: Yup.number().min(1, "At least one bathroom should exist!").required("Number of locals is required!"),
-    street:     Yup.string().required("The street is required!"),
-    cap:        Yup.number().min(4, "You must put 4 numbers for CAP!").required("The cap is required!"),
-    title:      Yup.string().required("You must assign a title to your estate!"),
-    city:       Yup.string().required("You must indicate the city where your property is located"),
-    civic:      Yup.number().min(1, "Civic number start from 1"),
-    price:      Yup.number().positive("Price cannot be negative").required("Un prezzo indicativo deve essere inserito!")
+    metres:     Yup.number().positive("I metri non possono essere negativi!").required("Metratura obbligatoria"),
+    n_locals:   Yup.number().min(1, "Minimo un locale").max(6, "Massimo sei locali").required("Locali obbligatori"),
+    n_bathroom: Yup.number().min(1, "Minimo un bagno").required("Bagno obbligatorio"),
+    street:     Yup.string().required("Strada obbligatoria"),
+    cap:        Yup.number().min(4, "5 numeri per il CAP").required("CAP obbligatorio"),
+    title:      Yup.string().required("Titolo obbligatorio"),
+    city:       Yup.string().required("Devi indicare la città!"),
+    civic:      Yup.number().min(1),
+    price:      Yup.number().positive("Prezzo non può essere negativo o zero!").required("Un prezzo indicativo deve essere inserito!")
 })
 
 const DetailBox = () => {
@@ -137,65 +137,65 @@ const DetailBox = () => {
     }
 
     return (
-        <Formik initialValues={{n_batrhoom: "", metres: "", n_locals: "", street: "", cap: "", title: ""}} validationSchema={DetailSchema} onSubmit={handleSubmit}>
+        <Formik initialValues={{n_bathroom: "", metres: "", n_locals: "", street: "", cap: "", title: "", civic: "", price: "", city: ""}} validationSchema={DetailSchema} onSubmit={handleSubmit}>
             {({errors, touched}) => (
             <Form>
                 <div className="flex w-full mt-10"> 
-                    <div className="flex w-full flex-col justify-between">
+                    <div className="flex w-full flex-col justify-between relative">
                         <Field type="number" name="metres" maxLength="15" placeholder="m²..." className={"bg-gray-100 hover:bg-gray-200 rounded-md ml-2 w-28 px-2 h-10 transition-all duration-75 " + ((errors.metres && touched.metres) ? "border border-red-500" : (touched.metres && "border border-green-500"))} />
-                        <ErrorMessage name="metres">{msg => <div className="text-xs text-red-500">{msg}</div>}</ErrorMessage>
+                        <ErrorMessage name="metres">{msg => <div className="text-xs text-red-500 absolute top-full mt-1">{msg}</div>}</ErrorMessage>
 
                     </div>
-                    <div className="flex w-full flex-col justify-between">
+                    <div className="flex w-full flex-col justify-between relative">
                         <Field type="number" name="n_locals" maxLength="15" placeholder="N.locals" className={"bg-gray-100 hover:bg-gray-200 rounded-md ml-2 w-28 px-2 h-10 transition-all duration-75 " + ((errors.n_locals && touched.n_locals) ? "border border-red-500" : (touched.n_locals && "border border-green-500"))} />
-                        <ErrorMessage name="n_locals">{msg => <div className="text-xs text-red-500">{msg}</div>}</ErrorMessage>
+                        <ErrorMessage name="n_locals">{msg => <div className="text-xs text-red-500 absolute top-full mt-1">{msg}</div>}</ErrorMessage>
                     </div>
-                    <div className="flex w-full flex-col justify-between">
-                        <Field type="number" name="n_bathroom" maxLength="15" placeholder="N.bathroom" className={"bg-gray-100 hover:bg-gray-200 rounded-md ml-2 w-28 px-2 h-10 transition-all duration-75 " + ((errors.n_batrhoom && touched.n_batrhoom) ? "border border-red-500" : (touched.n_batrhoom && "border border-green-500"))} />
-                        <ErrorMessage name="n_bathroom">{msg => <div className="text-xs text-red-500">{msg}</div>}</ErrorMessage>    
+                    <div className="flex w-full flex-col justify-between relative">
+                        <Field type="number" name="n_bathroom" maxLength="15" placeholder="N.bathroom" className={"bg-gray-100 hover:bg-gray-200 rounded-md ml-2 w-28 px-2 h-10 transition-all duration-75  " + ((errors.n_bathroom && touched.n_bathroom) ? "border border-red-500" : (touched.n_bathroom && "border border-green-500"))} />
+                        <ErrorMessage name="n_bathroom">{msg => <div className="text-xs text-red-500 absolute top-full mt-1">{msg}</div>}</ErrorMessage>    
                     </div>
 
                 </div>     
                 <div className="flex w-full mt-10">
-                    <div className="flex flex-col justify-between">
+                    <div className="flex flex-col justify-between relative">
                         <Field name="title" maxLength="30" placeholder="Title" className={"bg-gray-100 hover:bg-gray-200 rounded-md ml-2 w-46 px-2 h-10 transition-all duration-75 " + ((errors.title && touched.title) ? "border border-red-500" : (touched.title && "border border-green-500"))} />
-                        <ErrorMessage name="title">{msg => <div className="text-xs text-red-500">{msg}</div>}</ErrorMessage> 
+                        <ErrorMessage name="title">{msg => <div className="text-xs text-red-500 absolute top-full mt-1">{msg}</div>}</ErrorMessage> 
                     </div>
 
                     
 
                 </div>   
                 <div className="flex w-full mt-10"> 
-                    <div className="flex w-full flex-col justify-between">
-                        <Field name="street" maxLength="15" placeholder="Street..." className={"bg-gray-100 hover:bg-gray-200 rounded-md ml-2 w-48 px-2 h-10 transition-all duration-75 " + ((errors.metres && touched.metres) ? "border border-red-500" : (touched.metres && "border border-green-500"))} />
-                        <ErrorMessage name="street">{msg => <div className="text-xs text-red-500">{msg}</div>}</ErrorMessage>
+                    <div className="flex w-full flex-col justify-between relative">
+                        <Field name="street" maxLength="15" placeholder="Street..." className={"bg-gray-100 hover:bg-gray-200 rounded-md ml-2 w-48 px-2 h-10 transition-all duration-75 " + ((errors.street && touched.street) ? "border border-red-500" : (touched.street && "border border-green-500"))} />
+                        <ErrorMessage name="street">{msg => <div className="text-xs text-red-500 absolute top-full mt-1">{msg}</div>}</ErrorMessage>
 
                     </div>
-                    <div className="flex w-full flex-col justify-between">
+                    <div className="flex w-full flex-col justify-between relative">
                         <Field type="number"name="civic" maxLength="15" placeholder="N." className={"bg-gray-100 hover:bg-gray-200 rounded-md ml-2 w-16 px-2 h-10 transition-all duration-75 " + ((errors.civic && touched.civic) ? "border border-red-500" : (touched.civic && "border border-green-500"))} />
-                        <ErrorMessage name="civic">{msg => <div className="text-xs text-red-500">{msg}</div>}</ErrorMessage>
+                        <ErrorMessage name="civic">{msg => <div className="text-xs text-red-500 absolute top-full mt-1">{msg}</div>}</ErrorMessage>
                     </div>
 
 
                 </div>
 
                 <div className="flex w-full mt-10"> 
-                    <div className="flex w-full flex-col justify-between">
+                    <div className="flex w-full flex-col justify-between relative">
                         <Field name="city" maxLength="30" placeholder="City..." className={"bg-gray-100 hover:bg-gray-200 rounded-md ml-2 w-60 px-2 h-10 transition-all duration-75 " + ((errors.city && touched.city) ? "border border-red-500" : (touched.city && "border border-green-500"))} />
-                        <ErrorMessage name="city">{msg => <div className="text-xs text-red-500">{msg}</div>}</ErrorMessage>
+                        <ErrorMessage name="city">{msg => <div className="text-xs text-red-500 absolute top-full mt-1">{msg}</div>}</ErrorMessage>
 
                     </div>
-                    <div className="flex w-full flex-col justify-between">
+                    <div className="flex w-full flex-col justify-between relative">
                         <Field type="number"name="cap" maxLength="4" placeholder="CAP" className={"bg-gray-100 hover:bg-gray-200 rounded-md ml-2 w-28 px-2 h-10 transition-all duration-75 " + ((errors.cap && touched.cap) ? "border border-red-500" : (touched.cap && "border border-green-500"))} />
-                        <ErrorMessage name="number">{msg => <div className="text-xs text-red-500">{msg}</div>}</ErrorMessage>
+                        <ErrorMessage name="number">{msg => <div className="text-xs text-red-500 absolute top-full mt-1">{msg}</div>}</ErrorMessage>
                     </div>
 
                 </div>
 
                 <div className="flex w-full mt-10 justify-center"> 
-                    <div className="flex w-full flex-col">
+                    <div className="flex w-full flex-col relative">
                         <Field name="price" maxLength="30" placeholder="Prezzo..." className={"bg-green-100 hover:bg-green-200 rounded-md ml-2 w-60 px-2 h-10 transition-all duration-75 " + ((errors.price && touched.price) ? "border border-red-500" : (touched.price && "border border-green-500"))} />
-                        <ErrorMessage name="price">{msg => <div className="text-xs text-red-500">{msg}</div>}</ErrorMessage>
+                        <ErrorMessage name="price">{msg => <div className="text-xs text-red-500 absolute top-full mt-1">{msg}</div>}</ErrorMessage>
 
                     </div>
                 </div>                               
