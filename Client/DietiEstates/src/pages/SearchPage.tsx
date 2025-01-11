@@ -6,7 +6,8 @@ import axios from "../api/axios";
 import { FaRegBuilding } from "react-icons/fa";
 import { FaRegMap } from "react-icons/fa";
 import ConditionalDrawer from "../components/ConditionalDrawer";
-import {DropdownMenuMultiple, DropdownMenuRange, DropdownMenuSingle} from "../components/DropdownMenu";
+import {DropdownMenuMultiple, DropdownMenuSingle, DropdownMenuRange} from "../components/DropdownMenu";
+import MapButton from "../components/MapButton";
 
 const SearchPage = () => {
     const [immobili, setImmobili] = useState<Immobile[]>();
@@ -50,7 +51,7 @@ const SearchPage = () => {
             <DropdownMenuRange min={1} max={20} step={1} text="Ciao" icon={FaRegBuilding} />
         </div>
         <div className="h-full w-full flex bg-[#FAFAFA] overflow-hidden">
-            <div className="absolute lg:hidden mt-1 right-4 border-2 border-black rounded-full w-8 h-8 flex justify-center items-center"><FaRegMap className="hover:cursor-pointer" size={22} onClick={() => setOpenDrawer(true)} /></div>
+            <div className="absolute lg:hidden mt-1 right-4 rounded-full flex justify-center items-center"><MapButton onClick={() => setOpenDrawer(true)} /></div>
             <div className="h-full overflow-y-scroll flex-1  no-scrollbar px-6">
                 <div className="flex flex-col space-y-3 p-3 items-center">
                     { isLoading ? 
