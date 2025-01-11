@@ -200,9 +200,6 @@ const DetailBox = () => {
                         <ErrorMessage name="price">{msg => <div className="text-xs text-red-500 absolute top-full mt-1">{msg}</div>}</ErrorMessage>
 
                     </div>
-                    <div className="bg-white w-full ">
-                        <MapButton />
-                    </div>
                 </div>                               
             </Form>
             )}
