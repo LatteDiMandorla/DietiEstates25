@@ -3,11 +3,9 @@ import { Immobile } from "../Interfaces/interfaces";
 import { HouseCard, HouseCardSkeleton } from "../components/house_card";
 import MapComponent from "../components/MapComponent";
 import axios from "../api/axios";
-import { FaRegBuilding } from "react-icons/fa";
-import { FaRegMap } from "react-icons/fa";
 import ConditionalDrawer from "../components/ConditionalDrawer";
-import {DropdownMenuMultiple, DropdownMenuSingle, DropdownMenuRange} from "../components/DropdownMenu";
 import MapButton from "../components/MapButton";
+import { FiltersBar } from "../components/FiltersBar";
 
 const SearchPage = () => {
     const [immobili, setImmobili] = useState<Immobile[]>();
@@ -45,17 +43,13 @@ const SearchPage = () => {
 
     return (
         <>
-        <div className="bg-[#DDF5FF] w-full h-16 flex justify-around items-center">
-            <DropdownMenuSingle options={["Opzione 1", "Opzione 2", "Opzione 3"]} />
-            <DropdownMenuMultiple text="Tipo" options={["Opzione 1", "Opzione 2", "Opzione 3", "Opzione 4", "Opzione 5", "Opzione 6"]} icons={FaRegBuilding} />
-            <DropdownMenuRange min={1} max={20} step={1} text="Ciao" icon={FaRegBuilding} />
-        </div>
+        <FiltersBar setFilters={() => {}} />
         <div className="h-full w-full flex bg-[#FAFAFA] overflow-hidden">
             <div className="absolute lg:hidden mt-1 right-4 rounded-full flex justify-center items-center"><MapButton onClick={() => setOpenDrawer(true)} /></div>
             <div className="h-full overflow-y-scroll flex-1  no-scrollbar px-6">
                 <div className="flex flex-col space-y-3 p-3 items-center">
                     { isLoading ? 
-                        Array.from({length: 5}).map(() => <HouseCardSkeleton />) :
+                        Array.from({length: 5}).map((_, index) => <HouseCardSkeleton key={index} />) :
                         (immobili ? 
                         immobili?.filter((imm) => !filter || filter.length == 0 || filter?.some(f => imm.tags?.includes(f))).map((imm, index) => <HouseCard key={index} ref={(el) => (itemRefs.current[index] = el)} {...imm} />)
                         : <p>Nessun risultato</p>    
