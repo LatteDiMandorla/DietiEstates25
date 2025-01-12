@@ -22,8 +22,8 @@ function SearchBar() {
   }, [query])
 
   return (
-    <div tabIndex={1} className="flex-1 group justify-center flex flex-col">
-      <form  className="flex flex-1 lg:w-11/12 items-center bg-white rounded-full px-4 py-2 shadow-md max-h-full  " onSubmit={(e) => {e.preventDefault(); (document.activeElement as HTMLElement).blur()}}>
+    <div tabIndex={1} className="flex-1 group flex flex-col lg:px-10">
+      <form  className="flex flex-1 items-center bg-white rounded-full px-4 py-2 shadow-md max-h-full  " onSubmit={(e) => {e.preventDefault(); (document.activeElement as HTMLElement).blur()}}>
         <FiHome size={24} />
         <IoMdArrowDropdown size={24}/>
         <input
@@ -41,7 +41,7 @@ function SearchBar() {
         }
       </form>
       { suggestions && suggestions.length > 0 &&
-        <SuggestionsDrowdown suggestions={suggestions} className={"group-focus-within:block"} setText={setSearch} />
+        <SuggestionsDrowdown suggestions={suggestions} className={"group-focus-within:block left-6"} setText={setSearch} />
       }
     </div>
   );
