@@ -7,20 +7,20 @@ export const ProfilePage = () => {
   const renderContent = () => {
     switch (selectedTab) {
       case "Recensioni":
-        return <div className="bg-white w-full h-full">Recensioni Content</div>;
+        return <div className="bg-white w-full h-full"></div>;
       case "Agenzia":
-        return <div className="bg-white w-full h-full">Agenzia Content</div>;
+        return <div className="bg-white w-full h-full"></div>;
       case "Orari":
-        return <div className="bg-white w-full h-full">Orari Content</div>;
+        return <div className="bg-white w-full h-full"></div>;
       default:
         return null;
     }
   };
 
   return (
-    <div className="bg-white w-full h-screen flex flex-col lg:flex-row items-start lg:items-center justify-start lg:justify-between gap-5 p-4">
+    <div className="bg-white w-full h-screen flex flex-col lg:flex-row items-start lg:items-center justify-start lg:justify-between p-2">
 
-      <div className="bg-white w-full lg:w-2/4 h-full lg:h-full flex flex-col lg:flex-col gap-6 items-center shadow-md">
+      <div className="bg-white w-full lg:w-2/4 h-full lg:h-full flex flex-col lg:flex-col gap-6 items-center mt-3">
         <div className="bg-white w-full lg:w-3/4 h-full lg:h-1/2 rounded-lg shadow-md">
           <header className="bg-blue-200 w-full h-28 flex items-center rounded-t-lg p-4">
             <div className="bg-white w-16 h-16 rounded-full"></div>
@@ -63,40 +63,58 @@ export const ProfilePage = () => {
               </button>
             </div>
           </div>
-          <div className="h-auto w-full p-3">{renderContent()}</div>
+          <div className="h-3/2 w-full p-3">{renderContent()}</div>
         </div>
+        
 
+        <div className="bg-blue-200 lg:w-3/4 w-full h-10 items-center justify-center">
+          <h1 className="text-center text-xl text-blue-950 text-opacity-80"> Tutte le proprietà</h1>
+        </div>
         {/* All properties managed by a particular agent */}
-        <div className="relative bg-white w-full lg:w-3/4 h-auto flex flex-col justify-center items-center">
-                <div className="bg-blue-200 w-full h-auto text-center">
-                    <p> Tutte le proprietà </p>
-                </div>
+        <div className="bg-white w-full lg:w-3/4 h-1/2 flex flex-col items-center overflow-y-auto shadow-md">
           
-          <div className="mt-4">
+          <div className="flex flex-col items-center justify-center space-y-5 mt-5">
 
-          <HouseCard
-            title="Villa sul mare"
-            street="Via dei mille"
-            size="40"
-            bathrooms="2"
-            locals="3"
-            agentImage="https://informatica.dieti.unina.it/images/foto-docenti/di-martino.png"
-            price="100.000€"
-            images={[
-              "https://cdn.pixabay.com/photo/2016/11/18/17/46/house-1836070_1280.jpg",
-              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRxG8ihFgvtyxCvoVxgoVKto6MpkCZzVwNoxA&s",
-            ]}
-            lat={40.826232}
-            lon={14.186043}
-          />
+                <HouseCard
+                    title="Villa sul mare"
+                    street="Via dei mille"
+                    size="40"
+                    bathrooms="2"
+                    locals="3"
+                    agentImage="https://informatica.dieti.unina.it/images/foto-docenti/di-martino.png"
+                    price="100.000€"
+                    images={[
+                    "https://cdn.pixabay.com/photo/2016/11/18/17/46/house-1836070_1280.jpg",
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRxG8ihFgvtyxCvoVxgoVKto6MpkCZzVwNoxA&s",
+                    ]}
+                    lat={40.826232}
+                    lon={14.186043}
+                />
+            
+            <HouseCard
+                title="Villa sul mare"
+                street="Via dei mille"
+                size="40"
+                bathrooms="2"
+                locals="3"
+                agentImage="https://informatica.dieti.unina.it/images/foto-docenti/di-martino.png"
+                price="100.000€"
+                images={[
+                    "https://cdn.pixabay.com/photo/2016/11/18/17/46/house-1836070_1280.jpg",
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRxG8ihFgvtyxCvoVxgoVKto6MpkCZzVwNoxA&s",
+                ]}
+                lat={40.826232}
+                lon={14.186043}
+            />
+
           </div>
         </div>
       </div>
 
-      {/* Mao */}
-      <div className="bg-white w-full lg:w-2/4 h-auto lg:h-full items-center justify-center shadow-md hidden lg:flex">
-        <div>
-            ciao
+      {/* Map */}
+      <div className="bg-white w-full lg:w-2/4 h-auto lg:h-full items-center justify-center hidden lg:flex border-l border-gray-100">
+        <div className="bg-green-900 w-1/2 h-1/2">
+            
         </div>
       </div>
     </div>
