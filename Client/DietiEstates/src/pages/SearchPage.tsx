@@ -10,7 +10,7 @@ import { FiltersBar } from "../components/FiltersBar";
 const SearchPage = () => {
     const [immobili, setImmobili] = useState<Immobile[]>();
     const [isLoading, setIsLoading] = useState<boolean>();
-    const [filter, setFilter] = useState<string[]>();
+    const [filter] = useState<string[]>();
     const [openDrawer, setOpenDrawer] = useState<boolean>(false);
     const itemRefs = useRef<any>([]); // Array di riferimenti agli elementi
 

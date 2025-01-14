@@ -4,7 +4,7 @@ const useRangeCounter = (max : number) => {
     const [counter, setCounter] = useState<number>(0);
 
     const next = () => {
-        if(counter < max - 1){
+        if(counter < max){
             setCounter(prev => prev + 1);
         }
     }
@@ -15,7 +15,13 @@ const useRangeCounter = (max : number) => {
         }
     }
 
-    return {counter, next, prev};
+    const goto = (n: number) => {
+        if(n >= 0 && n <= max){
+            setCounter(n);
+        }
+    }
+ 
+    return {counter, next, prev, goto};
 }
 
 export default useRangeCounter;
