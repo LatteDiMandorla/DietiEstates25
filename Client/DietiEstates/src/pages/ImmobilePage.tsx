@@ -4,6 +4,7 @@ import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { FaArrowLeft } from "react-icons/fa6";
 import { RiCloseFill } from "react-icons/ri";
 import useRangeCounter from "../hooks/useRangeCounter";
+import { ResponsiveFullscreenPopup } from "../components/ResponsiveFullscreenPopup";
 
 function ImmobilePage(){
     const [openImage, setOpenImage] = useState(false); 
@@ -26,6 +27,15 @@ function ImmobilePage(){
         }
     }
 
+    const handleImageClick = (imgIndex: number, pos: number) => {
+        setOpenImage(true);
+        if(pos == 1 || pos == 2 || pos == 3) {
+            goto(0)
+        } else {
+            goto(imgIndex + 1);
+        }
+    }
+
     useEffect(() => {
         console.log(selected);
         handleScrollToId(selected - 1 || 0);
@@ -33,9 +43,8 @@ function ImmobilePage(){
 
     return (
         <div className="p-4 bg-[#FAFAFA] h-full w-full overflow-hidden">
-            <PicturesSlideshow openPictures={() => setOpenImage(true)} images={images} />
-            <div className={`absolute inset-0 bg-black/20 backdrop-blur-sm z-[150] hover:cursor-pointer ${openImage ? "block" : "hidden"}`} onClick={() => setOpenImage(false)}></div>
-            <div className={`absolute inset-0 md:inset-16 bg-[#FAFAFA] z-[200] max-h-screen md:rounded-md ${openImage ? "flex flex-col" : "hidden"} overflow-hidden`}>
+            <PicturesSlideshow openPictures={handleImageClick} images={images} className="mx-auto md:mx-0" />
+            <ResponsiveFullscreenPopup open={openImage} close={() => setOpenImage(false)}>
                 <div className="h-16 w-full border-b border-gray-200 flex justify-between items-center px-4 overflow-hidden font-bold">
                     <button onClick={() => goto(0)} className={`${selected ? "visible" : "invisible"}`}><FaArrowLeft size={30} /></button>
                     Gattini belli
@@ -53,7 +62,7 @@ function ImmobilePage(){
                     <div className="w-full flex items-center justify-center">
                         {selected}/{images.length}
                     </div>
-                    <div className="bottom-0 h-36 w-full overflow-hidden no-scrollbar">
+                    <div className="bottom-0 h-36 w-full overflow-x-scroll no-scrollbar">
                         <div className="flex gap-6 h-full w-fit items-center px-10">
                             {images.map((url, i) => <div onClick={() => goto(i + 1)} ref={(el) => (itemRefs.current[i] = el)} className={`w-48 h-28 overflow-hidden rounded-md bg-gray-300 hover:cursor-pointer relative`} key={i}>
                                 {/* <div className={`absolute inset-0 z-10 ${selected == i + 1 ? "backdrop-blur-none" : "backdrop-blur-sm"} transition-all rounded-md`}/> */}
@@ -69,7 +78,7 @@ function ImmobilePage(){
                     </div>
                 </div>
                 }
-            </div>
+            </ResponsiveFullscreenPopup>
         </div>
     )
 }
