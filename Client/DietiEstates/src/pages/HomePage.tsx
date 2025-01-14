@@ -55,7 +55,7 @@ const HomePage = () => {
         </div>
       </div>
 
-      <div className='flex flex-col w-full p-5 bg-[#ffffff]'>
+      <div className='flex flex-col w-full p-5 bg-[#ffffff] space-y-5'>
         <div className='flex justify-center gap-[5px] items-center' >
           <div className='h-0 border border-black rounded-full w-32'></div>
           <h1 style={{ fontWeight: 'bold' }}> Potrebbero Piacerti </h1>
