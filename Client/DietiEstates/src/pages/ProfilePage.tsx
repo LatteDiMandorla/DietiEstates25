@@ -9,8 +9,8 @@ export const ProfilePage = () => {
     switch (selectedTab) {
       case "Recensioni":
         return <div className="bg-white h-full w-full flex flex-col">
-                    <button className="bg-blue-200 w-44 h-10 hover:bg-blue-400 transition-colors duration-150 rounded-md">
-                        <p> Ordina per: </p>
+                    <button className="bg-blue-200 w-44 h-10 hover:bg-blue-400 transition-colors duration-150 rounded-md ml-2">
+                        <p className=""> Ordina per: </p>
                     </button>
                     <div className="bg-white h-full w-full flex flex-col overflow-y-auto gap-2 mt-2">
                         <div>
@@ -89,7 +89,7 @@ export const ProfilePage = () => {
         {/* All properties managed by a particular agent */}
         <div className="bg-white w-full lg:w-3/4 h-1/2 flex flex-col items-center overflow-y-auto shadow-md">
           
-          <div className="lg:w-full flex flex-col items-center justify-center space-y-5 mt-5">
+          <div className="lg:w-full md:w-full flex flex-col items-center justify-center space-y-5 mt-5">
 
 
             <HouseCard
