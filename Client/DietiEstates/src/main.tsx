@@ -28,10 +28,6 @@ const router = createBrowserRouter([
         element: <Layout />,
         children: [ 
           {
-            path: "/immobile",
-            element: <ImmobilePage />
-          },
-          {
             path: "/search",
             element: <SearchPage />
           },
@@ -63,6 +59,11 @@ const router = createBrowserRouter([
       {
         path: "/ProfilePage", 
         element: <ProfilePage />
+      },
+      
+      {
+        path: "/immobile",
+        element: <ImmobilePage />
       }
 
     ]
