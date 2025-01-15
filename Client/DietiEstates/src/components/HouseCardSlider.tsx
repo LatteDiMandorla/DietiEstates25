@@ -4,7 +4,6 @@ import { HouseCard } from "./house_card";
 const HouseCardSlider: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  // Array dei dati delle card
   const houses = [
     {
       title: "Villa sul mare",
@@ -65,7 +64,7 @@ const HouseCardSlider: React.FC = () => {
   return (
     <div className="flex flex-col items-center space-y-4">
       {/* Contenitore delle card */}
-      <div className="w-full h-64 flex items-center justify-center overflow-auto">
+      <div className="w-full relative h-64 flex items-center justify-center overflow-hidden">
         {houses.map((house, index) => {
           // Calcolo della posizione
           const position =
@@ -80,7 +79,7 @@ const HouseCardSlider: React.FC = () => {
           return (
             <div
               key={index}
-              className={`absolute transition-all duration-500 ease-in-out transform ${position}`}
+              className={`absolute w-[32rem] transition-all duration-500 ease-in-out transform ${position}`}
             >
               <HouseCard {...house} />
             </div>
