@@ -11,7 +11,7 @@ function SearchBar() {
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
   const {suggestions, isLoading, handleInputChange} = useAddressAutocomplete();
-  const [recents] = useState<any[]>(JSON.parse(localStorage.getItem("recentSearch") || "[]")); 
+  const [recents, setRecents] = useState<any[]>(JSON.parse(localStorage.getItem("recentSearch") || "[]")); 
 
   const [params] = useSearchParams();
   const query = params.get("query");
