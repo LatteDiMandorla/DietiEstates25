@@ -1,7 +1,7 @@
 import SearchBar from '../components/SearchBar';
 import Logo from "../assets/Logo.svg";
 import Avatar from "../assets/Avatar.png";
-import HouseCardSlider from '../components/HouseCardSlider';
+import HouseCardSlider, { HouseCardSliderSp } from '../components/HouseCardSlider';
 
 import { FaRegBell } from "react-icons/fa";
 import { LuUsersRound } from "react-icons/lu";
@@ -13,7 +13,8 @@ import { FiLifeBuoy } from "react-icons/fi";
 
 const HomePage = () => {
     return (
-      <><div className='flex flex-col w-full p-5 bg-[#DDF5FF]'>
+      <>
+      <div className='flex flex-col w-full p-5 bg-[#DDF5FF]'>
         {/* Primo item */}
         <div className='flex justify-between items-center p-2.5 mb-2.5 rounded-lg'>
           <div className='flex gap-[35px]'>
@@ -55,15 +56,16 @@ const HomePage = () => {
         </div>
       </div>
 
-      <div className='flex flex-col w-full p-5 bg-[#ffffff] space-y-5'>
+      <div className='flex flex-1 flex-col w-full py-3 bg-[#ffffff] space-y-5 overflow-y-scroll no-scrollbar'>
         <div className='flex justify-center gap-[5px] items-center' >
           <div className='h-0 border border-black rounded-full w-32'></div>
           <h1 style={{ fontWeight: 'bold' }}> Potrebbero Piacerti </h1>
           <div className='h-0 border border-black rounded-full w-32'></div>
         </div>
 
-        <HouseCardSlider />
-      </div></>
+        <HouseCardSliderSp />
+      </div>
+      </>
     );
 };
   

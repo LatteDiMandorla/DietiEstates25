@@ -1,12 +1,12 @@
-import { useNavigate } from "react-router-dom";
+const SuggestionsDrowdown = ({suggestions, className = "", title, onClick} : any) => {
 
-const SuggestionsDrowdown = ({suggestions, className = "", setText} : any) => {
-    const navigate = useNavigate();
     return (
         <div className={"z-20 relative hidden " + className}>
           <div className="absolute">
-            <div className="flex flex-col w-96 bg-white rounded-b-md border-y border-x shadow-xl border-gray-300">
-                {suggestions.map((s : any, index: number) => (<button type="submit" className="text-left px-2" onClick={() => {setText(s.text); navigate(`/search?query=${encodeURIComponent(s.text)}&lat=${s.lat}&lon=${s.lon}&zoom=13`)}} key={index}>{s.text}</button>))}
+            <div className="flex flex-col items-center w-full bg-white rounded-b-md border-b border-x shadow-lg border-gray-300 font-semibold py-4">
+              <p className="font-bold px-4 w-full">{title}</p>
+              <div className="border border-black rounded-full w-11/12" />
+                {suggestions.map((s : any, index: number) => (<button type="button" className="text-left px-4 w-full" onClick={() => {onClick(s)}} key={index}>{s.text}</button>))}
             </div>
           </div>
         </div>

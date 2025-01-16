@@ -51,7 +51,7 @@ const SearchPage = () => {
                     { isLoading ? 
                         Array.from({length: 5}).map((_, index) => <HouseCardSkeleton key={index} />) :
                         (immobili ? 
-                        immobili?.filter((imm) => !filter || filter.length == 0 || filter?.some(f => imm.tags?.includes(f))).map((imm, index) => <HouseCard key={index} ref={(el) => (itemRefs.current[index] = el)} {...imm} />)
+                        immobili?.filter((imm) => !filter || filter.length == 0 || filter?.some(f => imm.tags?.includes(f))).map((imm, index) => <div className="w-full flex justify-center"><HouseCard key={index} ref={(el) => (itemRefs.current[index] = el)} {...imm} /></div>)
                         : <p>Nessun risultato</p>    
                         )
                     }
