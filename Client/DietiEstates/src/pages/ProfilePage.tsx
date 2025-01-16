@@ -2,6 +2,7 @@ import { useState } from "react";
 import { HouseCard } from "../components/house_card";
 import { Review} from "../components/Review"
 
+
 export const ProfilePage = () => 
 {
   const [selectedTab, setSelectedTab] = useState<string>("Recensioni");
@@ -18,10 +19,19 @@ export const ProfilePage = () =>
                     </button>
                     <div className="bg-white h-fit w-full flex flex-col gap-2">
                         <div className="h-96 w-full">
-                          <Review/>
+                          <Review
+                            UserImage=""
+                            TotalPoint={1}
+                            NameAndSurname="Andrea"
+                            ReviewTitle="Terrible"
+                            Text="Puzzava e fumava come un turco, ha picchiato mia moglie e ha ucciso due bambini"/>
                         </div>
                         <div>
-                          <Review/>
+                          <Review
+                            TotalPoint={5}
+                            NameAndSurname="Giacomo"
+                            ReviewTitle="Fantastico"
+                            Text="Profumava di tabacco"/>
                         </div>
                     </div>
 
