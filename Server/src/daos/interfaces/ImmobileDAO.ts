@@ -1,4 +1,4 @@
-import {Immobile} from "../../models/ImmobileT.js";
+import {Immobile} from "../../models/ImmobileT";
 
 export interface ImmobileDAO {
     findById(id: number) : Promise<Immobile>;

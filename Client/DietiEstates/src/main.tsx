@@ -7,7 +7,7 @@ import 'react-modern-drawer/dist/index.css'
 import 'react-loading-skeleton/dist/skeleton.css'
 import 'react-range-slider-input/dist/style.css';
 
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
 import LoginPage from './pages/LoginPage.tsx'
 import HomePage from './pages/HomePage.tsx'
 import Layout from './pages/Layout.tsx'
@@ -27,6 +27,10 @@ const router = createBrowserRouter([
         path: "",
         element: <Layout />,
         children: [ 
+          {
+            path: "",
+            element: <Navigate to="/home" replace />
+          },
           {
             path: "/search",
             element: <SearchPage />
