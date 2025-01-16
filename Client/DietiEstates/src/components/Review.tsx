@@ -4,11 +4,11 @@ import { useState } from 'react'
 export const Review = () =>
 {
     {/*useState to color stars*/}
-    const number_of_star : number = 2;
-    const [starColor, setStarColor] = useState<number>(number_of_star);
+    const total_points : number = 2;
+    const [starColor, setStarColor] = useState<number>(total_points);
 
     return (
-        <div className="bg-white w-full h-96 rounded-md flex items-start justify-center flex-row">
+        <div className="bg-white w-full h-full rounded-md flex items-start justify-center flex-row">
             <header className="bg-white lg:w-1/3 md:w-1/3 w-1/2 h-20 flex flex-row">
 
                 <div className="bg-white w-1/3 h-full flex justify-center items-center">
