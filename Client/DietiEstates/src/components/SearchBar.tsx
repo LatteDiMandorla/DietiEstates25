@@ -6,12 +6,13 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import useAddressAutocomplete from "../hooks/useAddressAutocomplete";
 import SuggestionsDrowdown from "./SuggestionsDropdown";
 import { ClipLoader } from "react-spinners";
+import { useLocalStorage } from "@uidotdev/usehooks";
 
 function SearchBar() {
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
   const {suggestions, isLoading, handleInputChange} = useAddressAutocomplete();
-  const [recents, setRecents] = useState<any[]>(JSON.parse(localStorage.getItem("recentSearch") || "[]")); 
+  const [recents] = useLocalStorage<any[]>("recentSearch", []); 
 
   const [params] = useSearchParams();
   const query = params.get("query");
@@ -21,6 +22,10 @@ function SearchBar() {
       setSearch(query);
     }
   }, [query])
+
+  useEffect(() => {
+    console.log(recents);
+  }, [recents])
 
   const navigateToSearch = (s: any) => {
     (document.activeElement as HTMLElement).blur();

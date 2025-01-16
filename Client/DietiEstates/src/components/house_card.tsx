@@ -69,7 +69,7 @@ export const HouseCardSkeleton = () => {
       <Skeleton width={"50%"} height={10}/>
       {/* Icone e dati */}
       <div className="border-b border-gray-300"></div>
-      <div className="flex justify-between text-sm text-gray-600">
+      <div className="flex min-h-fit justify-between text-sm text-gray-600">
         <div className="flex items-center space-x-1">
           <FaRulerCombined />
           <Skeleton width={25} className="ml-2" />
