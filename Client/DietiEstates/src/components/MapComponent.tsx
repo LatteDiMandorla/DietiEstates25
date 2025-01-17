@@ -26,12 +26,10 @@ const MapComponent = ({className = "", onMove, markers, onMarkerClick} : MapComp
       setCoordinates({lat: lt, lon: ln});
     }
 
-    console.log("z", zoom);
   }, [lat, lon])
 
   useEffect(() => {
     if(bounds && bounds.ne.lat - bounds.sw.lat > 0 && bounds.ne.lon - bounds.sw.lon > 0){
-      console.log("onmove");
       onMove?.(bounds);
     }
   }, [bounds]);

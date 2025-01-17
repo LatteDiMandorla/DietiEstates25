@@ -13,7 +13,7 @@ export const NotificationsMenu = () => {
     const isSmallScreen = useMediaQuery({ query: '(max-width: 640px)'});
 
     useClickOutside(() => {
-        console.log("click");
+        setOpenNotify(false);
     }, [ref, buttonRef])
 
     const dateMsg = useCallback((d: Date): string => {

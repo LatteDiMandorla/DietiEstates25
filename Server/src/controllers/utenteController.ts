@@ -33,4 +33,16 @@ export class UtenteController {
         const data = await this.utenteService?.getSearchesUtente(id);
         res.json(data);
     }
+
+    public async insertRecentSearch(req : Request, res: Response) : Promise<void> {
+        const id : number = parseInt(req.query.id as string);
+        const {recents} = req.body;
+        if(!id) {
+            res.status(400).send("Id not valid"); 
+            return;
+        }
+
+        const data = await this.utenteService?.insertSearches(id, recents);
+        res.sendStatus(200);
+    }
 }

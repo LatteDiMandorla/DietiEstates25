@@ -14,7 +14,6 @@ const LoginSchema = Yup.object().shape({
 function LoginForm() {
 
     const handleSubmit = (values: Values, {resetForm} : FormikHelpers<Values>) => {
-        console.log(values);
         resetForm();
     }
 

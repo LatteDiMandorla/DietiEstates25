@@ -22,4 +22,9 @@ export class UtenteService {
         const data = await this.ricercaDAO?.findLatest(id);
         return data || Promise.reject();
     }
+
+    public async insertSearches(utenteId: number, searches: Ricerca[]) : Promise<void>{
+        await this.ricercaDAO?.removeOfUser(utenteId);
+        await this.ricercaDAO?.createOfUser(utenteId, searches);
+    }
 }

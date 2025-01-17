@@ -120,7 +120,6 @@ export const HouseCardSliderSp = () => {
   }
 
   useEffect(() => {
-      console.log(selected);
       handleScrollToId(selected, "smooth");
   }, [selected])
 

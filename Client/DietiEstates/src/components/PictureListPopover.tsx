@@ -62,7 +62,6 @@ const Footer = ({images, goto, selected} : FooterProps) => {
     }
 
     useEffect(() => {
-        console.log(selected);
         handleScrollToId(selected - 1 || 0);
     }, [selected])
 
