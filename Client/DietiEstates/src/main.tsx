@@ -38,7 +38,12 @@ const router = createBrowserRouter([
           {
             path: "/map",
             element: <MapPage />
+          },
+          {
+            path: "/immobile",
+            element: <ImmobilePage />
           }
+    
         ]
       },
       {
@@ -59,13 +64,7 @@ const router = createBrowserRouter([
       {
         path: "/ProfilePage", 
         element: <ProfilePage />
-      },
-      
-      {
-        path: "/immobile",
-        element: <ImmobilePage />
       }
-
     ]
   }
 ]);

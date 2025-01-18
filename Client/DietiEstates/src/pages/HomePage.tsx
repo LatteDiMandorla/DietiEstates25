@@ -1,7 +1,7 @@
 import SearchBar from '../components/SearchBar';
 import Logo from "../assets/Logo.svg";
 import Avatar from "../assets/Avatar.png";
-import HouseCardSlider, { HouseCardSliderSp } from '../components/HouseCardSlider';
+import { HouseCardSliderSp } from '../components/HouseCardSlider';
 
 import { FaRegBell } from "react-icons/fa";
 import { LuUsersRound } from "react-icons/lu";
