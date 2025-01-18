@@ -15,7 +15,6 @@ export class RicercaDAOSequelize implements RicercaDAO {
         });
 
         if(data){
-            console.log("passing: ", data.map((i) => (i.get({ plain: true }))))
             return data.map((i) => (i.get({ plain: true })));
         }
         
@@ -27,7 +26,6 @@ export class RicercaDAOSequelize implements RicercaDAO {
     }
 
     public async createOfUser(userId: number, searches: RicercaT[]): Promise<void> {
-        console.log(searches.map((s) => ({...s, UtenteId: userId})))
         await Ricerca.bulkCreate(searches.map((s) => ({...s, UtenteId: userId})));
     }
 }

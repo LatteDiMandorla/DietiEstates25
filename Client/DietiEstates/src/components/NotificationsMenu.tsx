@@ -35,7 +35,7 @@ export const NotificationsMenu = () => {
     }, [openNotify]);
 
     const getStyle = () => {
-        return isSmallScreen ? "fixed left-0 top-0 h-full w-full" : "absolute top-2 -right-8 bottom-0 h-72 w-96"
+        return isSmallScreen ? "fixed left-0 top-0 h-full w-full z-[2001]" : "absolute top-2 -right-8 bottom-0 h-72 w-96 z-[2001]"
     }
 
     return (

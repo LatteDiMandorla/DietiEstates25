@@ -1,4 +1,4 @@
-import { FaRulerCombined } from "react-icons/fa";
+import { FaHeart, FaRegHeart, FaRulerCombined } from "react-icons/fa";
 import { PiToiletFill } from "react-icons/pi";
 import { FaDoorOpen } from "react-icons/fa";
 import { Immobile } from "../Interfaces/interfaces";
@@ -13,6 +13,7 @@ interface ChildRef {
 export const HouseCard = forwardRef<ChildRef, Immobile>((props: Immobile, ref) => {
     const [animate, setAnimate] = useState(false);
     const divRef = useRef<HTMLDivElement>(null);
+    const [liked, setLiked] = useState<boolean>(false);
 
     useImperativeHandle(ref, () => ({
       pulse: () => setAnimate(true),
@@ -29,7 +30,10 @@ export const HouseCard = forwardRef<ChildRef, Immobile>((props: Immobile, ref) =
         {/* Contenuto */}
         <div className="h-fit px-4 py-1 flex flex-col space-y-2 ">
           <div className="flex-1">
-            <div className="flex items-center justify-center rounded-full text-white font-semibold text-xs bg-green-500 w-fit px-1">{props.price}</div>
+            <div className="flex w-full justify-between items-center h-4">
+              <div className="flex items-center justify-center rounded-full text-white font-semibold text-xs bg-green-500 w-fit px-1">{props.price}</div>
+              {liked ? <FaHeart onClick={(e) => {e.stopPropagation(); setLiked(false)}} size={22} color="red" /> : <FaRegHeart size={22} onClick={(e) => {e.stopPropagation(); setLiked(true)}} color="gray" />}
+            </div>
             <h2 className="text-sm lg:text-lg font-bold text-gray-800">{props.title}</h2>
             <p className="text-sm text-gray-600">{props.street}</p>
           </div>

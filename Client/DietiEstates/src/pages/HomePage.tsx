@@ -1,16 +1,25 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { HouseCardSliderSp } from '../components/HouseCardSlider';
 import { TopbarExtended } from '../components/TopbarExtended';
+import { Immobile } from '../Interfaces/interfaces';
+import axios from '../api/axios';
 
 
 
 const HomePage = () => {
     const ref = useRef<HTMLDivElement>(null);
 
-    useEffect(() =>{
-      if(ref && ref.current){
-        ref.current.scrollIntoView({behavior: "instant"});
+    const [lastSearched, setLastSearched] = useState<Immobile[]>([]);
+
+    useEffect(() => {
+      const fetchLastSearched = async () => {
+        const {data} = await axios.get("immobile/searches", {params: {recents: (encodeURIComponent(localStorage.getItem("recentSearch") || JSON.stringify([])))}});
+        if(data){
+          setLastSearched(data);
+        }
       }
+
+      fetchLastSearched();
     }, [])
 
     return (
@@ -20,13 +29,13 @@ const HomePage = () => {
           <div className='flex flex-col w-fullz justify-start'>
             <div className='h-1' ref={ref}/>
             <Divider title='Potrebbero Piacerti' />
-            <HouseCardSliderSp />
+            <HouseCardSliderSp houses={lastSearched} />
 
             <Divider title='Ultime Ricerche' />
-            <HouseCardSliderSp />
+            <HouseCardSliderSp houses={lastSearched} />
 
             <Divider title='Piaciuti' />
-            <HouseCardSliderSp />
+            <HouseCardSliderSp houses={lastSearched} />
           </div>
         </div>
       </div>
