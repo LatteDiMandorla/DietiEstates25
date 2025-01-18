@@ -120,12 +120,11 @@ export const HouseCardSliderSp = () => {
   }
 
   useEffect(() => {
-      console.log(selected);
       handleScrollToId(selected, "smooth");
   }, [selected])
 
   useEffect(() => {
-    handleScrollToId(selected, "auto");
+    // handleScrollToId(selected, "auto");
   }, [width])
 
   const house = {

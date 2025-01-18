@@ -30,7 +30,7 @@ const SearchPage = () => {
     }
 
     useEffect(() => {
-        console.log(filter);
+        //console.log(filter);
     }, [filter])
 
     const handleScrollToId = (id: number) => {

@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import { ImmobileRoute } from "./routes/immobile";
 import { MapRoute } from "./routes/map";
 import Database from "./sequelize/database";
+import { UtenteRoute } from "./routes/utente";
 
 class App {
   private readonly app: Express;
@@ -50,6 +51,8 @@ class App {
     this.app.use("/immobile", immobileRoute.router);
     const mapRoute = new MapRoute();
     this.app.use("/map", mapRoute.router);
+    const utenteRoute = new UtenteRoute();
+    this.app.use("/utente", utenteRoute.router);
   }
 
   private initErrorHandling() {

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import SearchBar from '../components/SearchBar';
 import Logo from "../assets/Logo.svg";
 import Avatar from "../assets/Avatar.png";
@@ -8,66 +9,52 @@ import { LuUsersRound } from "react-icons/lu";
 import { FaDollarSign } from "react-icons/fa";
 import { CiMap } from "react-icons/ci";
 import { FiLifeBuoy } from "react-icons/fi";
+=======
+import { useEffect, useRef } from 'react';
+import { HouseCardSliderSp } from '../components/HouseCardSlider';
+import { TopbarExtended } from '../components/TopbarExtended';
+>>>>>>> da6f15bc0d8ea008963690aa17ba8204aa5cf890
 
 
 
 const HomePage = () => {
+    const ref = useRef<HTMLDivElement>(null);
+
+    useEffect(() =>{
+      if(ref && ref.current){
+        ref.current.scrollIntoView({behavior: "instant"});
+      }
+    }, [])
+
     return (
-      <>
-      <div className='flex flex-col w-full p-5 bg-[#DDF5FF]'>
-        {/* Primo item */}
-        <div className='flex justify-between items-center p-2.5 mb-2.5 rounded-lg'>
-          <div className='flex gap-[35px]'>
-            <div className='flex gap-1 items-center'>
-              <LuUsersRound />
-              <a href="https://www.figma.com/design/tC6dsyQ5RcepE4GKWLuStq/Mockup-DietiEstate?node-id=130-534&node-type=rounded_rectangle&m=dev" style={{ color: 'rgba(24, 39, 75, 0.72)' }}>Agenzie</a>
-            </div>
+      <div className='flex flex-col h-dvh w-dvw overflow-hidden'>
+        <TopbarExtended />
+        <div className='w-full flex-1 py-3 bg-[#ffffff] overflow-y-scroll no-scrollbar'>
+          <div className='flex flex-col w-fullz justify-start'>
+            <div className='h-1' ref={ref}/>
+            <Divider title='Potrebbero Piacerti' />
+            <HouseCardSliderSp />
 
-            <div className='flex gap-1 items-center'>
-              <FaDollarSign />
-              <a href="https://www.figma.com/design/tC6dsyQ5RcepE4GKWLuStq/Mockup-DietiEstate?node-id=130-534&node-type=rounded_rectangle&m=dev" style={{ color: 'rgba(24, 39, 75, 0.72)' }}>Mutuo</a>
-            </div>
+            <Divider title='Ultime Ricerche' />
+            <HouseCardSliderSp />
 
-            <div className='flex gap-1 items-center'>
-              <CiMap />
-              <a href="https://www.figma.com/design/tC6dsyQ5RcepE4GKWLuStq/Mockup-DietiEstate?node-id=130-534&node-type=rounded_rectangle&m=dev" style={{ color: 'rgba(24, 39, 75, 0.72)' }}>Mappa</a>
-            </div>
-
-            <div className='flex gap-1 items-center'>
-              <FiLifeBuoy />
-              <a href="https://www.figma.com/design/tC6dsyQ5RcepE4GKWLuStq/Mockup-DietiEstate?node-id=130-534&node-type=rounded_rectangle&m=dev" style={{ color: 'rgba(24, 39, 75, 0.72)', whiteSpace: 'nowrap' }}>Fatti Guidare</a>
-            </div>
-          </div>
-
-          <div className='flex gap-3.5 pr-1'>
-            <FaRegBell size={30} />
-            <img src={Avatar} alt="Avatar" width="30" height="30" />
+            <Divider title='Piaciuti' />
+            <HouseCardSliderSp />
           </div>
         </div>
-
-        {/* Secondo item (centrato) */}
-        <div className='flex justify-center p-2.5 rounded-lg mb-2.5'>
-          <img src={Logo} alt="Logo" width="200" />
-        </div>
-
-        {/* Terzo item */}
-        <div className='flex justify-center'>
-          <SearchBar />
-        </div>
       </div>
-
-      <div className='flex flex-1 flex-col w-full py-3 bg-[#ffffff] space-y-5 overflow-y-scroll no-scrollbar'>
-        <div className='flex justify-center gap-[5px] items-center' >
-          <div className='h-0 border border-black rounded-full w-32'></div>
-          <h1 style={{ fontWeight: 'bold' }}> Potrebbero Piacerti </h1>
-          <div className='h-0 border border-black rounded-full w-32'></div>
-        </div>
-
-        <HouseCardSliderSp />
-      </div>
-      </>
     );
 };
+
+const Divider = ({title} : {title: string}) => {
+  return (
+    <div className='flex justify-center gap-4 w-full items-center px-6 lg:px-20 mt-3' >
+      <div className='h-0 border border-black rounded-full flex-1'></div>
+      <h1 className='font-bold'> {title} </h1>
+      <div className='h-0 border border-black rounded-full flex-1'></div>
+    </div>
+  )
+}
   
   
 

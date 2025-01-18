@@ -3,6 +3,8 @@ import { IoMdArrowDropdown } from "react-icons/io";
 import CheckBoxList from "./CheckBoxList";
 import {useClickOutside} from '../hooks/useClickOutside';
 import RangeSlider from 'react-range-slider-input';
+import { Rect, useRect } from 'react-use-rect';
+
 
 interface DropdownMenuSingleProps {
     text: string,
@@ -37,6 +39,8 @@ export const DropdownMenuSingle = ({text, options, icon: Icon, selected, setSele
     const [open, setOpen] = useState<boolean>();
     const buttonRef = useRef<HTMLButtonElement>(null);
     const menuRef = useRef<HTMLDivElement>(null);
+    const [rect, setRect] = useState<Rect | null>(null);
+    const [rectRef] = useRect(setRect);
 
     useClickOutside(() => {
         setOpen(false);
@@ -52,12 +56,11 @@ export const DropdownMenuSingle = ({text, options, icon: Icon, selected, setSele
     return (
         <div className="min-w-fit">
             <button ref={buttonRef} onClick={() => {setOpen(prev => !prev)}} className={buttonStyles.default + (open ? buttonStyles.open : (selected ? buttonStyles.selected : buttonStyles.notSelected))}><Icon className="mr-2" /> {text} <IoMdArrowDropdown size={20} className={"transition-all " + (open && "rotate-180") } /></button>
+            <div ref={rectRef}></div>
             { open &&
-            <div className="relative z-[1001]">
-                <div ref={menuRef} className="absolute bg-[#FAFAFA] shadow-lg w-24 max-h-32 rounded-md flex flex-col p-2 ">
+                <div ref={menuRef} style={{top: rect?.top, left: rect?.left}} className={`fixed bg-[#FAFAFA] shadow-lg w-fit h-fit rounded-md flex flex-col px-2 py-1 z-[1001]`}>
                     {options.map((o, index) => <div key={index} onClick={() => {setSelected(o)}} className={"hover:cursor-pointer rounded-md px-2 " + (selected == o && " bg-blue-600 bg-opacity-30")}>{o}</div>)}
                 </div>
-            </div>
             }
         </div>
 
@@ -68,6 +71,8 @@ export const DropdownMenuMultiple = ({text, options, icon: Icon, selected, setSe
     const [open, setOpen] = useState<boolean>();
     const buttonRef = useRef<HTMLButtonElement>(null);
     const menuRef = useRef<HTMLDivElement>(null);
+    const [rect, setRect] = useState<Rect | null>(null);
+    const [rectRef] = useRect(setRect);
 
     useClickOutside(() => {
         setOpen(false);
@@ -83,15 +88,14 @@ export const DropdownMenuMultiple = ({text, options, icon: Icon, selected, setSe
     return (
         <div className="min-w-fit">
             <button ref={buttonRef} onClick={() => {setOpen(prev => !prev)}} className={buttonStyles.default + (open ? buttonStyles.open : (selected && selected.length > 0 ? buttonStyles.selected : buttonStyles.notSelected))}><Icon className="mr-2" /> {text} <IoMdArrowDropdown size={20} className={"transition-all " + (open && "rotate-180") } /></button>
+            <div ref={rectRef}></div>
             { open &&
-            <div className="relative z-[1001]">
-                <div ref={menuRef} className="absolute bg-[#FAFAFA] shadow-lg w-48 max-h-36 rounded-md flex flex-col px-2 py-1 ">
+                <div ref={menuRef} style={{top: rect?.top, left: rect?.left}} className={`fixed bg-[#FAFAFA] shadow-lg w-fit h-fit rounded-md flex flex-col px-2 py-1 z-[1001]`}>
                     <div className="overflow-y-scroll mb-1">
                     <CheckBoxList elements={options} setSelected={setSelected} selected={selected} />
                     </ div>
                     <button className="bg-red-600 text-white rounded-md" onClick={() => setSelected([])}>Cancella Filtri</button>
                 </div>
-            </div>
             }
         </div>
 
@@ -103,9 +107,10 @@ export const DropdownMenuRange = ({text, min, max, step, icon: Icon, selected, s
     const [internalSelected, setInternalSelected] = useState<[number | undefined, number | undefined] | []>(selected);
     const buttonRef = useRef<HTMLButtonElement>(null);
     const menuRef = useRef<HTMLDivElement>(null);
+    const [rect, setRect] = useState<Rect | null>(null);
+    const [rectRef] = useRect(setRect);
 
     useClickOutside(() => {
-        console.log(internalSelected);
         setSelected(internalSelected);
         setOpen(false);
     }, [buttonRef, menuRef])
@@ -153,10 +158,10 @@ export const DropdownMenuRange = ({text, min, max, step, icon: Icon, selected, s
 
     return (
         <div className="min-w-fit">
-            <button type="button" ref={buttonRef} onClick={() => {setOpen(prev => {prev && setSelected(internalSelected); console.log(internalSelected); return !prev})}} className={buttonStyles.default + (open ? buttonStyles.open : (internalSelected && internalSelected.length > 0 ? buttonStyles.selected : buttonStyles.notSelected))}><Icon className="mr-2" /> {text} <IoMdArrowDropdown size={20} className={"transition-all " + (open && "rotate-180") } /></button>
+            <button type="button" ref={buttonRef} onClick={() => {setOpen(prev => {prev && setSelected(internalSelected); return !prev})}} className={buttonStyles.default + (open ? buttonStyles.open : (internalSelected && internalSelected.length > 0 ? buttonStyles.selected : buttonStyles.notSelected))}><Icon className="mr-2" /> {text} <IoMdArrowDropdown size={20} className={"transition-all " + (open && "rotate-180") } /></button>
+            <div ref={rectRef}></div>
             { open &&
-            <div className="relative z-[1001]">
-                <div ref={menuRef} className="absolute bg-[#FAFAFA] shadow-lg w-64 rounded-md flex flex-col px-2 py-1">
+                <div ref={menuRef} style={{top: rect?.top, left: rect?.left}} className={`fixed bg-[#FAFAFA] shadow-lg w-64 rounded-md flex flex-col px-2 py-1 z-[1001]`}>
                     <div className="h-28 mb-1 flex flex-col justify-around">
                         <div className="flex justify-between space-x-12">
                             <input value={internalSelected[0] || ""} min={min} max={internalSelected[1]} step={step} className="w-1/2 border p-1 rounded-md" type="number" placeholder="Da:" onChange={(e) => handleMinInput(e.target.value)} />
@@ -172,7 +177,6 @@ export const DropdownMenuRange = ({text, min, max, step, icon: Icon, selected, s
                     </ div>
                     <button className="bg-red-600 text-white rounded-md" onClick={() => setInternalSelected([undefined, undefined])}>Cancella Filtri</button>
                 </div>
-            </div>
             }
         </div>
 

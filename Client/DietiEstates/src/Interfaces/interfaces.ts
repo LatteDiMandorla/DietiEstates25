@@ -20,3 +20,12 @@ export interface Filters {
     bathrooms: string;
     others: string[];
 }
+
+export interface ReviewComponents
+{
+    UserImage?: string;
+    TotalPoint: number;
+    NameAndSurname: string;
+    ReviewTitle: string;
+    Text: string;
+}

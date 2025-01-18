@@ -10,7 +10,6 @@ const useFetch = <T, >({url, dep = []} : {url: string, dep?: Array<any>}) => {
             setIsLoading(true);
             try {
                 const {data: d} = await axios.get(url);
-                console.log(d);
                 setData(d);
                 setIsLoading(false);
             } catch (error) {

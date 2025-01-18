@@ -8,7 +8,6 @@ const useAddressAutocomplete = () => {
   
     const fetchSuggestions = async (text: string) => {
       const { data } = await axios.get("/map/autocomplete", { params: { text, lang: navigator.language || "en" } });
-      console.log(data);
       setSuggestions(data);
       setIsLoading(false);
     };

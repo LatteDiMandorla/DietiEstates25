@@ -1,4 +1,4 @@
-import { FormEventHandler, useEffect, useState } from "react";
+import { FormEventHandler, useEffect, useLayoutEffect, useState } from "react";
 import { FiHome } from "react-icons/fi";
 import { IoIosSearch } from "react-icons/io";
 import { IoMdArrowDropdown } from "react-icons/io";
@@ -6,15 +6,27 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import useAddressAutocomplete from "../hooks/useAddressAutocomplete";
 import SuggestionsDrowdown from "./SuggestionsDropdown";
 import { ClipLoader } from "react-spinners";
+import { useLocalStorage } from "@uidotdev/usehooks";
+import axios from "../api/axios";
 
 function SearchBar() {
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
   const {suggestions, isLoading, handleInputChange} = useAddressAutocomplete();
-  const [recents, setRecents] = useState<any[]>(JSON.parse(localStorage.getItem("recentSearch") || "[]")); 
+  const [recents] = useLocalStorage<any[]>("recentSearch", []); 
 
   const [params] = useSearchParams();
   const query = params.get("query");
+
+  useEffect(() => {
+    const fetchRecentSearches = async () => {
+      const {data} = await axios.get(`/utente/recentSearches?id=1`);
+      console.log("got", data)
+      localStorage.setItem("recentSearch", JSON.stringify(data));
+    }
+
+    fetchRecentSearches()
+  }, [])
 
   useEffect(() => {
     if(query){
@@ -22,16 +34,32 @@ function SearchBar() {
     }
   }, [query])
 
+  useEffect(() => {
+    // console.log(recents);
+  }, [recents])
+
   const navigateToSearch = (s: any) => {
     (document.activeElement as HTMLElement).blur();
     navigate(`/search?query=${encodeURIComponent(s.text)}&lat=${s.lat}&lon=${s.lon}&zoom=13`)
-    if(recents && recents[0] && s.text != recents[0].text && s.lat != recents[0].lat && s.lon != recents[0].lon) {
+    if(recents.length && !recents.filter((r) => r.text == s.text).length) {
       const recentStrg = JSON.parse(localStorage.getItem("recentSearch") || "[]");
-      recentStrg.length >= 3 && recentStrg.pop();
+      recentStrg.length >= 5 && recentStrg.pop();
       localStorage.setItem("recentSearch", JSON.stringify([s, ...recentStrg]));
-    } else {
+    } else if (recents.length && s.text != recents[0].text) {
+      const recentStrg = JSON.parse(localStorage.getItem("recentSearch") || "[]");
+      localStorage.setItem("recentSearch", JSON.stringify([s, ...recentStrg.filter((r : any) => r.text !== s.text)]));
+    }
+    else if(recents.length == 0){
       localStorage.setItem("recentSearch", JSON.stringify([s]));
     }
+
+    const saveRecentSearches = async () => {
+      const recents = JSON.parse(localStorage.getItem("recentSearch") || "[]");
+      console.log("bye", recents)
+      await axios.post("/utente/recentSearches", {recents: JSON.parse(localStorage.getItem("recentSearch") || "[]")}, {params: {id: 1}});
+    }
+
+    saveRecentSearches();
   }
 
   return (

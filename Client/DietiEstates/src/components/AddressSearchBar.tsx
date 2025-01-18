@@ -9,7 +9,6 @@ const AddressSearchBar = ({setCoordinates}: {setCoordinates: ({lat, lon} : {lat:
     
       const fetchSuggestions = async (text: string) => {
         const { data } = await axios.get("/map/autocomplete", { params: { text } });
-        console.log(data);
         setSuggestions(data);
         setIsLoading(false);
       };
