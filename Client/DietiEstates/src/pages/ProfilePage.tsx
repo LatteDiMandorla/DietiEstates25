@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { HouseCard } from "../components/house_card";
 import { Review} from "../components/Review"
+import { DarkModeButton } from "../components/DarkModeButton";
 
 
 export const ProfilePage = () => 
@@ -49,10 +50,11 @@ export const ProfilePage = () =>
 
   return (
     <div className="bg-white w-full h-screen flex flex-col lg:flex-row items-start lg:items-center justify-start lg:justify-between p-2">
-
       <div className="bg-white w-full lg:w-2/4 h-full lg:h-full flex flex-col lg:flex-col gap-6 items-center mt-3">
         <div className="bg-white border w-full lg:w-3/4 h-3/4 lg:h-3/4 rounded-lg shadow-md flex flex-col max-h-[32rem] ">
           <header className="bg-blue-200 w-full h-18 flex items-center rounded-t-lg p-4">
+          <div> <DarkModeButton></DarkModeButton></div>
+
             <div className="bg-white w-24 h-24 rounded-full"></div>
             <div className="ml-4 flex flex-col justify-center">
               <h1 className="text-xl font-bold text-blue-950">
