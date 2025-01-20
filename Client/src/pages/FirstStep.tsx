@@ -1,8 +1,11 @@
+import { setOptions } from 'leaflet';
 import affitto from '../assets/AffittoPicture.png'
 import vendita from '../assets/VenditaPicture.png'
 import StepIndicator from '../components/StepIndicator';
 import useRangeCounter from '../hooks/useRangeCounter';
 import { useState } from 'react';
+import { FaArrowAltCircleLeft } from "react-icons/fa";
+import { FaArrowAltCircleRight } from 'react-icons/fa';
 
 
 export const FirstStep = () => {
@@ -20,17 +23,17 @@ export const FirstStep = () => {
       <header className="py-4 shadow-md w-full">
         <div className="flex justify-center lg:justify-between items-center w-full px-10">
             <button onClick={() => (prev())}
-              className="hidden lg:block text-blue-950 font-mono">
-               <span className="text-xl"> </span>
-               <span className="underline"> Indietro</span>
+              className="hidden lg:block text-blue-950 text-opacity-80 font-mono lg:flex flex-row items-start justify-start hover:scale-90 transition-transform">
+                <FaArrowAltCircleLeft className='mt-1 text-xl text-blue-600'> </FaArrowAltCircleLeft>
+               <span className="text-xl ml-2 underline"> Indietro</span>
             </button>
             <span className="text-blue-950 text-opacity-65 font-bold text-xl text-center">
                 È un locale in vendita o in affitto?
             </span>
             <button onClick={() => (next())} 
-              className="hidden lg:block text-blue-950 font-mono">
-                <span className="underline"> Avanti</span> 
-                <span className="text-xl"> </span>
+              className="hidden lg:block text-blue-950 text-opacity-80 font-mono lg:flex flex-row items-start justify-start hover:scale-90 transition-transform">
+                <span className="text-xl mr-2 underline"> Avanti</span> 
+                <FaArrowAltCircleRight className='mt-1 text-xl text-blue-600'> </FaArrowAltCircleRight>
             </button>
 
         </div>
@@ -45,7 +48,7 @@ export const FirstStep = () => {
       <div className="w-full h-full overflow-hidden flex space-x-6 justify-evenly p-6">
 
         {/* Button for "Sale" */}
-        <button onClick={() => handleOptionClick("vendita")} className={`relative flex-1 bg-[#DDF5FF] flex justify-center items-center overflow-hidden rounded-lg shadow-lg hover:shadow-xl hover:scale-95 transition-all duration-300
+        <button onBlur={() => setIsChoosen(null)} onClick={() => handleOptionClick("vendita")} className={`relative flex-1 bg-[#DDF5FF] flex justify-center items-center overflow-hidden rounded-lg shadow-lg hover:shadow-xl hover:scale-95 transition-all duration-300 
           ${isChoosen === "vendita" ? "scale-95 bg-blue-300" : ""}`}>
           <div className="absolute flex items-center justify-center text-blue-900 text-xl font-bold bg-white px-4 py-2 z-20 w-full h-14">
             Vendita
@@ -54,7 +57,7 @@ export const FirstStep = () => {
         </button>
 
         {/* Button for "Rent" */}
-        <button onClick={() => handleOptionClick("affitto")} className={`relative flex-1 bg-[#DDF5FF] flex justify-center items-center overflow-hidden rounded-lg shadow-lg hover:shadow-xl hover:scale-95 transition-all duration-300
+        <button onBlur={() => setIsChoosen(null)} onClick={() => handleOptionClick("affitto")} className={`relative flex-1 bg-[#DDF5FF] flex justify-center items-center overflow-hidden rounded-lg shadow-lg hover:shadow-xl hover:scale-95 transition-all duration-300
           ${isChoosen === "affitto" ? "scale-95 bg-blue-300" : ""}`}>
           <div className="absolute flex items-center justify-center text-blue-900 text-xl font-bold bg-white px-4 py-2 z-20 w-full h-14">
             Affitto
@@ -64,10 +67,12 @@ export const FirstStep = () => {
       </div> 
 
       <div className="block lg:hidden w-full h-20 bg-[#DDF5FF] items-center flex justify-between">
-          <button className="rounded-lg bg-blue-700 h-10 w-24 ml-2 text-blue-200">
+          <button
+            onClick={() => {}} 
+            className="rounded-lg bg-blue-700 h-10 w-24 ml-2 text-blue-200 hover:bg-blue-800 transition-colors duration-500">
               INDIETRO
           </button>
-          <button className="rounded-lg bg-blue-700 h-10 w-24 mr-2 text-blue-200">
+          <button className="rounded-lg bg-blue-700 h-10 w-24 mr-2 text-blue-200 hover:bg-blue-800 transition-colors duration-500">
               AVANTI
           </button>
       </div>

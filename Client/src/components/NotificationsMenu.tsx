@@ -1,6 +1,6 @@
 import { useCallback, useRef, useState } from "react";
 import { useClickOutside } from "../hooks/useClickOutside";
-import { BiBell } from "react-icons/bi";
+import { TbBellFilled } from "react-icons/tb";
 import { useMediaQuery } from 'react-responsive';
 import { RiCloseFill } from "react-icons/ri";
 import { Notification } from "./Notification";
@@ -11,6 +11,15 @@ export const NotificationsMenu = () => {
     const [openNotify, setOpenNotify] = useState<boolean>(false);
     const [unreaden, setUnreaden] = useState<boolean>(false);
     const isSmallScreen = useMediaQuery({ query: '(max-width: 640px)'});
+    const [isClicked, setIsClicked] = useState<boolean>(false);
+
+    const HandleRingClick = () => 
+    {
+        setIsClicked(false); 
+        setTimeout(() => {
+          setIsClicked(true);
+        }, 10);
+    };
 
     useClickOutside(() => {
         setOpenNotify(false);
@@ -40,7 +49,7 @@ export const NotificationsMenu = () => {
 
     return (
         <div className="flex flex-col !font-normal">
-        <button ref={buttonRef} onClick={() => {setOpenNotify(!openNotify); setUnreaden(false)}} className="relative h-fit "><BiBell size={28} /></button>
+        <button ref={buttonRef} onClick={() => {setOpenNotify(!openNotify); setUnreaden(false)}} className="relative h-fit "><TbBellFilled onClick={() => HandleRingClick()} onBlur={()=> HandleRingClick()} className={`text-blue-900 ${isClicked === true ? "animate-ring" : ""}`} size={28} /></button>
             {unreaden && <div className="top-[0.1rem] right-1 absolute bg-red-500 w-[0.6rem] h-[0.6rem] rounded-full"></div>}
             <div className="relative top-1 flex justify-end overflow-visible">
                 { openNotify &&
