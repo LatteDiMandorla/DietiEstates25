@@ -34,7 +34,7 @@ export class ImmobileController {
 
     public async getFromRecentSearches(req: Request, res: Response) : Promise<void> {
         try {
-            const recents = req.query.recents ? JSON.parse(decodeURIComponent(req.query.recents as string)) : [];
+            const {recents} = req.body;
             if(!recents || !Array.isArray(recents)) {
                 res.status(400).send("Params not valid"); 
                 return;

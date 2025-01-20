@@ -34,6 +34,23 @@ export class UtenteController {
         res.json(data);
     }
 
+    public async getSelf(req: Request, res: Response) : Promise<void> {
+        const id = res.locals.id;
+
+        if(!id) {
+            res.status(401).send("Not Verified"); 
+            return;
+        }
+
+        try {
+            const utente = await this.utenteService?.getUtenteById(id);
+            res.status(200).json(utente);
+        } catch (error) {
+            res.status(400).send("User not found"); 
+            return
+        }
+    }
+
     public async insertRecentSearch(req : Request, res: Response) : Promise<void> {
         const id : number = parseInt(req.query.id as string);
         const {recents} = req.body;

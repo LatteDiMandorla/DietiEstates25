@@ -1,7 +1,27 @@
 import { SkeletonTheme } from "react-loading-skeleton";
 import { Outlet } from "react-router-dom";
+import useAxiosPrivate from "./hooks/useAxiosPrivate";
+import useAuth from "./hooks/useAuth";
+import { useEffect } from "react";
 
 function App() {
+  const axios = useAxiosPrivate();
+  const {auth, setAuth} = useAuth();
+
+  useEffect(() => {
+    const fetchSelf = async () => {
+      try {
+        const {data} = await axios.get("/utente/self");
+        if(data){
+          setAuth({...data, accessToken: auth?.accessToken});
+        }
+      } catch (error) {
+        setAuth(undefined);
+      }
+    }
+
+    fetchSelf();
+  }, [])
 
   return (
     <div className="h-dvh overflow-hidden flex flex-col">

@@ -29,3 +29,12 @@ export interface ReviewComponents
     ReviewTitle: string;
     Text: string;
 }
+
+export interface Utente {
+    username?: string;
+    nome?: string;
+    cognome?: string;
+    email?: string;
+    image?: string;
+    accessToken?: string,
+}

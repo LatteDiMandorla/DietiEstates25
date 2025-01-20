@@ -21,7 +21,6 @@ function SearchBar() {
   useEffect(() => {
     const fetchRecentSearches = async () => {
       const {data} = await axios.get(`/utente/recentSearches?id=1`);
-      console.log("got", data)
       localStorage.setItem("recentSearch", JSON.stringify(data));
     }
 
@@ -55,7 +54,6 @@ function SearchBar() {
 
     const saveRecentSearches = async () => {
       const recents = JSON.parse(localStorage.getItem("recentSearch") || "[]");
-      console.log("bye", recents)
       await axios.post("/utente/recentSearches", {recents: JSON.parse(localStorage.getItem("recentSearch") || "[]")}, {params: {id: 1}});
     }
 
