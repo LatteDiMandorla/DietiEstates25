@@ -54,7 +54,7 @@ function SearchBar() {
 
     const saveRecentSearches = async () => {
       const recents = JSON.parse(localStorage.getItem("recentSearch") || "[]");
-      await axios.post("/utente/recentSearches", {recents: JSON.parse(localStorage.getItem("recentSearch") || "[]")}, {params: {id: 1}});
+      await axios.post("/utente/recentSearches", {recents}, {params: {id: 1}});
     }
 
     saveRecentSearches();
