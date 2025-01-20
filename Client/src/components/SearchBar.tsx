@@ -8,15 +8,18 @@ import SuggestionsDrowdown from "./SuggestionsDropdown";
 import { ClipLoader } from "react-spinners";
 import { useLocalStorage } from "@uidotdev/usehooks";
 import axios from "../api/axios";
+import UseAnimations from "react-useanimations";
+import searchToX from 'react-useanimations/lib/searchToX'
 
 function SearchBar() {
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
   const {suggestions, isLoading, handleInputChange} = useAddressAutocomplete();
   const [recents] = useLocalStorage<any[]>("recentSearch", []); 
-
+  const [isFocused, setIsFocused] = useState<boolean>(false);
   const [params] = useSearchParams();
   const query = params.get("query");
+
 
   useEffect(() => {
     const fetchRecentSearches = async () => {
@@ -27,6 +30,7 @@ function SearchBar() {
 
     fetchRecentSearches()
   }, [])
+
 
   useEffect(() => {
     if(query){
@@ -73,15 +77,20 @@ function SearchBar() {
           placeholder="Dove vuoi andare a vivere?"
           value={search}
           onChange={(e) => {setSearch(e.target.value); handleInputChange(e)}}
+          onClick={()=>setIsFocused(true)}
+          onBlur={()=>setIsFocused(false)}
           />
         <ClipLoader loading={isLoading} size={20} />
-        <button type="submit" className="w-6 h-6 ml-2 hover:cursor-pointer"><IoIosSearch size={22} /></button>
+        <button type="submit" className="w-6 h-6 ml-2"> <UseAnimations animation={searchToX} size={26} key= {isFocused ? true : false} autoplay = {isFocused} reverse= {!isFocused} speed={10} 
+                
+        /></button>
       </form>
       { suggestions && suggestions.length > 0 ?
         <SuggestionsDrowdown suggestions={suggestions} className={"group-focus-within:block left-12"} setText={setSearch} onClick={(s: any) => navigateToSearch(s)} />
         : recents &&
         <SuggestionsDrowdown suggestions={recents} className={"group-focus-within:block left-12"} setText={setSearch} onClick={(s: any) => navigateToSearch(s)} title="Recenti" />
       }
+
     </div>
   );
 }
