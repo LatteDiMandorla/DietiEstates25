@@ -2,33 +2,33 @@ import affitto from '../assets/AffittoPicture.png'
 import vendita from '../assets/VenditaPicture.png'
 import StepIndicator from '../components/StepIndicator';
 import useRangeCounter from '../hooks/useRangeCounter';
-
+import { useState } from 'react';
 
 
 export const FirstStep = () => {
   const steps = 3;
   const {counter: step, prev, next} = useRangeCounter(steps);
+  const [isChoosen, setIsChoosen] = useState<string|null>(null);
 
   const handleOptionClick = (option: "vendita" | "affitto") => {
-    console.log(option);
-    { /*TODO*/ }
+    setIsChoosen(option);
   };
 
   return (
     <div className="flex-1 overflow-hidden flex flex-col items-center border">
       {    /* Header*/     }
       <header className="py-4 shadow-md w-full">
-        <div className="flex justify-between items-center w-full px-10">
+        <div className="flex justify-center lg:justify-between items-center w-full px-10">
             <button onClick={() => (prev())}
-              className="text-blue-950 font-mono">
+              className="hidden lg:block text-blue-950 font-mono">
                <span className="text-xl"> </span>
                <span className="underline"> Indietro</span>
             </button>
-            <span className="text-blue-950 text-opacity-65 font-bold text-xl">
+            <span className="text-blue-950 text-opacity-65 font-bold text-xl text-center">
                 È un locale in vendita o in affitto?
             </span>
             <button onClick={() => (next())} 
-              className="text-blue-950 font-mono">
+              className="hidden lg:block text-blue-950 font-mono">
                 <span className="underline"> Avanti</span> 
                 <span className="text-xl"> </span>
             </button>
@@ -45,7 +45,8 @@ export const FirstStep = () => {
       <div className="w-full h-full overflow-hidden flex space-x-6 justify-evenly p-6">
 
         {/* Button for "Sale" */}
-        <button onClick={() => handleOptionClick("vendita")} className="relative flex-1 bg-[#DDF5FF] flex justify-center items-center overflow-hidden rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition-transform duration-300">
+        <button onClick={() => handleOptionClick("vendita")} className={`relative flex-1 bg-[#DDF5FF] flex justify-center items-center overflow-hidden rounded-lg shadow-lg hover:shadow-xl hover:scale-95 transition-all duration-300
+          ${isChoosen === "vendita" ? "scale-95 bg-blue-300" : ""}`}>
           <div className="absolute flex items-center justify-center text-blue-900 text-xl font-bold bg-white px-4 py-2 z-20 w-full h-14">
             Vendita
           </div>
@@ -53,7 +54,8 @@ export const FirstStep = () => {
         </button>
 
         {/* Button for "Rent" */}
-        <button onClick={() => handleOptionClick("affitto")} className="relative flex-1 bg-[#DDF5FF] flex justify-center items-center overflow-hidden rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition-transform duration-300">
+        <button onClick={() => handleOptionClick("affitto")} className={`relative flex-1 bg-[#DDF5FF] flex justify-center items-center overflow-hidden rounded-lg shadow-lg hover:shadow-xl hover:scale-95 transition-all duration-300
+          ${isChoosen === "affitto" ? "scale-95 bg-blue-300" : ""}`}>
           <div className="absolute flex items-center justify-center text-blue-900 text-xl font-bold bg-white px-4 py-2 z-20 w-full h-14">
             Affitto
           </div>
@@ -61,6 +63,14 @@ export const FirstStep = () => {
         </button>
       </div> 
 
+      <div className="block lg:hidden w-full h-20 bg-[#DDF5FF] items-center flex justify-between">
+          <button className="rounded-lg bg-blue-700 h-10 w-24 ml-2 text-blue-200">
+              INDIETRO
+          </button>
+          <button className="rounded-lg bg-blue-700 h-10 w-24 mr-2 text-blue-200">
+              AVANTI
+          </button>
+      </div>
     </div>
   );
 };
