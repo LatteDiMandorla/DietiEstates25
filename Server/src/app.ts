@@ -1,10 +1,13 @@
 import express, { Express } from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import cookieParser from 'cookie-parser';
+
 import { ImmobileRoute } from "./routes/immobile";
 import { MapRoute } from "./routes/map";
 import Database from "./sequelize/database";
 import { UtenteRoute } from "./routes/utente";
+import { AuthRoute } from "./routes/auth";
 
 class App {
   private readonly app: Express;
@@ -41,9 +44,10 @@ class App {
   }
 
   private initMiddlewares() {
-    this.app.use(cors({origin: '*', methods: ['GET', 'POST']}));
+    this.app.use(cors({origin: 'http://localhost:5173', methods: ['GET', 'POST'], credentials: true}));
     this.app.use(express.json());
     dotenv.config();
+    this.app.use(cookieParser());
   }
 
   private initRoutes() {
@@ -53,6 +57,8 @@ class App {
     this.app.use("/map", mapRoute.router);
     const utenteRoute = new UtenteRoute();
     this.app.use("/utente", utenteRoute.router);
+    const authRoute = new AuthRoute();
+    this.app.use("/auth", authRoute.router);
   }
 
   private initErrorHandling() {

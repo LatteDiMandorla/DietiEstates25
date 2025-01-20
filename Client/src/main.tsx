@@ -17,6 +17,8 @@ import ImmobilePage from './pages/ImmobilePage.tsx';
 import { MapPage } from './pages/MapPage.tsx';
 import SearchPage from './pages/SearchPage.tsx';
 import { ProfilePage } from './pages/ProfilePage.tsx'
+import { AuthProvider } from './contexts/AuthProvider.tsx';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 const router = createBrowserRouter([
   {
@@ -75,6 +77,8 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
   </StrictMode>,
 )

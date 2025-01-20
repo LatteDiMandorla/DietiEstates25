@@ -13,7 +13,7 @@ const HomePage = () => {
 
     useEffect(() => {
       const fetchLastSearched = async () => {
-        const {data} = await axios.get("immobile/searches", {params: {recents: (encodeURIComponent(localStorage.getItem("recentSearch") || JSON.stringify([])))}});
+        const {data} = await axios.post("immobile/searches", {recents: JSON.parse(localStorage.getItem("recentSearch") || "[]")});
         if(data){
           setLastSearched(data);
         }

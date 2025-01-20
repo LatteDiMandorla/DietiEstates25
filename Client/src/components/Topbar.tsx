@@ -3,9 +3,11 @@ import SearchBar from "./SearchBar";
 import Logo from "../assets/Logo.svg";
 import { NotificationsMenu } from "./NotificationsMenu";
 import { Avatar } from "./Avatar";
+import useAuth from "../hooks/useAuth";
 
 function Topbar(){
     const navigate = useNavigate();
+    const {auth} = useAuth();
 
     return(
         <div className="font-bold bg-[#DDF5FF] h-16 flex justify-between p-2 w-full z-[2000]">
@@ -13,7 +15,7 @@ function Topbar(){
             <SearchBar />
             <div className="w-28 flex gap-2 justify-end items-center">
                 <NotificationsMenu />
-                <Avatar size="md" border src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTfASqloxLbB75XhkCMkOH16en4rfH2n-BZNw&s" />
+                {auth?.image && <Avatar size="md" border src={auth?.image || ""} />}
             </div>
         </div>
     )
