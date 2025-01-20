@@ -8,6 +8,9 @@ import SearchBar from "./SearchBar"
 import { NotificationsMenu } from "./NotificationsMenu"
 import useAuth from "../hooks/useAuth"
 import { Link } from "react-router-dom"
+import  LogoImage  from '../assets/DietiLogo.png'
+
+
 
 export const TopbarExtended = () => {
     const {auth} = useAuth();
@@ -20,7 +23,7 @@ export const TopbarExtended = () => {
 
             {/* Secondo item (centrato) */}
             <div className='flex justify-center rounded-lg py-4'>
-                <img src={Logo} alt="Logo" width="250" />
+                <img src={LogoImage} alt="Logo" width="250" />
             </div>
 
             {/* Terzo item */}

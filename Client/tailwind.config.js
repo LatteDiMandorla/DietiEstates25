@@ -42,7 +42,7 @@ export default {
       },
       animation: {
         shake: 'shake 0.5s ease-in-out',
-        ring: ' ring 4s 0.1s ease-in-out'
+        ring:  'ring 3s 0.1s ease-in-out'
       },
     },
   },

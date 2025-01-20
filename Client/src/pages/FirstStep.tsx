@@ -21,10 +21,10 @@ export const FirstStep = () => {
     <div className="flex-1 overflow-hidden flex flex-col items-center border">
       {    /* Header*/     }
       <header className="py-4 shadow-md w-full">
-        <div className="flex justify-center lg:justify-between items-center w-full px-10">
+        <div className="flex justify-center lg:justify-between items-center w-full px-3">
             <button onClick={() => (prev())}
               className="hidden lg:block text-blue-950 text-opacity-80 font-mono lg:flex flex-row items-start justify-start hover:scale-90 transition-transform">
-                <FaArrowAltCircleLeft className='mt-1 text-xl text-blue-600'> </FaArrowAltCircleLeft>
+                <FaArrowAltCircleLeft className='mt-1 text-xl text-blue-800'> </FaArrowAltCircleLeft>
                <span className="text-xl ml-2 underline"> Indietro</span>
             </button>
             <span className="text-blue-950 text-opacity-65 font-bold text-xl text-center">
@@ -33,7 +33,7 @@ export const FirstStep = () => {
             <button onClick={() => (next())} 
               className="hidden lg:block text-blue-950 text-opacity-80 font-mono lg:flex flex-row items-start justify-start hover:scale-90 transition-transform">
                 <span className="text-xl mr-2 underline"> Avanti</span> 
-                <FaArrowAltCircleRight className='mt-1 text-xl text-blue-600'> </FaArrowAltCircleRight>
+                <FaArrowAltCircleRight className='mt-1 text-xl text-blue-800'> </FaArrowAltCircleRight>
             </button>
 
         </div>
@@ -66,14 +66,14 @@ export const FirstStep = () => {
         </button>
       </div> 
 
-      <div className="block lg:hidden w-full h-20 bg-[#DDF5FF] items-center flex justify-between">
+      <div className="block lg:hidden w-full h-20 bg-white border border-gray-200 shadow-xl items-center flex justify-between">
           <button
             onClick={() => {}} 
-            className="rounded-lg bg-blue-700 h-10 w-24 ml-2 text-blue-200 hover:bg-blue-800 transition-colors duration-500">
-              INDIETRO
+            className="flex items-center justify-center rounded-md bg-[#DDF5FF] h-10 w-14 ml-2 text-blue-900 hover:bg-blue-700 transition-all duration-300 hover:scale-90">
+              <FaArrowAltCircleLeft className="w-8 h-8"></FaArrowAltCircleLeft>
           </button>
-          <button className="rounded-lg bg-blue-700 h-10 w-24 mr-2 text-blue-200 hover:bg-blue-800 transition-colors duration-500">
-              AVANTI
+          <button className="flex items-center justify-center rounded-md bg-[#DDF5FF] h-10 w-14 mr-2 text-blue-900 hover:bg-blue-700 transition-all duration-300 hover:scale-90">
+              <FaArrowAltCircleRight className="w-8 h-8"></FaArrowAltCircleRight>
           </button>
       </div>
     </div>

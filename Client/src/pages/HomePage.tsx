@@ -5,7 +5,6 @@ import { Immobile } from '../Interfaces/interfaces';
 import axios from '../api/axios';
 
 
-
 const HomePage = () => {
     const ref = useRef<HTMLDivElement>(null);
 
