@@ -62,10 +62,10 @@ export const Review = (props: ReviewComponents) =>
             <header className="bg-white lg:w-1/3 md:w-1/3 w-1/2 h-20 flex flex-row">
 
                 <div className="bg-white w-1/3 h-full flex justify-center items-center">
-                    <button className="bg-gray-200 h-14 w-14 lg:w-2/3 lg:h-2/3 rounded-full">
+                    <button className="bg-gray-200 h-14 w-14 lg:w-2/3 lg:h-2/3 rounded-full overflow-hidden">
                         <img 
                             src={props.UserImage}  
-                            className="w-full h-full object-cover rounded-full" 
+                            className="w-full h-full object-cover m-0 p-0 border-none rounded-full bg-gray-200" 
                         />
                     </button>
                 </div>

@@ -46,6 +46,11 @@ const router = createBrowserRouter([
           {
             path: "/immobile",
             element: <ImmobilePage />
+          },
+
+          {
+             path: "/ProfilePage", 
+             element: <ProfilePage />
           }
     
         ]
@@ -78,10 +83,6 @@ const router = createBrowserRouter([
         element: <HomePage />
       },
 
-      {
-        path: "/ProfilePage", 
-        element: <ProfilePage />
-      }
     ]
   }
 

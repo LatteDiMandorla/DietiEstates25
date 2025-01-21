@@ -2,11 +2,33 @@ import { useState } from "react";
 import { HouseCard } from "../components/house_card";
 import { Review} from "../components/Review"
 import { DarkModeButton } from "../components/DarkModeButton";
+import MapComponent from "../components/MapComponent";
+import axios from "../api/axios";
+import { Immobile } from "../Interfaces/interfaces";
+
 
 
 export const ProfilePage = () => 
 {
   const [selectedTab, setSelectedTab] = useState<string>("Recensioni");
+      const [immobili, setImmobili] = useState<Immobile[]>();
+      const [isLoading, setIsLoading] = useState<boolean>();
+      const [openDrawer, setOpenDrawer] = useState<boolean>(false);
+
+  const fetchImmobili = async (bounds: any) => {
+    if(bounds && bounds.ne && bounds.sw){
+            try {                
+                setIsLoading(true);
+                const { data } = await axios.get("/immobile/bounds", { params: { neLat: bounds.ne.lat, neLon: bounds.ne.lon, swLat: bounds.sw.lat, swLon: bounds.sw.lon}});
+                if(data){
+                    setImmobili(data);
+                    setTimeout(() =>  setIsLoading(false), 1000);
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    }
 
 
   {/*Function to render selcted tab*/}
@@ -53,8 +75,6 @@ export const ProfilePage = () =>
       <div className="bg-white w-full lg:w-2/4 h-full lg:h-full flex flex-col lg:flex-col gap-6 items-center mt-3">
         <div className="bg-white border w-full lg:w-3/4 h-3/4 lg:h-3/4 rounded-lg shadow-md flex flex-col max-h-[32rem] ">
           <header className="bg-blue-200 w-full h-18 flex items-center rounded-t-lg p-4">
-          <div> <DarkModeButton></DarkModeButton></div>
-
             <div className="bg-white w-24 h-24 rounded-full"></div>
             <div className="ml-4 flex flex-col justify-center">
               <h1 className="text-xl font-bold text-blue-950">
@@ -148,11 +168,12 @@ export const ProfilePage = () =>
       </div>
 
       {/* Map */}
-      <div className="bg-white w-full lg:w-2/4 h-auto lg:h-full items-center justify-center hidden lg:flex border-l border-gray-100">
-        <div className="bg-green-900 w-1/2 h-1/2">
-            
+      <div className="bg-white w-full lg:w-2/4 h-auto lg:h-full items-center justify-center hidden lg:flex border-l lg:flex-col border-gray-100">
+        <div className="bg-white w-full h-full p-4">
+          <MapComponent className="shadow-sm px-4 py-3 rounded-lg" onMove={fetchImmobili}/>
         </div>
       </div>
+
     </div>
-  );
+  )
 };
