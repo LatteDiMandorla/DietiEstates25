@@ -44,7 +44,7 @@ export const SecondStep = () => {
       <header className="py-4 shadow-md w-full sticky top-0 z-10 bg-white">
         <div className="flex justify-center lg:justify-between items-center w-full px-3">
             <button onClick={() => (prev())}
-              className="hidden lg:block text-blue-950 text-opacity-80 font-mono lg:flex flex-row items-start justify-start hover:scale-90 transition-transform">
+              className="hidden lg:block text-blue-950 text-opacity-65 font-mono lg:flex flex-row items-start justify-start hover:scale-90 transition-transform">
                 <FaArrowAltCircleLeft className='mt-1 text-xl text-blue-800'> </FaArrowAltCircleLeft>
                <span className="text-xl ml-2 underline font-mono"> Indietro</span>
             </button>
@@ -52,7 +52,7 @@ export const SecondStep = () => {
                 Definisci la tua struttura!
             </span>
             <button onClick={() => (next())} 
-              className="hidden lg:block text-blue-950 text-opacity-80 font-mono lg:flex flex-row items-start justify-start hover:scale-90 transition-transform">
+              className="hidden lg:block text-blue-950 text-opacity-65 font-mono lg:flex flex-row items-start justify-start hover:scale-90 transition-transform">
                 <span className="text-xl mr-2 underline font-mono"> Avanti</span> 
                 <FaArrowAltCircleRight className='mt-1 text-xl text-blue-800'> </FaArrowAltCircleRight>
             </button>
@@ -70,7 +70,7 @@ export const SecondStep = () => {
 
             <div className='bg-white w-full h-full items-center justify-center flex lg:flex-row flex-col'>
                     <div className='bg-white flex lg:w-1/2 w-full h-1/2 lg:h-full items-center justify-start p-4 flex-col'>
-                        <h1 className='text-blue-900 text-xl text-opacity-80'> Che tipo di struttura è? </h1>
+                        <h1 className='text-blue-950 text-xl text-opacity-65 font-bold'> Che tipo di struttura è? </h1>
                         <div className="grid grid-cols-2 gap-3 lg:w-1/2 w-full mt-3">
                         <button onClick={() => HandleOptionClick("Casa")}
                                 className={`bg-blue-200 py-20 rounded-lg shadow-md transition-all text-blue-950 ${
@@ -97,7 +97,7 @@ export const SecondStep = () => {
   
                     <div className="bg-white p-2 flex lg:w-1/2 w-full h-2/3 lg:h-full items-start justify-center">
                         <div className="bg-white w-full rounded-lg p-5 h-full shadow-md flex items-center justify-start flex-col">
-                        <h1 className='text-blue-900 text-opacity-80 text-xl'>
+                        <h1 className='text-blue-950 text-opacity-65 text-xl font-bold'>
                             Inserisci informazioni
                         </h1>
                             <div className="w-full h-full">
@@ -161,9 +161,9 @@ const DetailBox = () => {
             {({errors, touched}) => (
             <Form>
                 <div className="flex w-full mt-6"> 
-                    <div className="flex w-full flex-col justify-between relative">
+                    <div className="flex w-full flex-col lg:flex-row lg:items-start lg:space-x-0 justify-between relative">
                         <Field type="number" name="metres" maxLength="15" placeholder="m²..." className={"bg-gray-100 hover:bg-gray-200 rounded-md ml-2 w-28 px-2 h-10 transition-all duration-75 " + ((errors.metres && touched.metres) ? "border border-red-500 animate-shake" : (touched.metres && "border border-green-500"))}/>
-                        <ErrorMessage name="metres">{msg => <div className="text-xs text-red-500 absolute top-full mt-1 ml-2">{msg}</div>}</ErrorMessage>
+                        <ErrorMessage name="metres">{msg => <div className="text-xs text-red-500 absolute top-full mt-1 ml-2 mr-2">{msg}</div>}</ErrorMessage>
 
                     </div>
                     <div className="flex w-full flex-col justify-between relative">

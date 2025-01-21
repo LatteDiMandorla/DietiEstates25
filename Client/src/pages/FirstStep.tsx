@@ -18,7 +18,7 @@ export const FirstStep = () => {
   };
 
   return (
-    <div className="flex-1 overflow-hidden flex flex-col items-center border">
+    <div className="flex-1 overflow-hidden flex flex-col items-center border bg-white">
       {    /* Header*/     }
       <header className="py-4 shadow-md w-full">
         <div className="flex justify-center lg:justify-between items-center w-full px-3">
