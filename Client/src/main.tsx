@@ -19,6 +19,7 @@ import SearchPage from './pages/SearchPage.tsx';
 import { ProfilePage } from './pages/ProfilePage.tsx'
 import { AuthProvider } from './contexts/AuthProvider.tsx';
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import AltLayout from './pages/AltLayout.tsx';
 
 const router = createBrowserRouter([
   {
@@ -37,10 +38,7 @@ const router = createBrowserRouter([
             path: "/search",
             element: <SearchPage />
           },
-          {
-            path: "/FirstStep",
-            element: <FirstStep />
-          },
+
           {
             path: "/map",
             element: <MapPage />
@@ -52,6 +50,24 @@ const router = createBrowserRouter([
     
         ]
       },
+
+      {
+        path: "",
+        element: <AltLayout/>,
+        children: [
+          {
+            path: "/FirstStep",
+            element: <FirstStep/>
+          },
+
+          {
+            path: "/SecondStep",
+            element: <SecondStep/>
+          }
+    
+        ]
+      },
+
       {
         
         path: "/login",
@@ -63,16 +79,12 @@ const router = createBrowserRouter([
       },
 
       {
-        path: "/SecondStep",
-        element: <SecondStep/>
-      },
-
-      {
         path: "/ProfilePage", 
         element: <ProfilePage />
       }
     ]
   }
+
 ]);
 
 createRoot(document.getElementById('root')!).render(

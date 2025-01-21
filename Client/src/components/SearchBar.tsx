@@ -10,6 +10,7 @@ import { useLocalStorage } from "@uidotdev/usehooks";
 import axios from "../api/axios";
 import UseAnimations from "react-useanimations";
 import searchToX from 'react-useanimations/lib/searchToX'
+import { BsHouseDoorFill } from "react-icons/bs";
 
 function SearchBar() {
   const navigate = useNavigate();
@@ -64,11 +65,17 @@ function SearchBar() {
     saveRecentSearches();
   }
 
+  const [isHouseClicked, setIsHouseClicked] = useState<boolean>(false)
+  const HandleHouseClick = () =>
+  {
+      setIsHouseClicked(!isHouseClicked)
+  }
+  
   return (
     <div tabIndex={1} className="flex-1 group flex flex-col lg:px-10">
       <form  className="flex flex-1 items-center bg-white rounded-full px-4 py-2 shadow-md max-h-full  " onSubmit={(e) => {e.preventDefault(); ((suggestions && suggestions[0]) || (recents && recents[0])) && navigateToSearch(suggestions && suggestions[0] ? suggestions[0] : (recents && recents[0]))}}>
-        <FiHome size={24} />
-        <IoMdArrowDropdown size={24}/>
+        <BsHouseDoorFill onClick={() => HandleHouseClick()} onBlur={() => HandleHouseClick()} className={`text-blue-900`} size={24} />
+        <IoMdArrowDropdown className={`ease-in-out transition-all text-blue-900 ${isHouseClicked === true ? "rotate-180" : "rotate-0"}`} size={24}/>
         <input
           type="text"
           className="flex-1 text-lg font-semibold border-none outline-none border text-gray-800 py-2 placeholder-gray-400 h-full"

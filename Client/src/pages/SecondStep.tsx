@@ -4,6 +4,8 @@ import StepIndicator from '../components/StepIndicator';
 import useRangeCounter from '../hooks/useRangeCounter';
 import { ErrorMessage, Field, Form, Formik, FormikHelpers } from "formik";
 import * as Yup from 'yup';
+import { FaArrowAltCircleLeft, FaArrowAltCircleRight } from 'react-icons/fa';
+import { IoExit } from 'react-icons/io5';
 
 
 
@@ -37,26 +39,26 @@ export const SecondStep = () => {
 
     return (
 
-        <div className=" bg-white">
+        <div className=" bg-white w-full h-full flex flex-col items-center jusitfy-center lg:overflow-hidden overflow-y-auto">
           {/* Header */}
-          <header className="py-4 shadow-md w-full">
-                <div className="flex justify-between items-center w-full px-10">
-                    <button onClick={() => (prev())}
-                            className="text-blue-950 font-mono">
-                        <span className="text-xl"> </span>
-                        <span className="underline"> Indietro</span>
-                    </button>
-                        <span className="text-blue-950 text-opacity-65 font-bold text-xl">
-                                Inserisci le informazioni preliminari
-                        </span>
-                    <button onClick={() => (next())} 
-                            className="text-blue-950 font-mono">
-                        <span className="underline"> Avanti</span> 
-                        <span className="text-xl"> </span>
-                    </button>
+      <header className="py-4 shadow-md w-full sticky top-0 z-10 bg-white">
+        <div className="flex justify-center lg:justify-between items-center w-full px-3">
+            <button onClick={() => (prev())}
+              className="hidden lg:block text-blue-950 text-opacity-80 font-mono lg:flex flex-row items-start justify-start hover:scale-90 transition-transform">
+                <FaArrowAltCircleLeft className='mt-1 text-xl text-blue-800'> </FaArrowAltCircleLeft>
+               <span className="text-xl ml-2 underline font-mono"> Indietro</span>
+            </button>
+            <span className="text-blue-950 text-opacity-65 font-bold text-xl text-center">
+                Definisci la tua struttura!
+            </span>
+            <button onClick={() => (next())} 
+              className="hidden lg:block text-blue-950 text-opacity-80 font-mono lg:flex flex-row items-start justify-start hover:scale-90 transition-transform">
+                <span className="text-xl mr-2 underline font-mono"> Avanti</span> 
+                <FaArrowAltCircleRight className='mt-1 text-xl text-blue-800'> </FaArrowAltCircleRight>
+            </button>
 
-                </div>
-         </header>
+        </div>
+      </header>
 
 
          <div className="my-6 flex justify-center">
@@ -64,17 +66,12 @@ export const SecondStep = () => {
          </div>
 
          
-         <div className="bg-white w-full h-screen mt-28 flex justify-center">
-            
-            <div className="flex gap-6 max-w-7xl w-full"> 
+         <div className="bg-white min-h-screen w-full flex justify-center items-center flex-col">
 
-                <div className="bg-white w-1/2 rounded-lg p-5">
-                    <h1 className="text-blue-950 font-mono text-center underline text-2xl"> 
-                        Scegli la tipologia di immobile
-                    </h1>
-
-                    {/* First Part */}
-                    <div className="grid grid-cols-2 gap-3 mt-10">
+            <div className='bg-white w-full h-full items-center justify-center flex lg:flex-row flex-col'>
+                    <div className='bg-white flex lg:w-1/2 w-full h-1/2 lg:h-full items-center justify-start p-4 flex-col'>
+                        <h1 className='text-blue-900 text-xl text-opacity-80'> Che tipo di struttura è? </h1>
+                        <div className="grid grid-cols-2 gap-3 lg:w-1/2 w-full mt-3">
                         <button onClick={() => HandleOptionClick("Casa")}
                                 className={`bg-blue-200 py-20 rounded-lg shadow-md transition-all text-blue-950 ${
                                             activeOption === "Casa" ? "scale-95 bg-blue-400" : "hover:scale-95 hover:bg-blue-400"}`}>
@@ -96,26 +93,43 @@ export const SecondStep = () => {
                                 <span className="text-center"> Baita </span>
                         </button>
                     </div>
-
-                </div>
-
-                {/* Second Part */}
-                <div className="bg-white w-1/2 rounded-lg p-5 h-3/4 shadow-md">
-                    <h1 className="text-blue-950 font-mono text-center underline text-2xl">
-                        Delinea l'immobile
-                    </h1>
-                    <div className="mt-4 w-full h-3/4">
-                                  <DetailBox />
                     </div>
-                </div>
-
-
+  
+                    <div className="bg-white p-2 flex lg:w-1/2 w-full h-2/3 lg:h-full items-start justify-center">
+                        <div className="bg-white w-full rounded-lg p-5 h-full shadow-md flex items-center justify-start flex-col">
+                        <h1 className='text-blue-900 text-opacity-80 text-xl'>
+                            Inserisci informazioni
+                        </h1>
+                            <div className="w-full h-full">
+                                  <DetailBox />
+                            </div>
+                        </div>
+                        
+                    </div>
+                                    
             </div>
 
-         </div>
-    
+
         </div>
-    );
+
+        <div className="block lg:hidden w-full h-20 bg-white border border-gray-200 items-center flex justify-between fixed bottom-0 left-0 right-0 z-20">
+                              <button
+                                onClick={() => {}} 
+                                className="flex items-center justify-center rounded-md bg-[#DDF5FF] h-10 w-14 ml-2 text-blue-900 hover:bg-blue-300 transition-all duration-300 hover:scale-90">
+                                  <FaArrowAltCircleLeft className="w-8 h-8"></FaArrowAltCircleLeft>
+                              </button>
+                              <button 
+                                onClick={() => {}}
+                                className="flex items-center justify-center bg-red-400 rounded-full w-10 h-10 text-white hover:bg-red-500 hover:scale-95 transition-all">
+                                <IoExit className='w-6 h-6'/>
+                              </button>
+                              <button className="flex items-center justify-center rounded-md bg-[#DDF5FF] h-10 w-14 mr-2 text-blue-900 hover:bg-blue-300 transition-all duration-300 hover:scale-90">
+                                  <FaArrowAltCircleRight className="w-8 h-8"></FaArrowAltCircleRight>
+                              </button>
+        </div>
+    
+    </div>
+  );
 };
 
 
@@ -146,7 +160,7 @@ const DetailBox = () => {
         <Formik initialValues={{n_bathroom: "", metres: "", n_locals: "", street: "", cap: "", title: "", civic: "", price: "", city: ""}} validationSchema={DetailSchema} onSubmit={handleSubmit}>
             {({errors, touched}) => (
             <Form>
-                <div className="flex w-full mt-10"> 
+                <div className="flex w-full mt-6"> 
                     <div className="flex w-full flex-col justify-between relative">
                         <Field type="number" name="metres" maxLength="15" placeholder="m²..." className={"bg-gray-100 hover:bg-gray-200 rounded-md ml-2 w-28 px-2 h-10 transition-all duration-75 " + ((errors.metres && touched.metres) ? "border border-red-500 animate-shake" : (touched.metres && "border border-green-500"))}/>
                         <ErrorMessage name="metres">{msg => <div className="text-xs text-red-500 absolute top-full mt-1 ml-2">{msg}</div>}</ErrorMessage>
