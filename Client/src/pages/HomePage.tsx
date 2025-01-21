@@ -34,7 +34,7 @@ const HomePage = () => {
     return (
       <div className='flex flex-col h-dvh w-dvw overflow-hidden'>
         <TopbarExtended shrink={!isAtTop} />
-        <div ref={ref} className='w-full flex-1 py-3 bg-[#ffffff] overflow-y-scroll no-scrollbar' onScroll={handleScroll} onTouchMove={handleScroll}>
+        <div ref={ref} className='w-full flex-1 bg-[#FAFAFA] overflow-y-scroll no-scrollbar' onScroll={handleScroll} onTouchMove={handleScroll}>
           <div className='flex flex-col w-fullz justify-start'>
             <Divider title='Potrebbero Piacerti' />
             <HouseCardSliderSp houses={lastSearched} />
