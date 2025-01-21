@@ -1,5 +1,5 @@
 
-![Logo](./main/Client/src/assets/DietiLogo.png)
+![Logo](./Client/src/assets/DietiLogo.png)
 
 
 # Dieti Estate 2025
