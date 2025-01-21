@@ -11,7 +11,7 @@ import axios from "../api/axios";
 import UseAnimations from "react-useanimations";
 import searchToX from 'react-useanimations/lib/searchToX'
 
-function SearchBar() {
+function SearchBar({className = ""} : {className?: string}) {
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
   const {suggestions, isLoading, handleInputChange} = useAddressAutocomplete();
@@ -65,7 +65,7 @@ function SearchBar() {
   }
 
   return (
-    <div tabIndex={1} className="flex-1 group flex flex-col lg:px-10">
+    <div tabIndex={1} className={"flex-1 group flex flex-col md:px-10 " + className} onClick={() => console.log("click")}>
       <form  className="flex flex-1 items-center bg-white rounded-full px-4 py-2 shadow-md max-h-full  " onSubmit={(e) => {e.preventDefault(); ((suggestions && suggestions[0]) || (recents && recents[0])) && navigateToSearch(suggestions && suggestions[0] ? suggestions[0] : (recents && recents[0]))}}>
         <FiHome size={24} />
         <IoMdArrowDropdown size={24}/>
@@ -79,7 +79,7 @@ function SearchBar() {
           onBlur={()=>setIsFocused(false)}
           />
         <ClipLoader loading={isLoading} size={20} />
-        <button type="submit" className="w-6 h-6 ml-2"> <UseAnimations animation={searchToX} size={26} key= {isFocused ? true : false} autoplay = {isFocused} reverse= {!isFocused} speed={10} 
+        <button type="submit" className="w-6 h-6 ml-2"> <UseAnimations animation={searchToX} size={26} key={isFocused ? true : false} autoplay = {isFocused} reverse= {!isFocused} speed={10} 
                 
         /></button>
       </form>
