@@ -1,10 +1,5 @@
 
-<<<<<<< HEAD
-![Logo](./main/Client/src/assets/DietiRealLogo.png)
-=======
 ![Logo](./Client/src/assets/DietiLogo.png)
->>>>>>> 61c541803e7e92972ca867d778eec203c3c4b7d4
-
 
 # Dieti Estate 2025
 
