@@ -1,7 +1,7 @@
 <div align="center">  
   <img src="https://i.postimg.cc/kXn2rD1x/DIETI-ESTATE-Logo-Original-with-Transparent-Background-5000x5000-1.png" alt="" align="center" width="auto" height="auto">
 </div>
-<h1 align="center">DIETI ESTATE</h1>
+<h1 align="center"></h1>
 <p align="center"><a href="#project-description">Project Description</a> - <a href="#key-features">Key Features</a> - <a href="#technology-stack">Tech Stack</a></p>
 
 <img src="" alt="" align="middle" width="auto" height="auto">
