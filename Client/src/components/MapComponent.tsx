@@ -6,7 +6,7 @@ import { Marker } from '@adamscybot/react-leaflet-component-marker'
 
 interface MapComponentProps{
   className?: string;
-  onMove?: (arg: any) => Promise<void>;
+  onMove?: (arg: any) => void;
   markers?: {lat: number, lon: number, text: string}[];
   onMarkerClick?: (arg: any) => void;
 }
@@ -30,7 +30,7 @@ const MapComponent = ({className = "", onMove, markers, onMarkerClick} : MapComp
 
   useEffect(() => {
     if(bounds && bounds.ne.lat - bounds.sw.lat > 0 && bounds.ne.lon - bounds.sw.lon > 0){
-      onMove?.(bounds);
+      //onMove?.(bounds);
     }
   }, [bounds]);
   return (
