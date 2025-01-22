@@ -5,6 +5,7 @@ import { DarkModeButton } from "../components/DarkModeButton";
 import MapComponent from "../components/MapComponent";
 import axios from "../api/axios";
 import { Immobile } from "../Interfaces/interfaces";
+import { BottomBar } from "../components/BottomBar";
 
 
 
@@ -40,7 +41,7 @@ export const ProfilePage = () =>
                     <button className="bg-blue-200 w-32 h-10 hover:bg-blue-400 transition-colors duration-150 rounded-md ml-2">
                         <p className=""> Ordina per: </p>
                     </button>
-                    <div className="bg-white h-fit w-full flex flex-col gap-2">
+                    <div className="bg-white w-full flex flex-col gap-2">
                         <div className="h-96 w-full">
                           <Review
                             UserImage=""
@@ -72,9 +73,9 @@ export const ProfilePage = () =>
 
   return (
     <div className="bg-white w-full min-h-screen flex flex-col lg:flex-row items-start lg:items-center justify-start lg:justify-between">
-      <div className="bg-white w-full lg:w-2/4 px-3 flex flex-col gap-4 items-center mt-3 overflow-y-scroll h-full justify-start">
-        <div className="bg-white border w-full lg:w-3/4 h-3/4 lg:h-3/4 rounded-lg shadow-md flex flex-col max-h-[32rem]">
-          <header className="bg-blue-200 w-full h-18 flex items-center rounded-t-lg p-4">
+      <div className="bg-white w-full lg:w-2/4 flex flex-col gap-4 items-center mt-3 overflow-y-scroll h-full justify-start">
+        <div className="bg-white border lg:w-3/4 w-11/12 h-3/4 lg:h-3/4 rounded-lg shadow-md flex flex-col max-h-[32rem]">
+          <header className="bg-blue-200 w-full h-18 flex items-center rounded-t-lg p-3">
             <div className="bg-white w-24 h-24 rounded-full"></div>
             <div className="ml-4 flex flex-col justify-center">
               <h1 className="text-xl font-bold text-blue-950">
@@ -123,9 +124,9 @@ export const ProfilePage = () =>
         
         {/* All properties managed by a particular agent */}
           
-          <div className="bg-white lg:w-full md:w-full min-h-full flex flex-col flex-1 items-center space-y-4 p-5">
-            <div className="bg-blue-200 w-3/5 h-10">
-              <h1 className="text-center ">
+          <div className="bg-white lg:w-5/6 md:w-full w-full min-h-full flex flex-col flex-1 items-center space-y-4 p-5">
+            <div className="bg-blue-200 w-full h-10">
+              <h1 className="text-center text-blue-900">
                 Tutte le proprietà
               </h1>
             </div>
@@ -175,7 +176,9 @@ export const ProfilePage = () =>
                 lon={14.186043}
             />
           </div>
+
         </div>
+
 
       {/* Map */}
       <div className="bg-white w-full lg:w-2/4 h-full lg:h-full items-center justify-center hidden lg:flex border-l lg:flex-col border-gray-100">
@@ -183,6 +186,11 @@ export const ProfilePage = () =>
           <MapComponent className="shadow-sm px-4 py-3 rounded-lg" onMove={fetchImmobili}/>
         </div>
       </div>
+
+      <div className="bg-white w-full lg:hidden fixed bottom-0 left-0 z-20">
+            <BottomBar></BottomBar>
+          </div>
+
 
     </div>
   )
