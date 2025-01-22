@@ -49,7 +49,7 @@ export const FiltersBar = ({setFilters} : FilterBarProps) => {
         <div className="bg-[#DDF5FF] w-full h-16 flex items-center px-1 space-x-2 py-2">
             <div className="flex-1 w-full items-center flex overflow-scroll no-scrollbar" ref={ref}>
                 <div className="sticky left-0 flex items-center bg-gray-300/60 h-fit w-fit rounded-full z-30 lg:hidden"><IoIosArrowBack className={`hover:cursor-pointer hover:text-blue-500`} size={28} onClick={() => {ref.current?.scrollBy({left: -ref.current?.clientWidth / 1.5, behavior: "smooth"})}} /></div>
-                <div className="flex flex-1 items-center h-full space-x-5 pl-40 pr-40">
+                <div className="flex flex-1 items-center h-full space-x-5 pr-10">
                     <DropdownMenuMultiple text="Tipo" selected={type} setSelected={setType} icon={FaRegBuilding} options={["Casa", "Villa", "Appartamento"]} />
                     <DropdownMenuRange min={1} max={10} step={1} selected={locals} setSelected={setLocals} text="Locali" icon={MdOutlineMeetingRoom} />
                     <DropdownMenuSingle selected={bathrooms} setSelected={setBathrooms} text="Bagni" icon={LuToilet} options={["1", "2", "3", "4 o più"]} />

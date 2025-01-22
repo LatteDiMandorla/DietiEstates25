@@ -31,7 +31,7 @@ export const HouseCard = forwardRef<ChildRef, Immobile>((props: Immobile, ref) =
         <div className="h-fit px-4 py-1 flex flex-col space-y-2 ">
           <div className="flex-1">
             <div className="flex w-full justify-between items-center h-4">
-              <div className="flex items-center justify-center rounded-full text-white font-semibold text-xs bg-green-500 w-fit px-1">{props.price}</div>
+              <div className="flex items-center justify-center rounded-full text-white font-semibold text-xs bg-green-500 w-fit px-1">{props.price}€</div>
               {liked ? <FaHeart onClick={(e) => {e.stopPropagation(); setLiked(false)}} size={22} color="red" /> : <FaRegHeart size={22} onClick={(e) => {e.stopPropagation(); setLiked(true)}} color="gray" />}
             </div>
             <h2 className="text-sm lg:text-lg font-bold text-gray-800">{props.title}</h2>

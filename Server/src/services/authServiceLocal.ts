@@ -12,13 +12,13 @@ export class AuthServiceLocal extends AuthService {
         super();
     }
 
-    public async login(email: string, password: string) : Promise<{accessToken: string, refreshToken: string}> {
+    public async login(email: string, password: string) : Promise<{accessToken: string, refreshToken: string, utente: Utente}> {
         const user = await this.utenteDAO?.findByEmail(email);
 
         if(user && user.password == password) {
             const refreshToken = this.generateRefreshToken(user);
             const accessToken = this.generateAccessToken(user);
-            return {accessToken, refreshToken};
+            return {accessToken, refreshToken, utente: user};
         }
 
         return Promise.reject();

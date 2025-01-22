@@ -8,11 +8,15 @@ function LoginPage() {
     const axios = useAxiosPrivate();
     const {setAuth} = useAuth();
     const test = async () => {
-        const {data} = await axios.get("utente/1");
-        console.log(data);
+        try {
+            const {data} = await axios.get("utente/self");
+            alert("loggato");
+        } catch (error) {
+            alert("non loggato");
+        }
     }
     return (
-        <div className="flex h-full">
+        <div className="flex h-full bg-[#FAFAFA]">
             <div className="flex flex-1 overflow-hidden justify-center items-center">
                 <img className="object-cover w-full h-full" src={image} />
             </div>

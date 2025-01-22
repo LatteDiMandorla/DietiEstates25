@@ -7,7 +7,7 @@ import Logo from "../assets/Logo.svg";
 import SearchBar from "./SearchBar"
 import { NotificationsMenu } from "./NotificationsMenu"
 import useAuth from "../hooks/useAuth"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import  LogoImage  from '../assets/DietiLogo.png'
 import { useEffect, useState } from "react"
 
@@ -15,12 +15,19 @@ import { useEffect, useState } from "react"
 
 export const TopbarExtended = ({shrink} : {shrink: boolean}) => {
     const {auth} = useAuth();
+    const navigate = useNavigate();
 
     return (
         <div className={`flex flex-col w-full items-center justify-end bg-[#DDF5FF] ${shrink ? "h-28 md:h-20 py-0 gap-0"  : "h-64"} transition-all duration-300 relative`}>
-            <div className={`flex w-full justify-end items-center p-2 gap-8 transition-all duration-200 absolute top-0 z-50 ${shrink && "opacity-100 md:opacity-100 md:top-5"} pointer-events-none`}>
-                <div className="flex items-center z-10 pointer-events-auto"><NotificationsMenu /></div>
-                {auth && <Avatar size="md" src={auth?.image || ""} />}
+            <div className={`flex w-full justify-end items-center p-2 gap-4 h-10 overflow-visible transition-all duration-200 absolute z-50 top-2 ${shrink && "opacity-100 md:opacity-100 top-1 md:top-5"} pointer-events-none`}>
+                {auth ? 
+                  <>
+                  <div className="flex items-center z-10 pointer-events-auto"><NotificationsMenu /></div>
+                  <Avatar size="md" className={`transition-all origin-center ${shrink && "scale-[65%] md:scale-100"} duration-300`} src={auth?.image || ""} />
+                  </>
+                  :
+                  <button className="bg-blue-900 text-white px-4 py-1 rounded-full pointer-events-auto" onClick={() => navigate("/login")}>Login</button>
+                }
             </div>
 
             {/* Secondo item (centrato) */}
