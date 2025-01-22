@@ -1,4 +1,4 @@
-import { GoogleLogin, GoogleOAuthProvider, useGoogleLogin } from "@react-oauth/google"
+import { GoogleLogin, googleLogout, GoogleOAuthProvider, useGoogleLogin } from "@react-oauth/google"
 import axios from "../api/axios";
 import useAuth from "../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
@@ -36,9 +36,9 @@ const GoogleAuth = () => {
     }
 
     const login = useGoogleLogin({
+        flow: 'auth-code',
         onSuccess: loginSuccess,
         onError: () => alert('Login Failed'),
-        flow: 'auth-code'
       });
 
     return (

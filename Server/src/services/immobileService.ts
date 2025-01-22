@@ -4,6 +4,9 @@ import { RicercaDAO } from "../daos/interfaces/RicercaDAO";
 import { Immobile } from "../models/ImmobileT";
 import { Ricerca } from "../models/RicercaT";
 
+type coordinates = {neLat: number, neLon: number, swLat: number, swLon: number};
+type center = {lat: number, lon: number};
+type pagination = {page?: number, limit?: number, timestamp: string};
 export class ImmobileService {
     private immobileDAO: ImmobileDAO | undefined;
     constructor() {
@@ -11,12 +14,16 @@ export class ImmobileService {
         this.immobileDAO = factory.getImmobileDAO(process.env.DAOTYPE || "");
     }
   
-    public async getInRange(neLat: number, neLon: number, swLat: number, swLon: number) : Promise<Immobile[]>{
-        const data = await this.immobileDAO?.findInRange(swLat, neLat, swLon, neLon);
-        const centerLat = (neLat + swLat) / 2;
-        const centerLon = (neLon + swLon) / 2;
-        const distanceData = data?.map((imm) => ({...imm, distance: Math.sqrt(Math.pow(imm.lat - centerLat, 2) + Math.pow(imm.lon - centerLon, 2))}));
-        return distanceData?.sort((a, b) => (a.distance - b.distance)) || [];
+    public async getInRange({lat, lon} : center, {page, limit, timestamp} : pagination) : Promise<Immobile[]>{
+        let data: Immobile[] | undefined;
+
+        const {latMin, latMax, lonMin, lonMax} = this.calculateBounds(lat, lon, 5); 
+        if(page && limit) {
+            data = await this.immobileDAO?.findInRangePaginate(latMin, latMax, lonMin, lonMax, lat, lon, page, limit, timestamp);
+        } else {
+            data = await this.immobileDAO?.findInRange(latMin, latMax, lonMin, lonMax, lat, lon);
+        }
+        return data || [];
     }
 
     private calculateBounds(lat: number, lon: number, radiusKm: number) {
@@ -46,7 +53,7 @@ export class ImmobileService {
                     continue;
                 }
                 const {latMin, latMax, lonMin, lonMax} = this.calculateBounds(r.lat, r.lon, 5);
-                const immobiliInRange = await this.immobileDAO?.findInRange(latMin, latMax, lonMin, lonMax);
+                const immobiliInRange = await this.immobileDAO?.findInRange(latMin, latMax, lonMin, lonMax, r.lat, r.lon);
                 immobiliInRange && (immobili = [...immobili, ...immobiliInRange]);
             }
 

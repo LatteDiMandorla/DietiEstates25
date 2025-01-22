@@ -6,6 +6,7 @@ import axios from "../api/axios";
 import ConditionalDrawer from "../components/ConditionalDrawer";
 import MapButton from "../components/MapButton";
 import { FiltersBar } from "../components/FiltersBar";
+import { useSearchParams } from "react-router-dom";
 
 const SearchPage = () => {
     const [immobili, setImmobili] = useState<Immobile[]>();
@@ -13,14 +14,34 @@ const SearchPage = () => {
     const [filter, setFilter] = useState<Filters>();
     const [openDrawer, setOpenDrawer] = useState<boolean>(false);
     const itemRefs = useRef<any>([]); // Array di riferimenti agli elementi
+    const [bounds, setBounds] = useState<{ne: {lat: number, lon: number}, sw: {lat: number, lon: number}}>();
+    const ref = useRef<HTMLDivElement>(null);
+    const [timestamp, setTimestamp] = useState<string>();
+    const [page, setPage] = useState<number>(1);
+    const pageSize = 5;
 
-    const fetchImmobili = async (bounds: any) => {
+    const [params, setParams] = useSearchParams();
+    const lat = params.get("lat");
+    const lon = params.get("lon");
+
+    const fetchImmobili = async (bounds: any, page = 1) => {
         if(bounds && bounds.ne && bounds.sw){
             try {                
                 setIsLoading(true);
-                const { data } = await axios.get("/immobile/bounds", { params: { neLat: bounds.ne.lat, neLon: bounds.ne.lon, swLat: bounds.sw.lat, swLon: bounds.sw.lon, }});
+                const { data } = await axios.get("/immobile/bounds", 
+                    { params: { 
+                        neLat: bounds.ne.lat, 
+                        neLon: bounds.ne.lon, 
+                        swLat: bounds.sw.lat, 
+                        swLon: bounds.sw.lon, 
+                        page: page, limit: pageSize, 
+                        timestamp: timestamp}}
+                );
+
+
                 if(data){
-                    setImmobili(data);
+                    setImmobili(data.data);
+                    setTimestamp(data.timestamp);
                     setTimeout(() =>  setIsLoading(false), 1000);
                 }
             } catch (error) {
@@ -33,11 +54,64 @@ const SearchPage = () => {
         //console.log(filter);
     }, [filter])
 
+    useEffect(() => {
+        const fetchImmobili = async (page = 1) => {
+            if(lat && lon && parseFloat(lat) && parseFloat(lon)){
+                try {                
+                    setIsLoading(true);
+                    const { data } = await axios.get("/immobile/bounds", 
+                        { params: { 
+                            lat, lon,
+                            page: 1, limit: pageSize, 
+                            timestamp: timestamp}}
+                    );
+    
+    
+                    if(data){
+                        setImmobili(data.data);
+                        setTimestamp(data.timestamp);
+                        setTimeout(() =>  setIsLoading(false), 1000);
+                        setPage(1);
+                    }
+                } catch (error) {
+                    console.log(error);
+                }
+            }
+        }
+        console.log(lat, lon);
+        fetchImmobili();
+    }, [lat, lon])
+
     const handleScrollToId = (id: number) => {
         if(itemRefs && itemRefs.current && itemRefs.current[id]){
             setOpenDrawer(false);
             itemRefs.current[id].scrollIntoView();
             itemRefs.current[id].pulse();
+        }
+    }
+
+    const handleScroll = async () => {
+        if(ref.current && (ref.current.scrollTop + ref.current.clientHeight == ref.current.scrollHeight) && !isLoading){
+            if(lat && lon && parseFloat(lat) && parseFloat(lon)){
+                try {                
+                    setIsLoading(true);
+                    const { data } = await axios.get("/immobile/bounds", 
+                        { params: { 
+                            lat, lon,
+                            page: page + 1, limit: pageSize, 
+                            timestamp: timestamp}}
+                    );
+    
+                    if(data){
+                        setImmobili(prev => (prev ? [...prev, ...data.data] : data.data));
+                        setTimestamp(data.timestamp);
+                        setTimeout(() =>  setIsLoading(false), 1000);
+                        setPage(prev => prev + 1);
+                    }
+                } catch (error) {
+                    console.log(error);
+                }
+            }
         }
     }
 
@@ -96,7 +170,7 @@ const SearchPage = () => {
         <FiltersBar setFilters={setFilter} />
         <div className="flex-1 w-full flex bg-[#FAFAFA] overflow-hidden">
             <div className="absolute lg:hidden right-4 bottom-6 rounded-full flex justify-center items-center z-40 shadow-md"><MapButton onClick={() => setOpenDrawer(true)} /></div>
-            <div className="h-full overflow-y-scroll flex-1  no-scrollbar px-6">
+            <div className="h-full overflow-y-scroll flex-1  no-scrollbar px-6" ref={ref} onScroll={handleScroll}>
                 <div className="flex flex-col space-y-3 p-3 items-center">
                     { isLoading ? 
                         Array.from({length: 5}).map((_, index) => <HouseCardSkeleton key={index} />) :
@@ -109,7 +183,7 @@ const SearchPage = () => {
             </div>
             <ConditionalDrawer close={() => setOpenDrawer(false)} className="flex-1 flex-col items-center justify-end space-y-2 flex border-l border-gray-300 my-2 py-1" open={openDrawer}>
                 <div className="w-11/12 flex-1">
-                    <MapComponent className="shadow-sm" onMove={fetchImmobili} markers={applyFilters()?.map((imm) => ({...imm, text: imm.title}))} onMarkerClick={handleScrollToId} />
+                    <MapComponent className="shadow-sm" onMove={(b: any) => setBounds(b)} markers={applyFilters()?.map((imm) => ({...imm, text: imm.title}))} onMarkerClick={handleScrollToId} />
                 </div>
             </ConditionalDrawer>
         </div>

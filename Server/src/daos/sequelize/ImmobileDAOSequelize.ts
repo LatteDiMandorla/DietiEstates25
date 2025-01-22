@@ -13,12 +13,30 @@ export class ImmobileDAOSequelize implements ImmobileDAO {
         return Immobili[0];
     }
 
-    public async findInRange(minLat: number, maxLat: number, minLon: number, maxLon: number) : Promise<ImmobileT[]> {
+    public async findInRange(minLat: number, maxLat: number, minLon: number, maxLon: number, lat: number, lon: number) : Promise<ImmobileT[]> {
         const data = await Immobile.findAll({
             where: {
                 lat: {[Op.between]: [minLat, maxLat]},
                 lon: {[Op.between]: [minLon, maxLon]},
             }
+        })
+
+        if(data) {
+            return data.map((i) => (i.get({ plain: true })));
+        }
+
+        return Promise.resolve(Immobili.filter((imm) => (imm.lat <= maxLat && imm.lat >= minLat && imm.lon >= minLon && imm.lon <= maxLon)));
+    }
+
+    public async findInRangePaginate(minLat: number, maxLat: number, minLon: number, maxLon: number, lat: number, lon: number, page: number, limit: number, timestamp: string): Promise<ImmobileT[]> {
+        const data = await Immobile.findAll({
+            where: {
+                lat: {[Op.between]: [minLat, maxLat]},
+                lon: {[Op.between]: [minLon, maxLon]},
+                createdAt: {[Op.lte] : timestamp},
+            },
+            offset: (page - 1) * limit,
+            limit: limit,
         })
 
         if(data) {
