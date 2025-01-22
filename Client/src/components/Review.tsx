@@ -65,7 +65,7 @@ export const Review = (props: ReviewComponents) =>
                     <button className="bg-gray-200 h-14 w-14 lg:w-2/3 lg:h-2/3 rounded-full overflow-hidden">
                         <img 
                             src={props.UserImage}  
-                            className="w-full h-full object-cover m-0 p-0 border-none rounded-full bg-gray-200" 
+                            className="w-14 h-14 object-cover m-0 p-0 border-none rounded-full bg-gray-200" 
                         />
                     </button>
                 </div>

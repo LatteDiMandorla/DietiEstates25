@@ -71,9 +71,9 @@ export const ProfilePage = () =>
   };
 
   return (
-    <div className="bg-white w-full h-screen flex flex-col lg:flex-row items-start lg:items-center justify-start lg:justify-between p-2">
-      <div className="bg-white w-full lg:w-2/4 h-full lg:h-full flex flex-col lg:flex-col gap-6 items-center mt-3">
-        <div className="bg-white border w-full lg:w-3/4 h-3/4 lg:h-3/4 rounded-lg shadow-md flex flex-col max-h-[32rem] ">
+    <div className="bg-white w-full min-h-screen flex flex-col lg:flex-row items-start lg:items-center justify-start lg:justify-between">
+      <div className="bg-white w-full lg:w-2/4 px-3 flex flex-col gap-4 items-center mt-3 overflow-y-scroll h-full justify-start">
+        <div className="bg-white border w-full lg:w-3/4 h-3/4 lg:h-3/4 rounded-lg shadow-md flex flex-col max-h-[32rem]">
           <header className="bg-blue-200 w-full h-18 flex items-center rounded-t-lg p-4">
             <div className="bg-white w-24 h-24 rounded-full"></div>
             <div className="ml-4 flex flex-col justify-center">
@@ -83,7 +83,7 @@ export const ProfilePage = () =>
               <h2 className="font-thin text-blue-950">POINTS</h2>
             </div>
           </header>
-          <div className="bg-yellow w-full h-10 border border-gray-100 flex items-center justify-start">
+          <div className="bg-white w-full h-10 border border-gray-100 flex items-center justify-start">
             <div className="grid grid-cols-3 gap-4 ml-2">
               <button
                 className={`${
@@ -121,16 +121,14 @@ export const ProfilePage = () =>
           <div className="flex-1 w-full p-3 overflow-y-scroll no-scrollbar">{renderContent()}</div>
         </div>
         
-
-        <div className="bg-blue-200 lg:w-3/4 w-full h-10 items-center justify-center">
-          <h1 className="text-center text-xl text-blue-950 text-opacity-80"> Tutte le proprietà</h1>
-        </div>
         {/* All properties managed by a particular agent */}
-        <div className="bg-white w-full lg:w-3/4 h-1/2 flex flex-col items-center overflow-y-auto shadow-md">
           
-          <div className="lg:w-full md:w-full flex flex-col items-center justify-center space-y-5 mt-5">
-
-
+          <div className="bg-white lg:w-full md:w-full min-h-full flex flex-col flex-1 items-center space-y-4 p-5">
+            <div className="bg-blue-200 w-3/5 h-10">
+              <h1 className="text-center ">
+                Tutte le proprietà
+              </h1>
+            </div>
             <HouseCard
                 title="Villa sul mare"
                 street="Via dei mille"
@@ -146,7 +144,6 @@ export const ProfilePage = () =>
                 lat={40.826232}
                 lon={14.186043}
             />
-
             <HouseCard
                 title="Villa sul mare"
                 street="Via dei mille"
@@ -162,13 +159,26 @@ export const ProfilePage = () =>
                 lat={40.826232}
                 lon={14.186043}
             />
-
+                        <HouseCard
+                title="Villa sul mare"
+                street="Via dei mille"
+                size="40"
+                bathrooms="2"
+                locals="3"
+                agentImage="https://informatica.dieti.unina.it/images/foto-docenti/di-martino.png"
+                price="100.000€"
+                images={[
+                    "https://cdn.pixabay.com/photo/2016/11/18/17/46/house-1836070_1280.jpg",
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRxG8ihFgvtyxCvoVxgoVKto6MpkCZzVwNoxA&s",
+                ]}
+                lat={40.826232}
+                lon={14.186043}
+            />
           </div>
         </div>
-      </div>
 
       {/* Map */}
-      <div className="bg-white w-full lg:w-2/4 h-auto lg:h-full items-center justify-center hidden lg:flex border-l lg:flex-col border-gray-100">
+      <div className="bg-white w-full lg:w-2/4 h-full lg:h-full items-center justify-center hidden lg:flex border-l lg:flex-col border-gray-100">
         <div className="bg-white w-full h-full p-4">
           <MapComponent className="shadow-sm px-4 py-3 rounded-lg" onMove={fetchImmobili}/>
         </div>
