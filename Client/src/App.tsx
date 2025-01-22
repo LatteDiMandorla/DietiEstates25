@@ -6,14 +6,14 @@ import { useEffect } from "react";
 
 function App() {
   const axios = useAxiosPrivate();
-  const {auth, setAuth} = useAuth();
+  const { setAuth} = useAuth();
 
   useEffect(() => {
     const fetchSelf = async () => {
       try {
         const {data} = await axios.get("/utente/self");
         if(data){
-          setAuth({...data, accessToken: auth?.accessToken});
+          setAuth(prev => ({...data, accessToken: prev?.accessToken}));
         }
       } catch (error) {
         setAuth(undefined);

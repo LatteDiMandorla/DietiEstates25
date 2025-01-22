@@ -21,7 +21,7 @@ type ConditionalDrawerProps = {
             {children}
         </Drawer>
         :
-        <div className={"flex flex-1 flex-col items-center justify-end space-y-2 border-l border-gray-300 my-2 py-1 " + className}>
+        <div className={"flex flex-1 flex-col items-center justify-end space-y-2 border-l border-gray-300 my-2 py-1" + className}>
             {children}
         </div>
       );

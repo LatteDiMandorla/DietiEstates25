@@ -18,7 +18,7 @@ const SearchPage = () => {
         if(bounds && bounds.ne && bounds.sw){
             try {                
                 setIsLoading(true);
-                const { data } = await axios.get("/immobile/bounds", { params: { neLat: bounds.ne.lat, neLon: bounds.ne.lon, swLat: bounds.sw.lat, swLon: bounds.sw.lon}});
+                const { data } = await axios.get("/immobile/bounds", { params: { neLat: bounds.ne.lat, neLon: bounds.ne.lon, swLat: bounds.sw.lat, swLon: bounds.sw.lon, }});
                 if(data){
                     setImmobili(data);
                     setTimeout(() =>  setIsLoading(false), 1000);
@@ -43,36 +43,36 @@ const SearchPage = () => {
 
     const applyFilters = () => {
         if(immobili && filter) {
-            let filtered = [];
+            let filtered = [...immobili];
             if(filter.bathrooms){
                 const bathroomFilter = parseInt(filter.bathrooms) || 4;
-                const bathroomsFiltered = immobili.filter((imm) => parseInt(imm.bathrooms) >= bathroomFilter);
+                filtered = filtered.filter((imm) => parseInt(imm.bathrooms) >= bathroomFilter);
             }
 
             if(filter.locals && filter.locals[0] && filter.locals[1]){
                 const minLocals = filter.locals[0];
                 const maxLocals = filter.locals[1];
-                const localsFiltered = immobili.filter((imm) => parseInt(imm.locals) >= minLocals && parseInt(imm.locals) <= maxLocals);
+                filtered = filtered.filter((imm) => parseInt(imm.locals) >= minLocals && parseInt(imm.locals) <= maxLocals);
             }
 
             if(filter.price && filter.price[0] && filter.price[1]){
                 const minPrice = filter.price[0];
                 const maxPrice = filter.price[1];
-                const priceFiltered = immobili.filter((imm) => parseInt(imm.price) >= minPrice && parseInt(imm.locals) <= maxPrice);
+                filtered = filtered.filter((imm) => parseInt(imm.price) >= minPrice && parseInt(imm.locals) <= maxPrice);
             }
 
             if(filter.size && filter.size[0] && filter.size[1]){
                 const minSize = filter.size[0];
                 const maxSize = filter.size[1];
-                const priceFiltered = immobili.filter((imm) => parseInt(imm.price) >= minSize && parseInt(imm.size) <= maxSize);
+                filtered = filtered.filter((imm) => parseInt(imm.price) >= minSize && parseInt(imm.size) <= maxSize);
             }
 
             if(filter.type){
-                const priceFiltered = immobili.filter((imm) => imm);
+                filtered = filtered.filter((imm) => imm);
             }
 
             if(filter.others && filter.others.length > 0) {
-                const othersFiltered = immobili.filter((imm) => {
+                filtered = filtered.filter((imm) => {
                     if(imm.tags && imm.tags.length > 0){
                         for(let i = 0; i < filter.others.length; i++){
                             if(!imm.tags.includes(filter.others[i])){
@@ -83,12 +83,10 @@ const SearchPage = () => {
                     }
                     return false;
                 })
-
-                return othersFiltered;
             }
-        }
 
-        console.log(filter);
+            return filtered;
+        }
 
         return immobili;
     }
@@ -96,15 +94,15 @@ const SearchPage = () => {
     return (
         <>
         <FiltersBar setFilters={setFilter} />
-        <div className="h-full w-full flex bg-[#FAFAFA] overflow-hidden">
-            <div className="absolute lg:hidden mt-1 right-4 rounded-full flex justify-center items-center"><MapButton onClick={() => setOpenDrawer(true)} /></div>
+        <div className="flex-1 w-full flex bg-[#FAFAFA] overflow-hidden">
+            <div className="absolute lg:hidden right-4 bottom-6 rounded-full flex justify-center items-center z-40 shadow-md"><MapButton onClick={() => setOpenDrawer(true)} /></div>
             <div className="h-full overflow-y-scroll flex-1  no-scrollbar px-6">
                 <div className="flex flex-col space-y-3 p-3 items-center">
                     { isLoading ? 
                         Array.from({length: 5}).map((_, index) => <HouseCardSkeleton key={index} />) :
-                        (immobili ? 
+                        (applyFilters() && applyFilters()?.length ? 
                         applyFilters()?.map((imm, index) => <div className="w-full flex justify-center"><HouseCard key={index} ref={(el) => (itemRefs.current[index] = el)} {...imm} /></div>)
-                        : <p>Nessun risultato</p>    
+                        : <p className="font-semibold">Nessun risultato</p>    
                         )
                     }
                 </div>

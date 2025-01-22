@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { AuthServiceLocal } from "../services/authServiceLocal";
 import { AuthServiceGoogle } from "../services/authServiceGoogle";
+import { Utente } from "../models/UtenteT";
 
 export class AuthController {
     private authService : AuthServiceLocal | undefined;
@@ -18,8 +19,8 @@ export class AuthController {
                 res.status(400).json({ error: 'email or password not found' });
             }
             
-            const {accessToken, refreshToken} = await this.authService?.login(email, password) as {accessToken: string, refreshToken: string};
-            res.status(200).cookie("refreshToken", refreshToken, { httpOnly: true, maxAge: 24*60*60*1000, sameSite: "none", secure: true }).json({accessToken});
+            const {accessToken, refreshToken, utente} = await this.authService?.login(email, password) as {accessToken: string, refreshToken: string, utente: Utente};
+            res.status(200).cookie("refreshToken", refreshToken, { httpOnly: true, maxAge: 24*60*60*1000, sameSite: "none", secure: true }).json({accessToken, ...utente});
         } catch (error) {
           res.sendStatus(401);
         }
@@ -57,10 +58,10 @@ export class AuthController {
 
     public async googleAuth(req: Request, res: Response, next: NextFunction){
         try {
-            const {credential} = req.body;
-            const tokens = await this.authServiceGoogle?.login(credential);
-            if(tokens && tokens.accessToken && tokens.refreshToken){
-                res.status(200).cookie("refreshToken", tokens.refreshToken, { httpOnly: true, maxAge: 24*60*60*1000, sameSite: "none", secure: true }).json({accessToken: tokens.accessToken});
+            const {code} = req.body;
+            const tokens = await this.authServiceGoogle?.login(code);
+            if(tokens && tokens.accessToken && tokens.refreshToken && tokens.utente){
+                res.status(200).cookie("refreshToken", tokens.refreshToken, { httpOnly: true, maxAge: 24*60*60*1000, sameSite: "none", secure: true }).json({accessToken: tokens.accessToken, ...tokens.utente});
                 return;
             }
         } catch (error) {

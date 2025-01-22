@@ -7,21 +7,23 @@ export class AuthServiceGoogle extends AuthService {
     private client : OAuth2Client;
     constructor() {
         super();
-        this.client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+        this.client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID, process.env.GOOGLE_CLIENT_SECRET, 'postmessage');
     }
 
     public async verifyGoogleToken(idToken: string) : Promise<TokenPayload> {
         try {
-            const ticket = await this.client.verifyIdToken({idToken, audience: process.env.GOOGLE_CLIENT_ID,})
+            const tokens = await this.client.getToken(idToken);
+        const ticket = await this.client.verifyIdToken({idToken: tokens.tokens.id_token || "", audience: process.env.GOOGLE_CLIENT_ID})
             const payload = ticket.getPayload();
             return payload || Promise.reject("Token non valido");
 
         } catch (error : any) {
+            console.log(error)
             return Promise.reject('Errore di verifica del token: ' + error?.message);
         }
     }
 
-    public async login(idToken: string) : Promise<{accessToken: string, refreshToken: string}> {
+    public async login(idToken: string) : Promise<{accessToken: string, refreshToken: string, utente: Utente}> {
         try {
             const {given_name, family_name, email, picture}: TokenPayload = await this.verifyGoogleToken(idToken);
             if(given_name && family_name && email && picture) {
@@ -37,7 +39,7 @@ export class AuthServiceGoogle extends AuthService {
                 const accessToken = this.generateAccessToken(utente);
                 const refreshToken = this.generateRefreshToken(utente);
 
-                return {accessToken, refreshToken};
+                return {accessToken, refreshToken, utente};
             }
 
             return Promise.reject();

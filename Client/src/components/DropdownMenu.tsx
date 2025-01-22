@@ -52,7 +52,7 @@ export const DropdownMenuSingle = ({text, options, icon: Icon, selected, setSele
     const buttonStyles = {
         default: "flex hover:cursor-pointer items-center font-semibold px-2 py-1 rounded-xl " + className + " ",
         notSelected: "border border-gray-600 ",
-        selected: "bg-blue-600 bg-opacity-40 text-blue-600 ",
+        selected: "border border-blue-600 bg-blue-600 border-opacity-40 bg-opacity-40 text-blue-600 ",
         open: "border border-blue-600 text-blue-600 ",
     } 
 
@@ -101,7 +101,7 @@ export const DropdownMenuMultiple = ({text, options, icon: Icon, selected, setSe
     const buttonStyles = {
         default: "flex hover:cursor-pointer items-center font-semibold px-2 py-1 rounded-xl " + className + " ",
         notSelected: "border border-gray-600 ",
-        selected: "bg-blue-600 bg-opacity-40 text-blue-600 ",
+        selected: "border border-blue-600 border-opacity-40 bg-blue-600 bg-opacity-40 text-blue-600 ",
         open: "border border-blue-600 text-blue-600 ",
     } 
 
@@ -159,7 +159,7 @@ export const DropdownMenuRange = ({text, min, max, step, icon: Icon, selected, s
     const buttonStyles = {
         default: "flex hover:cursor-pointer items-center font-semibold px-2 py-1 rounded-xl " + className + " ",
         notSelected: "border border-gray-600 ",
-        selected: "bg-blue-600 bg-opacity-40 text-blue-600 ",
+        selected: "border border-blue-600 border-opacity-40 bg-blue-600 bg-opacity-40 text-blue-600 ",
         open: "border border-blue-600 text-blue-600 ",
     } 
 
@@ -228,7 +228,7 @@ export const DropdownMenuRange = ({text, min, max, step, icon: Icon, selected, s
                             <p>{internalSelected[1] || max}</p>
                         </div>
                     </ div>
-                    <button className="bg-red-600 text-white rounded-md" onClick={() => setInternalSelected([undefined, undefined])}>Cancella Filtri</button>
+                    <button className="bg-red-600 text-white rounded-md" onClick={() => setInternalSelected([])}>Cancella Filtri</button>
                 </div>
         </div>
 
