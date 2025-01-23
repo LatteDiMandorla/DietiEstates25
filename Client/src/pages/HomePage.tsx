@@ -53,9 +53,9 @@ const HomePage = () => {
 const Divider = ({title} : {title: string}) => {
   return (
     <div className='flex justify-center gap-4 w-full items-center px-6 lg:px-20 mt-3' >
-      <div className='h-0 border border-black rounded-full flex-1'></div>
-      <h1 className='font-bold'> {title} </h1>
-      <div className='h-0 border border-black rounded-full flex-1'></div>
+      <div className='h-0 border border-blue-900 border-opacity-80 rounded-full w-24'></div>
+      <h1 className='text-blue-900 text-opacity-80 font-bold'> {title} </h1>
+      <div className='h-0 border border-blue-900 border-opacity-80 rounded-full w-24'></div>
     </div>
   )
 }

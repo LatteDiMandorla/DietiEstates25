@@ -8,6 +8,7 @@ import { FaRegEyeSlash } from "react-icons/fa";
 import { CiHeart } from "react-icons/ci";
 import { FaArrowLeft } from "react-icons/fa";
 import {Appointement} from "../components/Appointement";
+import { EnergyEffiency } from "../components/EnergyEfficiency";
 
 function ImmobilePage(){
     const [openImage, setOpenImage] = useState(false); 
@@ -72,9 +73,9 @@ function ImmobilePage(){
             </div>
             <Appointement/>
         </div>
-           
 
-           
+        <EnergyEffiency/>
+
         </div>
     )
 }
