@@ -9,6 +9,7 @@ import 'react-range-slider-input/dist/style.css';
 
 import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
 import LoginPage from './pages/LoginPage.tsx'
+import RegisterPage from './pages/RegisterPage.tsx';
 import HomePage from './pages/HomePage.tsx'
 import Layout from './pages/Layout.tsx'
 import { FirstStep } from './pages/FirstStep.tsx'
@@ -77,6 +78,11 @@ const router = createBrowserRouter([
         
         path: "/login",
         element: <LoginPage />,
+      },
+      {
+        
+        path: "/register",
+        element: <RegisterPage />,
       },
       {
         path: "/Home",

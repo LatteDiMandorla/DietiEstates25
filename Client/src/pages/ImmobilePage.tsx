@@ -35,7 +35,7 @@ function ImmobilePage(){
 
 
     return (
-        <div className="flex flex-col w-full h-full">
+        <div className="flex flex-col w-full h-full bg-white">
         <div className="font-bold bg-[#FFFFFF] h-16 flex items-center justify-between p-2 w-full z-[100] shadow-[0px_4px_10px_rgba(0,0,0,0.25)]">
             
             <div className="flex items-center space-x-16 h-full px-8 border-r border-gray-400">
