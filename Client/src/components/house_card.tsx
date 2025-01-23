@@ -1,6 +1,7 @@
-import { FaHeart, FaRegHeart, FaRulerCombined } from "react-icons/fa";
+import UseAnimations from 'react-useanimations';
+import heart from 'react-useanimations/lib/heart'
 import { PiToiletFill } from "react-icons/pi";
-import { FaDoorOpen } from "react-icons/fa";
+import { FaDoorOpen, FaRulerCombined } from "react-icons/fa";
 import { Immobile } from "../Interfaces/interfaces";
 import { forwardRef, useImperativeHandle, useRef, useState } from "react";
 import Skeleton from "react-loading-skeleton";
@@ -31,9 +32,22 @@ export const HouseCard = forwardRef<ChildRef, Immobile>((props: Immobile, ref) =
         <div className="h-fit px-4 py-1 flex flex-col space-y-2 ">
           <div className="flex-1">
             <div className="flex w-full justify-between items-center h-4">
-              <div className="flex items-center justify-center rounded-full text-white font-semibold text-xs bg-green-500 w-fit px-1">{props.price}€</div>
-              {liked ? <FaHeart onClick={(e) => {e.stopPropagation(); setLiked(false)}} size={22} color="red" /> : <FaRegHeart size={22} onClick={(e) => {e.stopPropagation(); setLiked(true)}} color="gray" />}
-            </div>
+              <div className="flex items-center justify-center rounded-full text-white font-semibold text-xs bg-green-500 w-fit px-1">{props.price}€
+                </div>
+                <div className="rounded-full">
+                <UseAnimations
+                    animation={heart}
+                    size={27}
+                    onClick={() => setLiked(!liked)}
+                    strokeColor={liked ? "red" : "gray"}
+                    fillColor='red'
+                    key={liked ? "true" : "false"}
+                    autoplay={liked}
+                    reverse ={!liked}
+
+                />
+                </div>
+              </div>
             <h2 className="text-sm lg:text-lg font-bold text-gray-800">{props.title}</h2>
             <p className="text-sm text-gray-600">{props.street}</p>
           </div>

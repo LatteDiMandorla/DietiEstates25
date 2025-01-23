@@ -18,6 +18,7 @@ const SearchPage = () => {
     const ref = useRef<HTMLDivElement>(null);
     const [timestamp, setTimestamp] = useState<string>();
     const [page, setPage] = useState<number>(1);
+    const [ended, setEnded] = useState<boolean>(false);
     const pageSize = 5;
 
     const [params, setParams] = useSearchParams();
@@ -55,7 +56,7 @@ const SearchPage = () => {
     }, [filter])
 
     useEffect(() => {
-        const fetchImmobili = async (page = 1) => {
+        const fetchImmobili = async () => {
             if(lat && lon && parseFloat(lat) && parseFloat(lon)){
                 try {                
                     setIsLoading(true);
@@ -91,7 +92,7 @@ const SearchPage = () => {
     }
 
     const handleScroll = async () => {
-        if(ref.current && (ref.current.scrollTop + ref.current.clientHeight == ref.current.scrollHeight) && !isLoading){
+        if(ref.current && (ref.current.scrollTop + ref.current.clientHeight == ref.current.scrollHeight) && !isLoading && !ended){
             if(lat && lon && parseFloat(lat) && parseFloat(lon)){
                 try {                
                     setIsLoading(true);
@@ -102,12 +103,14 @@ const SearchPage = () => {
                             timestamp: timestamp}}
                     );
     
-                    if(data){
+                    if(data && data.data && data.data.length){
                         setImmobili(prev => (prev ? [...prev, ...data.data] : data.data));
                         setTimestamp(data.timestamp);
-                        setTimeout(() =>  setIsLoading(false), 1000);
                         setPage(prev => prev + 1);
+                    } else {
+                        setEnded(true);
                     }
+                    setIsLoading(false);
                 } catch (error) {
                     console.log(error);
                 }

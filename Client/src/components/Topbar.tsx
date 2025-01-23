@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router-dom";
 import SearchBar from "./SearchBar";
-import Logo from "../assets/Logo.svg";
 import { NotificationsMenu } from "./NotificationsMenu";
 import { Avatar } from "./Avatar";
 import useAuth from "../hooks/useAuth";
