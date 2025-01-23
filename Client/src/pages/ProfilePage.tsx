@@ -123,7 +123,7 @@ export const ProfilePage = () =>
         
         {/* All properties managed by a particular agent */}
           
-          <div className="bg-white lg:w-5/6 md:w-full w-full min-h-full flex flex-col flex-1 items-center space-y-4 p-5">
+          <div className="bg-white lg:w-5/6 md:w-full w-full min-h-screen flex flex-col flex-1 items-center space-y-4 p-5">
             <div className="bg-blue-200 w-full h-10">
               <h1 className="text-center text-blue-900 text-xl">
                 Tutte le proprietà
