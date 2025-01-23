@@ -1,6 +1,4 @@
-import { FormEventHandler, useEffect, useLayoutEffect, useState } from "react";
-import { FiHome } from "react-icons/fi";
-import { IoIosSearch } from "react-icons/io";
+import { useEffect, useState } from "react";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import useAddressAutocomplete from "../hooks/useAddressAutocomplete";
@@ -86,7 +84,7 @@ function SearchBar({className = ""} : {className?: string}) {
           onBlur={()=>setIsFocused(false)}
           />
         <ClipLoader loading={isLoading} size={20} />
-        <button type="submit" className="w-6 h-6 ml-2"> <UseAnimations animation={searchToX} size={26} key={isFocused ? true : false} autoplay = {isFocused} reverse= {!isFocused} speed={10} 
+        <button type="submit" className="w-6 h-6 ml-2"> <UseAnimations animation={searchToX} size={26} key={isFocused ? 1 : 2} autoplay = {isFocused} reverse= {!isFocused} speed={10} 
                 
         /></button>
       </form>

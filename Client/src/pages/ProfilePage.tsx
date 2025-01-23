@@ -71,7 +71,7 @@ export const ProfilePage = () =>
   };
 
   return (
-    <div className="bg-white w-full min-h-screen flex flex-col lg:flex-row items-start lg:items-center justify-start lg:justify-between">
+    <div className="bg-white overflow-hidden flex-1 w-full flex flex-col lg:flex-row items-start lg:items-center justify-start lg:justify-between">
       <div className="bg-white w-full lg:w-2/4 flex flex-col gap-4 items-center mt-3 overflow-y-scroll h-full justify-start">
         <div className="bg-white border lg:w-3/4 w-11/12 h-3/4 lg:h-3/4 rounded-lg shadow-md flex flex-col max-h-[32rem] mt-5">
           <header className="bg-blue-300 bg-opacity-85 w-full h-18 flex items-center rounded-t-lg p-3">

@@ -3,15 +3,11 @@ import { FaDollarSign } from "react-icons/fa"
 import { FiLifeBuoy } from "react-icons/fi"
 import { LuUsersRound } from "react-icons/lu"
 import { Avatar } from "./Avatar"
-import Logo from "../assets/Logo.svg";
 import SearchBar from "./SearchBar"
 import { NotificationsMenu } from "./NotificationsMenu"
 import useAuth from "../hooks/useAuth"
-import { Link, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import  LogoImage  from '../assets/DietiLogo.png'
-import { useEffect, useState } from "react"
-
-
 
 export const TopbarExtended = ({shrink} : {shrink: boolean}) => {
     const {auth} = useAuth();

@@ -56,7 +56,7 @@ const SearchPage = () => {
     }, [filter])
 
     useEffect(() => {
-        const fetchImmobili = async (page = 1) => {
+        const fetchImmobili = async () => {
             if(lat && lon && parseFloat(lat) && parseFloat(lon)){
                 try {                
                     setIsLoading(true);

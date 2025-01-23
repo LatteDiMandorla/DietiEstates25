@@ -11,7 +11,7 @@ interface MapComponentProps{
   onMarkerClick?: (arg: any) => void;
 }
 
-const MapComponent = ({className = "", onMove, markers, onMarkerClick} : MapComponentProps) => {
+const MapComponent = ({className = "", markers, onMarkerClick} : MapComponentProps) => {
   const [coordinates, setCoordinates] = useState<{lat: number, lon: number}>();
   const [bounds, setBounds] = useState<{ne: {lat: number, lon: number}, sw: {lat: number, lon: number}}>();
   const [params, setParams] = useSearchParams();

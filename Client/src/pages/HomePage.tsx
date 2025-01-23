@@ -9,7 +9,6 @@ const HomePage = () => {
     const ref = useRef<HTMLDivElement>(null);
 
     const [lastSearched, setLastSearched] = useState<Immobile[]>([]);
-    const [shrink, setShrink] = useState<boolean>(false);
     const [isAtTop, setIsAtTop] = useState<boolean>(true);
 
     useEffect(() => {
