@@ -50,6 +50,7 @@ function RegisterForm() {
                         <ErrorMessage name="confirmPassword">{msg => <div className="text-xs text-center text-red-500 w-56">{msg}</div>}</ErrorMessage>
                 </div>              
                 <button type="submit" className="bg-blue-600 text-white font-bold px-3 py-2 rounded-full">Registrati</button>
+                <button type="submit" className="bg-blue-600 text-white font-bold px-3 py-2 rounded-full">Registrati</button>
             </Form>
             
             )}
