@@ -1,6 +1,7 @@
 import { MdStarOutline } from "react-icons/md";
 import { ReviewComponents } from "../Interfaces/interfaces";
 import { MdStar } from "react-icons/md";
+import { Avatar } from "./Avatar";
 
 export const Review = (props: ReviewComponents) =>
 {
@@ -12,47 +13,47 @@ export const Review = (props: ReviewComponents) =>
         {
             case 1:
                 return <h2 className="flex flex-row items-center justify-between gap-1 mr-6">
-                        <MdStar className="w-4 h-4 md:w-6 md:h-6 lg:w-4 lg:h-4 text-blue-800"></MdStar>
-                        <MdStarOutline className="w-4 h-4 md:w-6 md:h-6 lg:w-4 lg:h-4 text-blue-800"></MdStarOutline>
-                        <MdStarOutline className="w-4 h-4 md:w-6 md:h-6 lg:w-4 lg:h-4 text-blue-800"></MdStarOutline>
-                        <MdStarOutline className="w-4 h-4 md:w-6 md:h-6 lg:w-4 lg:h-4 text-blue-800"></MdStarOutline>
-                        <MdStarOutline className="w-4 h-4 md:w-6 md:h-6 lg:w-4 lg:h-4 text-blue-800"></MdStarOutline>
+                        <MdStar className="w-4 h-4 md:w-6 md:h-5 lg:w-4 lg:h-4 text-blue-800"></MdStar>
+                        <MdStarOutline className="w-4 h-4 md:w-6 md:h-5 lg:w-4 lg:h-4 text-blue-800"></MdStarOutline>
+                        <MdStarOutline className="w-4 h-4 md:w-6 md:h-5 lg:w-4 lg:h-4 text-blue-800"></MdStarOutline>
+                        <MdStarOutline className="w-4 h-4 md:w-6 md:h-5 lg:w-4 lg:h-4 text-blue-800"></MdStarOutline>
+                        <MdStarOutline className="w-4 h-4 md:w-6 md:h-5 lg:w-4 lg:h-4 text-blue-800"></MdStarOutline>
                        </h2>
             case 2:
                 return <h2 className="flex flex-row items-center justify-between gap-1 mr-6">
-                        <MdStar className="w-4 h-4 md:w-6 md:h-6 lg:w-4 lg:h-4 text-blue-800"></MdStar>
-                        <MdStar className="w-4 h-4 md:w-6 md:h-6 lg:w-4 lg:h-4 text-blue-800"></MdStar>
-                        <MdStarOutline className="w-4 h-4 md:w-6 md:h-6 lg:w-4 lg:h-4 text-blue-800"></MdStarOutline>
-                        <MdStarOutline className="w-4 h-4 md:w-6 md:h-6 lg:w-4 lg:h-4 text-blue-800"></MdStarOutline>
-                        <MdStarOutline className="w-4 h-4 md:w-6 md:h-6 lg:w-4 lg:h-4 text-blue-800"></MdStarOutline>
+                        <MdStar className="w-4 h-4 md:w-6 md:h-5 lg:w-4 lg:h-4 text-blue-800"></MdStar>
+                        <MdStar className="w-4 h-4 md:w-6 md:h-5 lg:w-4 lg:h-4 text-blue-800"></MdStar>
+                        <MdStarOutline className="w-4 h-4 md:w-6 md:h-5 lg:w-4 lg:h-4 text-blue-800"></MdStarOutline>
+                        <MdStarOutline className="w-4 h-4 md:w-6 md:h-5 lg:w-4 lg:h-4 text-blue-800"></MdStarOutline>
+                        <MdStarOutline className="w-4 h-4 md:w-6 md:h-5 lg:w-4 lg:h-4 text-blue-800"></MdStarOutline>
                        </h2>
             case 3:
                 return <h2 className="flex flex-row items-center justify-between gap-1 mr-6">
-                        <MdStar className="w-4 h-4 md:w-6 md:h-6 lg:w-4 lg:h-4 text-blue-800"></MdStar>
-                        <MdStar className="w-4 h-4 md:w-6 md:h-6 lg:w-4 lg:h-4 text-blue-800"></MdStar>
-                        <MdStar className="w-4 h-4 md:w-6 md:h-6 lg:w-4 lg:h-4 text-blue-800"></MdStar>
-                        <MdStarOutline className="w-4 h-4 md:w-6 md:h-6 lg:w-4 lg:h-4 text-blue-800"></MdStarOutline>
-                        <MdStarOutline className="w-4 h-4 md:w-6 md:h-6 lg:w-4 lg:h-4 text-blue-800"></MdStarOutline>
+                        <MdStar className="w-4 h-4 md:w-6 md:h-5 lg:w-4 lg:h-4 text-blue-800"></MdStar>
+                        <MdStar className="w-4 h-4 md:w-6 md:h-5 lg:w-4 lg:h-4 text-blue-800"></MdStar>
+                        <MdStar className="w-4 h-4 md:w-6 md:h-5 lg:w-4 lg:h-4 text-blue-800"></MdStar>
+                        <MdStarOutline className="w-4 h-4 md:w-6 md:h-5 lg:w-4 lg:h-4 text-blue-800"></MdStarOutline>
+                        <MdStarOutline className="w-4 h-4 md:w-6 md:h-5 lg:w-4 lg:h-4 text-blue-800"></MdStarOutline>
                        </h2>
 
 
             case 4:
                 return <h2 className="flex flex-row items-center justify-between gap-1 mr-6">
-                        <MdStar className="w-4 h-4 md:w-6 md:h-6 lg:w-4 lg:h-4 text-blue-800"></MdStar>
-                        <MdStar className="w-4 h-4 md:w-6 md:h-6 lg:w-4 lg:h-4 text-blue-800"></MdStar>
-                        <MdStar className="w-4 h-4 md:w-6 md:h-6 lg:w-4 lg:h-4 text-blue-800"></MdStar>
-                        <MdStar className="w-4 h-4 md:w-6 md:h-6 lg:w-4 lg:h-4 text-blue-800"></MdStar>
-                        <MdStarOutline className="w-4 h-4 md:w-6 md:h-6 lg:w-4 lg:h-4 text-blue-800"></MdStarOutline>
+                        <MdStar className="w-4 h-4 md:w-6 md:h-5 lg:w-4 lg:h-4 text-blue-800"></MdStar>
+                        <MdStar className="w-4 h-4 md:w-6 md:h-5 lg:w-4 lg:h-4 text-blue-800"></MdStar>
+                        <MdStar className="w-4 h-4 md:w-6 md:h-5 lg:w-4 lg:h-4 text-blue-800"></MdStar>
+                        <MdStar className="w-4 h-4 md:w-6 md:h-5 lg:w-4 lg:h-4 text-blue-800"></MdStar>
+                        <MdStarOutline className="w-4 h-4 md:w-6 md:h-5 lg:w-4 lg:h-4 text-blue-800"></MdStarOutline>
                        </h2>
 
 
             case 5:
                 return <h2 className="flex flex-row items-center justify-between gap-1 mr-6">
-                        <MdStar className="w-4 h-4 md:w-6 md:h-6 lg:w-4 lg:h-4 text-blue-800"></MdStar>
-                        <MdStar className="w-4 h-4 md:w-6 md:h-6 lg:w-4 lg:h-4 text-blue-800"></MdStar>
-                        <MdStar className="w-4 h-4 md:w-6 md:h-6 lg:w-4 lg:h-4 text-blue-800"></MdStar>
-                        <MdStar className="w-4 h-4 md:w-6 md:h-6 lg:w-4 lg:h-4 text-blue-800"></MdStar>
-                        <MdStar className="w-4 h-4 md:w-6 md:h-6 lg:w-4 lg:h-4 text-blue-800"></MdStar>
+                        <MdStar className="w-4 h-4 md:w-6 md:h-5 lg:w-4 lg:h-4 text-blue-800"></MdStar>
+                        <MdStar className="w-4 h-4 md:w-6 md:h-5 lg:w-4 lg:h-4 text-blue-800"></MdStar>
+                        <MdStar className="w-4 h-4 md:w-6 md:h-5 lg:w-4 lg:h-4 text-blue-800"></MdStar>
+                        <MdStar className="w-4 h-4 md:w-6 md:h-5 lg:w-4 lg:h-4 text-blue-800"></MdStar>
+                        <MdStar className="w-4 h-4 md:w-6 md:h-5 lg:w-4 lg:h-4 text-blue-800"></MdStar>
                        </h2>
         }
     }
@@ -62,15 +63,15 @@ export const Review = (props: ReviewComponents) =>
             <header className="bg-white lg:w-1/3 md:w-1/3 w-1/2 h-20 flex flex-row">
 
                 <div className="bg-white w-1/3 h-full flex justify-center items-center">
-                    <button className="bg-gray-200 h-14 w-14 lg:w-2/3 lg:h-2/3 rounded-full overflow-hidden">
-                        <img 
-                            src={props.UserImage}  
-                            className="w-14 h-14 object-cover m-0 p-0 border-none rounded-full bg-gray-200" 
-                        />
-                    </button>
+
+                        <Avatar className="object-fill"
+                                src="https://informatica.dieti.unina.it/images/foto-docenti/di-martino.png">
+
+                        </Avatar>
+
                 </div>
                 <h1 className="bg-white lg:w-18 w-2/3 h-full flex flex-col mt-1">
-                    <span className="mt-2 mr-1 md:text-xl lg:text-base text-blue-800 truncate">{props.NameAndSurname}</span>
+                    <span className="mt-3.5 mr-1 md:text-xl lg:text-base text-blue-800 truncate">{props.NameAndSurname}</span>
                     <h2> {setStarColor()} </h2>
 
                 </h1>

@@ -6,6 +6,12 @@ export default {
   ],
   theme: {
     extend: {
+      screens:{
+        'small-large': {
+          raw: '(min-width: 1000px) and (min-height: 700px) and (min-aspect-ratio: 4/3)'
+        }
+      },
+
       keyframes: {
         shake: {
           '0%, 100%': { transform: 'translateX(0)' },

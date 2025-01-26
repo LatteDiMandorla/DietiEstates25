@@ -43,8 +43,6 @@ export const HouseCard = forwardRef<ChildRef, Immobile>((props: Immobile, ref) =
                     fillColor='red'
                     key={liked ? "true" : "false"}
                     autoplay={liked}
-                    reverse ={!liked}
-
                 />
                 </div>
               </div>
