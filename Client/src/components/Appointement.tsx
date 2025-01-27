@@ -3,35 +3,57 @@ import { BiSolidCalendar } from "react-icons/bi";
 import { Calendar, Range } from 'react-date-range';
 import { useEffect, useRef, useState } from "react";
 import { FaStar, FaRegStar } from "react-icons/fa"; // Usa react-icons per le stelle
-import { Rect, useRect } from "react-use-rect";
+import { IoIosCloud, IoIosSunny, IoIosPartlySunny, IoIosRainy, IoIosCloudy, IoIosSnow, IoIosThunderstorm } from "react-icons/io";
+import { IoRainyOutline } from "react-icons/io5";
+import { BsCloudFog2Fill } from "react-icons/bs";
 import { Avatar } from "./Avatar";
-
+import axios from "../api/axios";
 
 export const Appointement = () => {
 
     const [date, setDate] = useState<Date>();
-    const [time, setTime] = useState<number>();
+    const [time, setTime] = useState<Date>();
+    const [weather, setWeather] = useState<any>();
 
     const twoWeeks = 1000 * 60 * 60 * 24 * 14;
 
+    const weatherIcons = (state: string) => {
+        if(state == "sereno") return <IoIosSunny />;
+        else if(state == "prevalentemente sereno") return IoIosPartlySunny;
+        else if(state == "parzialmente nuvoloso") return IoIosCloudy;
+        else if(state == "nuvoloso") return IoIosCloud;
+        else if(state == "nebbia") return BsCloudFog2Fill;
+        else if(state == "pioggia debole") return IoRainyOutline;
+        else if(state == "pioggia") return IoIosRainy;
+        else if(state == "neve") return IoIosSnow;
+        else if(state == "temporale") return IoIosThunderstorm;
+      };
+
     const times = [
-        "15:30",
-        "16:00",
-        "16:30",
-        "17:00",
-        "18:00",
-        "18:30",
-        "19:00",
-        "19:30",
-        "20:00",
-        "20:30",
+        new Date(2025, 0, 28, 15, 30),
+        new Date(2025, 0, 28, 16, 30),
+        new Date(2025, 0, 28, 17),
+        new Date(2025, 0, 28, 17, 30),
+        new Date(2025, 0, 28, 18, 30),
+        new Date(2025, 0, 28, 19),
+
     ]
     
     const handleAppointmentClick = () => {
         if(date && time) {
-            console.log("appuntamento preso in data " + date.toLocaleDateString() +" all'ora" + times[time] )
+            console.log("appuntamento preso in data " + date.toLocaleDateString() +" all'ora" + time )
         }
     }
+
+    useEffect(() => {
+        const fetch = async () => {
+            const {data} = await axios.post("/meteo", {dates: times, lat: 40.8762, lon: 14.5195})
+            console.log(data);
+            setWeather(data.map((w: any) => ({...w, icon: weatherIcons(w.state)})));
+        }
+
+        fetch();
+    }, [])
 
     return (
         <div className="flex flex-col items-center bg-[#DDF5FF] h-fit rounded-xl p-2 w-96 relative">
@@ -60,13 +82,30 @@ export const Appointement = () => {
                 {date &&
                 <div>
                     Seleziona un orario per la visita:
-                    <div className="flex gap-2 flex-wrap">
-                        {Array.from({length: 10}).map((_, i) => <button className={`border border-gray-300 rounded-md w-16 px-2 ${i == time && "bg-gray-300"} `} onClick={() => setTime(i)}>{times[i]}</button>)}
+                    <div className="w-full overflow-y-scroll no-scrollbar">
+                        <div className="flex w-fit gap-3 max-h-20">
+                            {times.map((t, i) => <TimeButton key={i} temperature={weather[i].temperature} setTime={setTime} time={t} icon={weather[i].icon} selected={time?.valueOf() == t.valueOf()} />)}
+                        </div>
                     </div>
                 </div>
                 }
             </div>
         </div>
+    )
+}
+
+const TimeButton = ({setTime, time, icon: Icon, temperature, selected} : {setTime: (time: Date) => void, time: Date, icon?: React.ComponentType<any>, selected: boolean, temperature: number}) => {
+    useEffect(() => {
+        console.log(selected);
+    },[selected])
+    return (
+        <button className={`overflow-hidden flex items-center space-x-2 border-2 border-blue-400 shadow-md pl-2 rounded-md  ${selected ? "bg-blue-400 text-white" : "hover:bg-blue-200"} transition-all `} onClick={() => {setTime(time)}}>
+            <p className="font-semibold w-10">{time.toLocaleTimeString([], {hour: "2-digit", minute: "2-digit"})}</p>
+            <div className="flex w-14 flex-col justify-center items-center bg-blue-400 px-2 text-white">
+                {Icon && <Icon size={24} />}
+                <p className="text-xs">{temperature}C</p>
+            </div>
+        </button>
     )
 }
 
