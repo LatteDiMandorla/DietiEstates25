@@ -77,10 +77,14 @@ export const ProfilePage = () =>
 
   return (
     <div className="bg-white flex-1 w-full flex flex-col items-center justify-start overflow-y-scroll">
-        <div className="w-full h-1/2 flex flex-col bg-[url('https://informatica.dieti.unina.it/images/foto-docenti/di-martino.png')] bg-center">
-          <div className="w-full h-1/2 flex flex-col">
+        <div className="w-full h-1/2 flex flex-col bg-[url('https://informatica.dieti.unina.it/images/foto-docenti/di-martino.png')] bg-center bg-cover lg:items-center lg:justify-center">
+          <div className="hidden lg:block lg:w-full lg:h-full lg:flex lg:flex-col lg:backdrop-blur-lg lg:items-center lg:justify-center">
+          <div className="bg-gray-300 w-[28vw] h-[28vw] max-w-[400px] max-h-[400px] rounded-full"></div>
 
+          </div>
+          <div className="lg:hidden w-full h-1/2 flex flex-col">
 
+            
 
           </div>
 
@@ -100,22 +104,22 @@ export const ProfilePage = () =>
         </div>
 
         <div className="bg-white w-full h-1/2">
-          <div className="bg-blue-950 w-full flex-1 bg-opacity-70 flex flex-col">
-            <div className="w-full flex items-center justify-center p-2">
+          <div className="bg-blue-950 w-full flex-1 bg-opacity-70 flex flex-col space-y-3 p-2">
+            <div className="w-full flex flex-col items-center justify-center p-2">
               <p className="text-white text-4xl font-serif lg:text-6xl text-center"> SERGIO DI MARTINO</p>
+              <div className="w-full flex items-center justify-center text-white">
+                <MdStar className="w-10 h-8"/>
+                <MdStar className="w-10 h-8"/>
+                <MdStar className="w-10 h-8"/>
+                <MdStar className="w-10 h-8"/>
+                <MdStar className="w-10 h-8"/>
+              </div>
             </div>
 
-            <div className="w-full flex items-center justify-center text-white">
-              <MdStar className="w-10 h-8"/>
-              <MdStar className="w-10 h-8"/>
-              <MdStar className="w-10 h-8"/>
-              <MdStar className="w-10 h-8"/>
-              <MdStar className="w-10 h-8"/>
-            </div>
 
-
-            <div className="flex w-full h-full items-center justify-center text-white mt-2">
-                <div className=" w-11/12 h-full text-justify">
+            <div className="flex w-full h-full items-center justify-center text-white mt-2 flex flex-col space-y-2">
+                <h1 className=" w-11/12 lg:w-1/2 text-xl lg:text-2xl underline font-bold"> Descrizione</h1>
+                <div className=" w-11/12 lg:w-1/2 h-full text-justify lg:text-xl">
                 Ciao! Sono Sergio Di Martino, agente immobiliare con una grande passione per il mio lavoro. Da anni aiuto famiglie e professionisti a trovare la casa dei loro sogni o l’immobile perfetto per le loro esigenze. Mi piace lavorare con trasparenza e dedicare attenzione a ogni dettaglio, perché credo che ogni cliente meriti il massimo. Sul mio profilo puoi scoprire le recensioni di chi ha già lavorato con me, la mia disponibilità e tutte le proprietà che gestisco. Sono qui per rendere il tuo percorso il più semplice e soddisfacente possibile!
                 </div>
             </div>
@@ -140,6 +144,8 @@ export const ProfilePage = () =>
             </div>
 
           </div>
+
+          <div className="hidden lg:block bg-green-200 w-full h-full"></div>
 
         </div>
 
