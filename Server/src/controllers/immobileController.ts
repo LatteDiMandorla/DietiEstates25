@@ -13,13 +13,18 @@ export class ImmobileController {
     }
 
     public async getById(req : Request, res : Response) : Promise<void> {
-        const id : number = parseInt(req.params.id);
-        if(!id) {
-            res.status(400).send("Id not valid"); 
-            return;
+        try {
+            const id : number = parseInt(req.params.id);
+            if(!id) {
+                res.status(400).send("Id not valid"); 
+                return;
+            }
+    
+            const data = await this.immobileService?.getById(id);
+            res.json(data);
+        } catch (error) {
+            res.sendStatus(400);
         }
-
-        res.json("Fatto");
     }
 
     public async getByRange(req: Request, res: Response) : Promise<void> {

@@ -5,6 +5,7 @@ import { FaDoorOpen, FaRulerCombined } from "react-icons/fa";
 import { Immobile } from "../Interfaces/interfaces";
 import { forwardRef, useImperativeHandle, useRef, useState } from "react";
 import Skeleton from "react-loading-skeleton";
+import { useNavigate } from 'react-router-dom';
 
 interface ChildRef {
   pulse: () => void;
@@ -15,14 +16,19 @@ export const HouseCard = forwardRef<ChildRef, Immobile>((props: Immobile, ref) =
     const [animate, setAnimate] = useState(false);
     const divRef = useRef<HTMLDivElement>(null);
     const [liked, setLiked] = useState<boolean>(false);
+    const navigate = useNavigate();
 
     useImperativeHandle(ref, () => ({
       pulse: () => setAnimate(true),
       scrollIntoView: () => divRef.current?.scrollIntoView({behavior: "smooth", block: "start"}),
     }));
 
+    const handleClick = () => {
+      navigate(`/immobile/${props.id}`);
+    }
+
     return (
-      <div ref={divRef} className={"md:w-96 border min-h-fit h-full w-72 bg-white flex flex-col rounded-xl shadow-lg overflow-hidden hover:shadow-xl hover:cursor-pointer transition-all " + (animate && "animate-[pulse_2s_ease-in-out]")} onAnimationEnd={() => setAnimate(false)}>
+      <div ref={divRef} onClick={handleClick} className={"md:w-96 border min-h-fit h-full w-72 bg-white flex flex-col rounded-xl shadow-lg overflow-hidden hover:shadow-xl hover:cursor-pointer transition-all " + (animate && "animate-[pulse_2s_ease-in-out]")} onAnimationEnd={() => setAnimate(false)}>
         {/* Immagine di copertina */}
         <div className="relative h-32 md:h-40">
           <img src={props.images[0]} alt="apartment_image" className="w-full h-full object-cover" />

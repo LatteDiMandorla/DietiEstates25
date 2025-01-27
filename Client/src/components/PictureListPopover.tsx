@@ -5,7 +5,7 @@ import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { useEffect, useRef } from "react";
 
 interface PictureListPopoverProps {
-    images: string[],
+    images?: string[],
     open: boolean,
     close: () => void,
     selected: number,
@@ -14,8 +14,7 @@ interface PictureListPopoverProps {
     prev: () => void
 }
 
-export const PictureListPopover = ({images, open, close, selected, goto, next, prev} : PictureListPopoverProps) => {
-
+export const PictureListPopover = ({images = [], open, close, selected, goto, next, prev} : PictureListPopoverProps) => {
     return (
         <ResponsiveFullscreenPopup open={open} close={close} className="flex flex-col">
             <div className="flex flex-col h-full">

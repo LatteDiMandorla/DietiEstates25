@@ -8,7 +8,7 @@ export class ImmobileDAOSequelize implements ImmobileDAO {
     public async findById(id: number): Promise<ImmobileT> {
         const data = await Immobile.findByPk(id);
         if(data){
-            return data.dataValues;
+            return data.get({plain: true});
         }
         return Immobili[0];
     }

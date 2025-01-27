@@ -6,6 +6,8 @@ import 'leaflet/dist/leaflet.css';
 import 'react-modern-drawer/dist/index.css'
 import 'react-loading-skeleton/dist/skeleton.css'
 import 'react-range-slider-input/dist/style.css';
+import 'react-date-range/dist/styles.css';
+import 'react-date-range/dist/theme/default.css';
 
 import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
 import LoginPage from './pages/LoginPage.tsx'
@@ -19,7 +21,6 @@ import { MapPage } from './pages/MapPage.tsx';
 import SearchPage from './pages/SearchPage.tsx';
 import { ProfilePage } from './pages/ProfilePage.tsx'
 import { AuthProvider } from './contexts/AuthProvider.tsx';
-import { GoogleOAuthProvider } from '@react-oauth/google';
 import AltLayout from './pages/AltLayout.tsx';
 
 const router = createBrowserRouter([
@@ -45,7 +46,7 @@ const router = createBrowserRouter([
             element: <MapPage />
           },
           {
-            path: "/immobile",
+            path: "/immobile/:id",
             element: <ImmobilePage />
           },
 
