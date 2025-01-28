@@ -9,10 +9,12 @@ interface MapComponentProps{
   onMove?: (arg: any) => void;
   markers?: {lat: number, lon: number, text: string}[];
   onMarkerClick?: (arg: any) => void;
+  staticMap?: boolean,
+  startPosition?: {lat: number, lon: number};
 }
 
-const MapComponent = ({className = "", markers, onMarkerClick} : MapComponentProps) => {
-  const [coordinates, setCoordinates] = useState<{lat: number, lon: number}>();
+const MapComponent = ({className = "", markers, onMarkerClick, staticMap = false, startPosition} : MapComponentProps) => {
+  const [coordinates, setCoordinates] = useState<{lat: number, lon: number} | undefined>(startPosition);
   const [bounds, setBounds] = useState<{ne: {lat: number, lon: number}, sw: {lat: number, lon: number}}>();
   const [params, setParams] = useSearchParams();
   const lat = params.get("lat");
@@ -20,8 +22,8 @@ const MapComponent = ({className = "", markers, onMarkerClick} : MapComponentPro
   const zoom = params.get("zoom");
 
   useEffect(() => {
-    const lt = parseFloat(lat || "40.827373");
-    const ln = parseFloat(lon || "14.191577");
+    const lt = parseFloat(lat || "");
+    const ln = parseFloat(lon || "");
     if(lt && ln){
       setCoordinates({lat: lt, lon: ln});
     }
@@ -36,15 +38,20 @@ const MapComponent = ({className = "", markers, onMarkerClick} : MapComponentPro
   return (
     <>
       <div className={"rounded-lg overflow-hidden flex w-full h-full " + className} >
-        <MapContainer center={[coordinates?.lat || 40.827373, coordinates?.lon || 14.191577]} zoom={(zoom && parseInt(zoom)) || 13} className={`flex-1`}>
+        <MapContainer center={[coordinates?.lat || 40.827373, coordinates?.lon || 14.191577]} zoom={(zoom && parseInt(zoom)) || 15} className={`flex-1`}>
           <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
           {markers?.map((marker, index) => <Marker key={index} position={[marker.lat, marker.lon]} icon={<IoMdPin className="text-red-600" size={24} onClick={() => onMarkerClick?.(index)} />}>
-              <Popup autoPan={false} autoClose>
+              {marker.text && <Popup autoPan={false} autoClose>
                 {marker.text}
-              </Popup>
+              </Popup>}
           </Marker>)}
+          {
+          !staticMap && 
+          <>
           <SetSearchCoordinates lat={coordinates?.lat} lon={coordinates?.lon} setBounds={setBounds} />
           <GetSearchCoordinates setPosition={setBounds} setParams={setParams} params={params} />
+          </>
+          }
         </MapContainer>
       </div>
     </>

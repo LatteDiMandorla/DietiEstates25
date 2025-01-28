@@ -171,6 +171,14 @@ export const ProfilePage = () =>
 
           </div>
 
+<<<<<<< HEAD
+=======
+          <div className="hidden lg:block bg-blue-950 bg-opacity-70 lg:w-full lg:h-full p-2 lg:flex lg:flex-col lg:items-center lg:justify-center">
+            <div className="bg-blue-950 bg-opacity-70  w-1/2 h-full">
+                <MapComponent staticMap />
+            </div>
+          </div>
+>>>>>>> f28f2487ce71653e9da125f4ef18f4fee6afeb63
 
           <div className="hidden lg:block bg-blue-950 bg-opacity-70 lg:w-full lg:h-full lg:flex lg:flex-col lg:items-center lg:justify-start lg:space-y-3 p-2">
             <h1 className=" w-1/2 h-10 text-white text-2xl underline font-bold bg-blue-600 bg-opacity-20 text-center"> Recensioni </h1>

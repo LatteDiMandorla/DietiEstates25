@@ -11,7 +11,7 @@ export const PicturesSlideshow = ({openPictures, images, className = ""} : {open
 
     const {stop} = useInterval(() => {
         handleClickNext();
-    }, 4000, {autoStart: true})
+    }, 4000, {autoStart: false})
 
     const styles = [
         "w-96 h-56 hover:cursor-pointer top-12 max-w-full bg-gradient-to-r from-gray-100 via-gray-200 to-gray-300 absolute left-0 overflow-hidden rounded-lg transition-all  duration-500 transalte-x-7 scale-100 backdrop-blur-xl bg-white/30 z-0",

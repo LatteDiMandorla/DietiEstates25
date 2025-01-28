@@ -13,6 +13,15 @@ export class ImmobileService {
         const factory = new DAOFactory();
         this.immobileDAO = factory.getImmobileDAO(process.env.DAOTYPE || "");
     }
+
+    public async getById(id: number) : Promise<Immobile> {
+        const data = await this.immobileDAO?.findById(id);
+        if(data) {
+            return data;
+        }
+
+        return Promise.reject();
+    }
   
     public async getInRange({lat, lon} : center, {page, limit, timestamp} : pagination) : Promise<Immobile[]>{
         let data: Immobile[] | undefined;

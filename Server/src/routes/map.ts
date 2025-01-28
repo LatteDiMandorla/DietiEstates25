@@ -11,5 +11,6 @@ export class MapRoute extends Route {
 
     protected override initRoutes() : void {
         this.router.get("/autocomplete", (req, res) => this.mapController.getAutocomplete(req, res));
+        this.router.get("/nearby", (req, res) => this.mapController.getNearbyPlaces(req, res));
     }
 }

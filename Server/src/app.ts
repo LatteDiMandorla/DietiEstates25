@@ -8,6 +8,7 @@ import { MapRoute } from "./routes/map";
 import Database from "./sequelize/database";
 import { UtenteRoute } from "./routes/utente";
 import { AuthRoute } from "./routes/auth";
+import { MeteoRoute } from "./routes/meteo";
 
 class App {
   private readonly app: Express;
@@ -59,6 +60,8 @@ class App {
     this.app.use("/utente", utenteRoute.router);
     const authRoute = new AuthRoute();
     this.app.use("/auth", authRoute.router);
+    const meteoRoute = new MeteoRoute();
+    this.app.use("/meteo", meteoRoute.router);
   }
 
   private initErrorHandling() {
