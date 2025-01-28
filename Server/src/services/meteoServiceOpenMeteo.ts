@@ -31,18 +31,14 @@ export class MeteoServiceOpenMeteo implements MeteoService {
 
         const weathers : Weather[] = [];
         const {data} = await axios.get(this.baseUrl, { params });
-        console.log(data.hourly.time);
 
         dates.map((date) => {
             const index = data.hourly.time.indexOf(date.slice(0, 14) + "00");
-            console.log(date.slice(0, 14) + "00");
-            console.log(index);
             weathers.unshift({
                 temperature: parseFloat(data.hourly.temperature_2m[index] as string) || 0,
                 state: this.mapWeatherCode(data.hourly.weathercode[index] as number),
             });
         });
-        console.log(weathers);
 
         return weathers;
     }

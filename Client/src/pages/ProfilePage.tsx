@@ -148,7 +148,7 @@ export const ProfilePage = () =>
 
           <div className="hidden lg:block bg-blue-950 bg-opacity-70 lg:w-full lg:h-full p-2 lg:flex lg:flex-col lg:items-center lg:justify-center">
             <div className="bg-blue-950 bg-opacity-70  w-1/2 h-full">
-                <MapComponent></MapComponent>
+                <MapComponent staticMap />
             </div>
           </div>
 

@@ -18,7 +18,10 @@ import MapComponent from "../components/MapComponent";
 function ImmobilePage(){
     const [openImage, setOpenImage] = useState(false); 
     const [immobile, setImmobile] = useState<Immobile>();
+    const [img, setImg] = useState<string>();
     const {id} = useParams();
+    const [file, setFile] = useState<File | null>(null);
+
     const images = [
         "https://www.cazampa.it/app/uploads/2023/09/2322506225.jpg",
         "https://zampol.it/wp-content/uploads/2023/02/Caratteristiche_del_gatto-scaled.jpg",
@@ -54,6 +57,17 @@ function ImmobilePage(){
         fetch();
     }, [id])
 
+    const uploadImage = async () => {
+        if (!file) return;
+        console.log(file);
+
+        const formData = new FormData();
+        formData.append('file', file);
+        const { data } = await axios.post("/immobile", formData);
+        console.log(data);
+        setImg(data.url);
+    }
+
 
     return (
     <>
@@ -67,6 +81,9 @@ function ImmobilePage(){
                 <PictureListPopover images={immobile.images} selected={selected} next={next} prev={prev} goto={goto} open={openImage} close={() => setOpenImage(false)} />
                 </>}
             </div>
+            <input type="file" onChange={(e) => setFile(e.target.files?.[0] || null)} />
+            <button onClick={() => uploadImage()}>sadadsa</button>
+            {img && <img src={img} />}
             <div className="w-full p-2 border-t border-gray-400">
                 <p className="text-lg font-semibold">Descrizione:</p>
                 <p className="text-wrap break-words whitespace-pre-wrap">

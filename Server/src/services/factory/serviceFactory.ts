@@ -1,3 +1,5 @@
+import { ImageServiceCloudinary } from "../imageServiceCloudinary";
+import { ImageService } from "../interfaces/imageService";
 import { MapService } from "../interfaces/mapService";
 import { MeteoService } from "../interfaces/meteoService";
 import { MapServiceGeoapify } from "../mapServiceGeoapify";
@@ -13,6 +15,12 @@ export class ServiceFactory {
     public getMeteoService(type: string) : MeteoService | undefined {
         if(type == "OpenMeteo"){
             return new MeteoServiceOpenMeteo();
+        }
+    }
+
+    public getImageService(type: string) : ImageService | undefined {
+        if(type == "Cloudinary"){
+            return new ImageServiceCloudinary();
         }
     }
 }
