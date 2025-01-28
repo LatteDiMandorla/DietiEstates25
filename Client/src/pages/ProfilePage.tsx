@@ -125,8 +125,10 @@ export const ProfilePage = () =>
             </div>
 
             <div className="flex w-full h-1/2 items-center justify-center flex-col space-y-2 gap-2">
-              <h1 className="w-11/12 lg:w-1/2 text-white font-bold underline text-xl lg:text-2xl text-center bg-blue-600 rounded-lg bg-opacity-20"> Tutte le proprietà </h1>
-              <HouseCard
+              <h1 className="w-11/12 lg:w-1/2 h-10  text-white font-bold underline text-xl lg:text-2xl text-center bg-blue-600 rounded-lg bg-opacity-20"> Tutte le proprietà </h1>
+              <div className="flex w-full lg:w-1/2 h-full items-center justify-center lg:flex-row flex-col ">
+                <div className="flex w-1/2 h-full flex-col items-center justify-center space-y-3">
+                <HouseCard
                 title="Villa sul mare"
                 street="Via dei mille"
                 size="40"
@@ -142,18 +144,36 @@ export const ProfilePage = () =>
                 lon={14.186043}
               />
 
+              <HouseCard
+                title="Villa sul mare"
+                street="Via dei mille"
+                size="40"
+                bathrooms="2"
+                locals="3"
+                agentImage="https://informatica.dieti.unina.it/images/foto-docenti/di-martino.png"
+                price="100.000€"
+                images={[
+                    "https://cdn.pixabay.com/photo/2016/11/18/17/46/house-1836070_1280.jpg",
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRxG8ihFgvtyxCvoVxgoVKto6MpkCZzVwNoxA&s",
+                ]}
+                lat={40.826232}
+                lon={14.186043}
+              />
+              </div>
+
+              <div className="lg:w-1/2 flex flex-col justify-center items-center">
+                  <MapComponent></MapComponent>
+              </div>
+
+            </div>
+
             </div>
 
           </div>
 
-          <div className="hidden lg:block bg-blue-950 bg-opacity-70 lg:w-full lg:h-full p-2 lg:flex lg:flex-col lg:items-center lg:justify-center">
-            <div className="bg-blue-950 bg-opacity-70  w-1/2 h-full">
-                <MapComponent></MapComponent>
-            </div>
-          </div>
 
-          <div className="hidden lg:block bg-blue-950 bg-opacity-70 lg:w-full lg:h-screen lg:flex lg:flex-col lg:items-center lg:justify-start lg:space-y-3 p-2">
-            <h1 className=" w-1/2 h-10 text-white text-2xl underline font-bold"> Recensioni </h1>
+          <div className="hidden lg:block bg-blue-950 bg-opacity-70 lg:w-full lg:h-full lg:flex lg:flex-col lg:items-center lg:justify-start lg:space-y-3 p-2">
+            <h1 className=" w-1/2 h-10 text-white text-2xl underline font-bold bg-blue-600 bg-opacity-20 text-center"> Recensioni </h1>
 
           </div>
         </div>
