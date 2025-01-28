@@ -12,9 +12,10 @@ interface PictureListPopoverProps {
     goto: (i: number) => void,
     next: () => void,
     prev: () => void
+    imgClassName?: string
 }
 
-export const PictureListPopover = ({images = [], open, close, selected, goto, next, prev} : PictureListPopoverProps) => {
+export const PictureListPopover = ({images = [], open, close, selected, goto, next, prev, imgClassName = ""} : PictureListPopoverProps) => {
     return (
         <ResponsiveFullscreenPopup open={open} close={close} className="flex flex-col">
             <div className="flex flex-col h-full">
@@ -22,7 +23,7 @@ export const PictureListPopover = ({images = [], open, close, selected, goto, ne
             { selected ?
             <ImageDetail selected={selected} goto={goto} next={next} prev={prev} images={images} />
             :
-            <ImagesList images={images} goto={goto} />
+            <ImagesList images={images} goto={goto} imgClassName={imgClassName} />
             }
             </div>
         </ResponsiveFullscreenPopup>
@@ -79,13 +80,14 @@ const Footer = ({images, goto, selected} : FooterProps) => {
 interface ImagesListProps {
     images: string[],
     goto: (n: number) => void,
+    imgClassName?: string,
 }
 
-const ImagesList = ({images, goto} : ImagesListProps) => {
+const ImagesList = ({images, goto, imgClassName = ""} : ImagesListProps) => {
     return (
         <div className="flex-1 w-full overflow-scroll no-scrollbar">
             <div className="flex flex-wrap gap-2 p-2 justify-center md:justify-start " >
-                {images.map((url, i) => <div onClick={() => goto(i + 1)} className={`w-64 h-36 overflow-hidden rounded-md hover:cursor-pointer`} key={i}><img className="w-full h-full object-cover" src={url} /></div>)}
+                {images.map((url, i) => <div onClick={() => goto(i + 1)} className={`w-64 h-36 overflow-hidden rounded-md hover:cursor-pointer ${imgClassName}`} key={i}><img className="w-full h-full object-cover" src={url} /></div>)}
             </div>
         </div>
     )

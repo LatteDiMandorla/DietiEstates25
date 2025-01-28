@@ -14,13 +14,14 @@ import axios from "../api/axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { PiToiletFill } from "react-icons/pi";
 import MapComponent from "../components/MapComponent";
+import { PicturesSlideshowUploader } from "../components/PicturesSlideshowUploader";
 
 function ImmobilePage(){
-    const [openImage, setOpenImage] = useState(false); 
     const [immobile, setImmobile] = useState<Immobile>();
     const [img, setImg] = useState<string>();
     const {id} = useParams();
     const [file, setFile] = useState<File | null>(null);
+    const [openImage, setOpenImage] = useState(false); 
 
     const images = [
         "https://www.cazampa.it/app/uploads/2023/09/2322506225.jpg",
@@ -81,9 +82,6 @@ function ImmobilePage(){
                 <PictureListPopover images={immobile.images} selected={selected} next={next} prev={prev} goto={goto} open={openImage} close={() => setOpenImage(false)} />
                 </>}
             </div>
-            <input type="file" onChange={(e) => setFile(e.target.files?.[0] || null)} />
-            <button onClick={() => uploadImage()}>sadadsa</button>
-            {img && <img src={img} />}
             <div className="w-full p-2 border-t border-gray-400">
                 <p className="text-lg font-semibold">Descrizione:</p>
                 <p className="text-wrap break-words whitespace-pre-wrap">
