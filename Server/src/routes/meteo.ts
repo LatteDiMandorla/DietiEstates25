@@ -7,6 +7,7 @@ export class MeteoRoute extends Route {
     constructor() {
         super();
         this.meteoController = new MeteoController();
+        this.initRoutes();
     }
 
     protected override initRoutes() : void {

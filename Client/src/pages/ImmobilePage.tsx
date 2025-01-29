@@ -101,7 +101,7 @@ function ImmobilePage(){
                 </p>
             </div>
             <div className="w-full h-96 p-2 border-t border-gray-400">
-                {immobile && <MapComponent staticMap markers={[{...immobile, text: ""}]} startPosition={(immobile.lat && immobile.lon) ? {lat: immobile?.lat, lon: immobile?.lon} : undefined} />}
+                {immobile && <MapComponent markers={[{...immobile, text: ""}]} coordinates={(immobile.lat && immobile.lon) ? {lat: immobile?.lat, lon: immobile?.lon} : undefined} />}
             </div>
         </div>
         <div className="h-full w-fit sticky top-0 hidden lg:block">

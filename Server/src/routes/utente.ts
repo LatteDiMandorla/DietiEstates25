@@ -11,6 +11,7 @@ export class UtenteRoute extends Route {
         super();
         this.utenteController = new UtenteController();
         this.authMiddleware = new AuthMiddleware();
+        this.initRoutes();
     }
 
     protected override initRoutes() : void {

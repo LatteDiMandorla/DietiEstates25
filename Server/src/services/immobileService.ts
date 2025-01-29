@@ -4,9 +4,10 @@ import { RicercaDAO } from "../daos/interfaces/RicercaDAO";
 import { Immobile } from "../models/ImmobileT";
 import { Ricerca } from "../models/RicercaT";
 
-type coordinates = {neLat: number, neLon: number, swLat: number, swLon: number};
+type coordinates = {latMin: number, latMax: number, lonMin: number, lonMax: number};
 type center = {lat: number, lon: number};
-type pagination = {page?: number, limit?: number, timestamp: string};
+type pagination = {page?: number, limit?: number, timestamp?: Date};
+
 export class ImmobileService {
     private immobileDAO: ImmobileDAO | undefined;
     constructor() {
@@ -23,12 +24,14 @@ export class ImmobileService {
         return Promise.reject();
     }
   
-    public async getInRange({lat, lon} : center, {page, limit, timestamp} : pagination) : Promise<Immobile[]>{
+    public async getInRange({latMin, latMax, lonMin, lonMax} : coordinates, {page, limit, timestamp = new Date()} : pagination) : Promise<Immobile[]>{
         let data: Immobile[] | undefined;
 
-        const {latMin, latMax, lonMin, lonMax} = this.calculateBounds(lat, lon, 5); 
+        const lat = (latMax + latMin) / 2;
+        const lon = (lonMax + lonMin) / 2;
+
         if(page && limit) {
-            data = await this.immobileDAO?.findInRangePaginate(latMin, latMax, lonMin, lonMax, lat, lon, page, limit, timestamp);
+            data = await this.immobileDAO?.findInRangePaginate(latMin, latMax, lonMin, lonMax, lat, lon, page, limit, timestamp.toISOString());
         } else {
             data = await this.immobileDAO?.findInRange(latMin, latMax, lonMin, lonMax, lat, lon);
         }

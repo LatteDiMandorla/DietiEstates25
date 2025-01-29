@@ -6,80 +6,81 @@ import { Marker } from '@adamscybot/react-leaflet-component-marker'
 
 interface MapComponentProps{
   className?: string;
-  onMove?: (arg: any) => void;
+  onLoad?: (b: bounds, center: coordinates, zoom: number) => void;
+  onMove?: (b: bounds, center: coordinates, zoom: number) => void;
   markers?: {lat: number, lon: number, text: string}[];
   onMarkerClick?: (arg: any) => void;
   staticMap?: boolean,
-  startPosition?: {lat: number, lon: number};
+  coordinates?: {lat: number, lon: number};
+  zoom?: number;
 }
 
-const MapComponent = ({className = "", markers, onMarkerClick, staticMap = false, startPosition} : MapComponentProps) => {
-  const [coordinates, setCoordinates] = useState<{lat: number, lon: number} | undefined>(startPosition);
-  const [bounds, setBounds] = useState<{ne: {lat: number, lon: number}, sw: {lat: number, lon: number}}>();
-  const [params, setParams] = useSearchParams();
-  const lat = params.get("lat");
-  const lon = params.get("lon");
-  const zoom = params.get("zoom");
+export interface coordinates{lat: number, lon: number};
+export interface bounds{ne: coordinates, sw: coordinates};
 
-  useEffect(() => {
-    const lt = parseFloat(lat || "");
-    const ln = parseFloat(lon || "");
-    if(lt && ln){
-      setCoordinates({lat: lt, lon: ln});
-    }
+const MapComponent = ({className = "", markers, onMove, onLoad, onMarkerClick, staticMap = false, coordinates = {lat: 40, lon: 14}, zoom = 15} : MapComponentProps) => {
 
-  }, [lat, lon])
-
-  useEffect(() => {
-    if(bounds && bounds.ne.lat - bounds.sw.lat > 0 && bounds.ne.lon - bounds.sw.lon > 0){
-      //onMove?.(bounds);
-    }
-  }, [bounds]);
   return (
     <>
       <div className={"rounded-lg overflow-hidden flex w-full h-full " + className} >
-        <MapContainer center={[coordinates?.lat || 40.827373, coordinates?.lon || 14.191577]} zoom={(zoom && parseInt(zoom)) || 15} className={`flex-1`}>
+        <MapContainer center={[coordinates.lat, coordinates.lon]} zoom={zoom} className={`flex-1`}>
           <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
           {markers?.map((marker, index) => <Marker key={index} position={[marker.lat, marker.lon]} icon={<IoMdPin className="text-red-600" size={24} onClick={() => onMarkerClick?.(index)} />}>
               {marker.text && <Popup autoPan={false} autoClose>
                 {marker.text}
               </Popup>}
           </Marker>)}
-          {
-          !staticMap && 
-          <>
-          <SetSearchCoordinates lat={coordinates?.lat} lon={coordinates?.lon} setBounds={setBounds} />
-          <GetSearchCoordinates setPosition={setBounds} setParams={setParams} params={params} />
-          </>
-          }
+          <SetMapPosition lat={coordinates?.lat} lon={coordinates?.lon} />
+          {onLoad && <OnLoad callback={onLoad} />}
+          {onMove && <OnMoveListener callback={onMove} />}
         </MapContainer>
       </div>
     </>
   );
 };
 
-const SetSearchCoordinates = ({lat, lon, setBounds} : any) => {
+const SetMapPosition = ({lat, lon} : {lat?: number, lon?: number}) => {
   const map = useMap();
   useEffect(() => {
-    map.setView([lat, lon], map.getZoom(), {animate: false});
-    setBounds({ne: {lat: map.getBounds().getNorthEast().lat, lon: map.getBounds().getNorthEast().lng}, sw: {lat: map.getBounds().getSouthWest().lat, lon: map.getBounds().getSouthWest().lng}})
+    if(lat && lon){
+      map.setView([lat, lon], map.getZoom(), {animate: false});
+    }
   }, [lat, lon]);
 
   return null;
 }
 
-const GetSearchCoordinates = ({setParams} : {setPosition: ({ne, sw} : {ne: {lat: number, lon: number}, sw: {lat: number, lon: number}}) => void, setParams: any, params: any}) => {
+const OnLoad = ({callback} : {callback: (b: bounds, center: coordinates, zoom: number) => void}) => {
   const map = useMap();
+  useEffect(() => {
+    if(map.getSize().x >= 0 && map.getSize().y >= 0){
+      const ne = map.getBounds().getNorthEast();
+      const sw = map.getBounds().getSouthWest();
+      const center = map.getCenter();
+      const zoom = map.getZoom();
+      callback({
+        ne: {lat: ne.lat, lon: ne.lng}, 
+        sw: {lat: sw.lat, lon: sw.lng},
+      }, {lat: center.lat, lon: center.lng}, zoom);
+    }
+  }, [])
+
+  return null;
+}
+
+const OnMoveListener = ({callback} : {callback: (b: bounds, center: coordinates, zoom: number) => void}) => {
+  const map = useMap();
+
   const onMove = useCallback(() => {
     if(map.getSize().x >= 0 && map.getSize().y >= 0){
-      setParams((prev : URLSearchParams) => {
-        const copy = new URLSearchParams(prev);
-        copy.set('lat', map.getCenter().lat.toString());
-        copy.set('lon', map.getCenter().lng.toString());
-        copy.set('zoom', map.getZoom().toString());
-        return copy;
-      });
-      //setPosition({ne: {lat: map.getBounds().getNorthEast().lat, lon: map.getBounds().getNorthEast().lng}, sw: {lat: map.getBounds().getSouthWest().lat, lon: map.getBounds().getSouthWest().lng}})
+      const ne = map.getBounds().getNorthEast();
+      const sw = map.getBounds().getSouthWest();
+      const center = map.getCenter();
+      const zoom = map.getZoom();
+      callback({
+        ne: {lat: ne.lat, lon: ne.lng}, 
+        sw: {lat: sw.lat, lon: sw.lng},
+      }, {lat: center.lat, lon: center.lng}, zoom);
     }
   }, [map])
 

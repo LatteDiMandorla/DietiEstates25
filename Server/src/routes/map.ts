@@ -1,4 +1,5 @@
 import { MapController } from "../controllers/mapController";
+import ValidationMiddlewares from "../middlewares/validationMiddlewares";
 import { Route } from "./route";
 
 export class MapRoute extends Route {
@@ -7,6 +8,7 @@ export class MapRoute extends Route {
     constructor() {
         super();
         this.mapController = new MapController();
+        this.initRoutes();
     }
 
     protected override initRoutes() : void {

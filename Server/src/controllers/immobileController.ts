@@ -4,6 +4,8 @@ import { ImageService } from "../services/interfaces/imageService";
 import { ServiceFactory } from "../services/factory/serviceFactory";
 import fs from 'fs';
 import path from 'path';
+import { BoundsSearchQueryInput } from "../schemas/immobileSchemas";
+import { PaginationQueryInput } from "../schemas/paginationSchemas";
 
 
 export class ImmobileController {
@@ -31,26 +33,11 @@ export class ImmobileController {
         }
     }
 
-    public async getByRange(req: Request, res: Response) : Promise<void> {
-        const { lat, lon } = req.query;
-        if (!lat || typeof lat !== 'string' || !parseFloat(lat) || !lon || typeof lon !== 'string' || !parseFloat(lon)) {
-            res.status(400).json({ error: 'The query parameters are required and must be numbers.' });
-            return;
-        }
-
-        const {page, limit, sort, order} = req.query;
-        if ((page && !parseInt(page as string)) || (limit && !parseInt(limit as string))) {
-            res.status(400).json({ error: 'The query pagination parameters must be numbers.' });
-            return;
-        }
-
+    public async getByRange(req: Request<{}, {}, {}, qs.ParsedQs & BoundsSearchQueryInput & PaginationQueryInput>, res: Response) : Promise<void> {
+        const { neLat, neLon, swLat, swLon } = req.query;
+        const {page, limit} = req.query;
         const {timestamp} = req.query;
-        if(timestamp && typeof timestamp == "string"){
-            res.status(400).json({ error: 'Wrong timestamp type' });
-            return;
-        }
-
-        const data = await this.immobileService?.getInRange({lat: parseFloat(lat), lon: parseFloat(lon)}, {page: parseInt(page as string), limit: parseInt(limit as string), timestamp: (timestamp as string) || new Date().toISOString()});
+        const data = await this.immobileService?.getInRange({latMax: neLat, latMin: swLat, lonMax: neLon, lonMin: swLon}, {page, limit, timestamp: timestamp});
         res.json({data, timestamp});
     }
 

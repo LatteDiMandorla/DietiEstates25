@@ -8,6 +8,7 @@ export class AuthRoute extends Route {
     constructor() {
         super();
         this.authController = new AuthController();
+        this.initRoutes();
     }
 
     protected override initRoutes() : void {
