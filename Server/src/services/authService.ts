@@ -61,6 +61,7 @@ export abstract class AuthService {
         try {
             await this.utenteDAO?.create(user);
         } catch (error) {
+            console.log("Errore!!!!")
             return Promise.reject(error);
         }
     }
