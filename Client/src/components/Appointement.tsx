@@ -1,6 +1,5 @@
-import StarRating from "./StarRating";
 import { BiSolidCalendar } from "react-icons/bi";
-import { Calendar, Range } from 'react-date-range';
+import { Calendar } from 'react-date-range';
 import { useEffect, useRef, useState } from "react";
 import { FaStar, FaRegStar } from "react-icons/fa"; // Usa react-icons per le stelle
 import { IoIosCloud, IoIosSunny, IoIosPartlySunny, IoIosRainy, IoIosCloudy, IoIosSnow, IoIosThunderstorm } from "react-icons/io";
@@ -30,12 +29,12 @@ export const Appointement = () => {
       };
 
     const times = [
-        new Date(2025, 0, 28, 15, 30),
-        new Date(2025, 0, 28, 16, 30),
-        new Date(2025, 0, 28, 17),
-        new Date(2025, 0, 28, 17, 30),
-        new Date(2025, 0, 28, 18, 30),
-        new Date(2025, 0, 28, 19),
+        new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), 16),
+        new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), 16, 30),
+        new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), 17),
+        new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), 18),
+        new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), 18, 30),
+        new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), 19),
 
     ]
     

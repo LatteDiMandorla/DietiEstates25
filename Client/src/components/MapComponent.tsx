@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
 import { MapContainer, Popup, TileLayer, useMap } from 'react-leaflet'
-import { useSearchParams } from "react-router-dom";
 import { IoMdPin } from "react-icons/io";
 import { Marker } from '@adamscybot/react-leaflet-component-marker'
 
@@ -10,7 +9,6 @@ interface MapComponentProps{
   onMove?: (b: bounds, center: coordinates, zoom: number) => void;
   markers?: {lat: number, lon: number, text: string}[];
   onMarkerClick?: (arg: any) => void;
-  staticMap?: boolean,
   coordinates?: {lat: number, lon: number};
   zoom?: number;
 }
@@ -18,7 +16,7 @@ interface MapComponentProps{
 export interface coordinates{lat: number, lon: number};
 export interface bounds{ne: coordinates, sw: coordinates};
 
-const MapComponent = ({className = "", markers, onMove, onLoad, onMarkerClick, staticMap = false, coordinates = {lat: 40, lon: 14}, zoom = 15} : MapComponentProps) => {
+const MapComponent = ({className = "", markers, onMove, onLoad, onMarkerClick, coordinates = {lat: 40, lon: 14}, zoom = 15} : MapComponentProps) => {
 
   return (
     <>
@@ -70,6 +68,7 @@ const OnLoad = ({callback} : {callback: (b: bounds, center: coordinates, zoom: n
 
 const OnMoveListener = ({callback} : {callback: (b: bounds, center: coordinates, zoom: number) => void}) => {
   const map = useMap();
+  const [currZoom, setCurrZoom] = useState<number>(map.getZoom())
 
   const onMove = useCallback(() => {
     if(map.getSize().x >= 0 && map.getSize().y >= 0){
@@ -83,15 +82,34 @@ const OnMoveListener = ({callback} : {callback: (b: bounds, center: coordinates,
       }, {lat: center.lat, lon: center.lng}, zoom);
     }
   }, [map])
+  useEffect(() => {
+    console.log("reload");
+  }, [])
 
   useEffect(() => {
-    map.on('dragend', onMove)
-    map.on('zoomend', onMove)
-    return () => {
-      map.off('dragend', onMove)
-      map.off('zoomend', onMove)
+    const handleZoomStart = () => {
+      setCurrZoom(map.getZoom());
     }
-  }, [map, onMove])
+
+    const handleZoomEnd = () => {
+      const newZoom = map.getZoom();
+      if(currZoom && newZoom < currZoom){
+        console.log("Zoom Out");
+        onMove();
+      }
+      setCurrZoom(newZoom); // Aggiorna il livello di zoom precedente
+    };
+
+    
+    map.on('dragend', onMove)
+    map.on('zoomstart', handleZoomStart);
+    map.on('zoomend', handleZoomEnd)
+    return () => {
+      map.off('dragend')
+      map.off('zoomstart');
+      map.off('zoomend')
+    }
+  }, [map, onMove, currZoom])
 
   return null;
 }

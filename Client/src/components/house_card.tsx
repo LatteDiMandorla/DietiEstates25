@@ -38,7 +38,7 @@ export const HouseCard = forwardRef<ChildRef, Immobile>((props: Immobile, ref) =
         <div className="h-fit px-4 py-1 flex flex-col space-y-2 ">
           <div className="flex-1">
             <div className="flex w-full justify-between items-center h-4">
-              <div className="flex items-center justify-center rounded-full text-white font-semibold text-xs bg-green-500 w-fit px-1">{props.price}€
+              <div className="flex items-center justify-center rounded-full text-white font-semibold text-xs bg-green-500 w-fit px-1">{props.price.toLocaleString("it-IT", {style: "currency", currency: "EUR", minimumFractionDigits: 0})}
                 </div>
                 <div className="rounded-full">
                 <UseAnimations

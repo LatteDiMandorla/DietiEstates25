@@ -1,25 +1,21 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
+import axios from "../api/axios";
+import { ClipLoader } from "react-spinners";
+
 import { Filters, Immobile } from "../Interfaces/interfaces";
+import { FiltersBar } from "../components/FiltersBar";
 import { HouseCard, HouseCardSkeleton } from "../components/house_card";
 import MapComponent, { bounds, coordinates } from "../components/MapComponent";
-import axios from "../api/axios";
-import ConditionalDrawer from "../components/ConditionalDrawer";
 import MapButton from "../components/MapButton";
-import { FiltersBar } from "../components/FiltersBar";
-import { useSearchParams } from "react-router-dom";
-import { ClipLoader } from "react-spinners";
+import ConditionalDrawer from "../components/ConditionalDrawer";
+
 import { useScrollToElement } from "../hooks/useScrollToElement";
+import { useInfiniteScroll } from "../hooks/useInfiniteScroll";
 
 const SearchPage = () => {
-    const [immobili, setImmobili] = useState<Immobile[]>();
-    const [isLoading, setIsLoading] = useState<boolean>();
     const [filter, setFilter] = useState<Filters>();
     const [openDrawer, setOpenDrawer] = useState<boolean>(false);
-    
-    const [timestamp, setTimestamp] = useState<string>();
-    const [page, setPage] = useState<number>(1);
-    const [ended, setEnded] = useState<boolean>(false);
-    const pageSize = 5;
 
     const [params, setParams] = useSearchParams();
     const lat = parseFloat(params.get("lat") || "");
@@ -29,97 +25,49 @@ const SearchPage = () => {
 
     const {addRef, scrollableRef, scrollToId} = useScrollToElement(() => setOpenDrawer(false));
 
-    useEffect(() => {
-        console.log(bounds);
+    const { data: immobili, loading, more } = useInfiniteScroll<Immobile>(scrollableRef, async (page, pageSize, timestamp) => {
+        if(bounds){
+            const { data } = await axios.get("/immobile/bounds", { 
+                params: { 
+                    neLat: bounds?.ne.lat, 
+                    neLon: bounds?.ne.lon, 
+                    swLat: bounds?.sw.lat, 
+                    swLon: bounds?.sw.lon,
+                    page: page + 1, limit: pageSize, 
+                    timestamp: timestamp
+                }}
+            );
+    
+            return {data: data.data, timestamp: data.timestamp};
+        } else {
+            return Promise.reject("Bounds undefined");
+        }
     }, [bounds])
 
-    useEffect(() => {
-        //console.log(filter);
-    }, [filter])
-
-    useEffect(() => {
-        const fetchImmobili = async () => {
-            if(lat && lon && bounds){
-                try {                
-                    setIsLoading(true);
-                    const { data } = await axios.get("/immobile/bounds", 
-                        { params: { 
-                            neLat: bounds.ne.lat, 
-                            neLon: bounds.ne.lon, 
-                            swLat: bounds.sw.lat, 
-                            swLon: bounds.sw.lon,
-                            page: 1, limit: pageSize, 
-                            timestamp: timestamp}}
-                    );
-        
-                    if(data){
-                        setTimeout(() => setImmobili(data.data), 1000);
-                        setTimestamp(data.timestamp);
-                        setTimeout(() => setIsLoading(false), 1000);
-                        setPage(1);
-                    }
-                } catch (error) {
-                    console.log("sono io",error);
-                }
-            }
-        }
-        fetchImmobili();
-    }, [lat, lon, bounds])
-
-    const handleScroll = async () => {
-        if(scrollableRef.current && (scrollableRef.current.scrollTop + scrollableRef.current.clientHeight == scrollableRef.current.scrollHeight) && !isLoading && !ended){
-            if(bounds){
-                try {                
-                    setIsLoading(true);
-                    const { data } = await axios.get("/immobile/bounds", 
-                        { params: { 
-                            neLat: bounds.ne.lat, 
-                            neLon: bounds.ne.lon, 
-                            swLat: bounds.sw.lat, 
-                            swLon: bounds.sw.lon,
-                            page: page + 1, limit: pageSize, 
-                            timestamp: timestamp}}
-                    );
-    
-                    if(data && data.data && data.data.length){
-                        setTimeout(() => setImmobili(prev => (prev ? [...prev, ...data.data] : data.data)), 1000);
-                        setTimestamp(data.timestamp);
-                        setPage(prev => prev + 1);
-                    } else {
-                        setEnded(true);
-                    }
-                    setTimeout(() => setIsLoading(false), 1000);
-                } catch (error) {
-                    console.log(error);
-                }
-            }
-        }
-    }
-
-    const applyFilters = () => {
+    const applyFilters = () : Immobile[] | undefined => {
         if(immobili && filter) {
             let filtered = [...immobili];
             if(filter.bathrooms){
                 const bathroomFilter = parseInt(filter.bathrooms) || 4;
-                filtered = filtered.filter((imm) => parseInt(imm.bathrooms) >= bathroomFilter);
+                filtered = filtered.filter((imm) => imm.bathrooms >= bathroomFilter);
             }
 
             if(filter.locals && filter.locals[0] && filter.locals[1]){
                 const minLocals = filter.locals[0];
                 const maxLocals = filter.locals[1];
-                filtered = filtered.filter((imm) => parseInt(imm.locals) >= minLocals && parseInt(imm.locals) <= maxLocals);
+                filtered = filtered.filter((imm) => imm.locals >= minLocals && imm.locals <= maxLocals);
             }
 
             if(filter.price && filter.price[0] && filter.price[1]){
                 const minPrice = filter.price[0];
                 const maxPrice = filter.price[1];
-                filtered = filtered.filter((imm) => parseInt(imm.price) >= minPrice && parseInt(imm.locals) <= maxPrice);
+                filtered = filtered.filter((imm) => imm.price >= minPrice && imm.price <= maxPrice);
             }
 
             if(filter.size && filter.size[0] && filter.size[1]){
                 const minSize = filter.size[0];
                 const maxSize = filter.size[1];
-                filtered = filtered.filter((imm) => parseInt(imm.price) >= minSize && parseInt(imm.size) <= maxSize);
+                filtered = filtered.filter((imm) => parseInt(imm.size) >= minSize && parseInt(imm.size) <= maxSize);
             }
 
             if(filter.type){
@@ -148,6 +96,7 @@ const SearchPage = () => {
 
     const onMapMove = (bounds: bounds, center: coordinates, zoom: number) => {
         setBounds(bounds);
+        scrollableRef.current?.scrollTo({top: 0});
         setParams((prev : URLSearchParams) => {
         const copy = new URLSearchParams(prev);
         copy.set('lat', center.lat.toString());
@@ -157,19 +106,23 @@ const SearchPage = () => {
       });
     }
 
+    useEffect(() => {
+        console.log(filter);
+    }, [filter])
+
     return (
         <>
         <FiltersBar setFilters={setFilter} />
         <div className="flex-1 w-full flex bg-[#FAFAFA] overflow-hidden">
             <div className="absolute lg:hidden right-4 bottom-6 rounded-full flex justify-center items-center z-40 shadow-md"><MapButton onClick={() => setOpenDrawer(true)} /></div>
-            <div className="h-full overflow-y-scroll flex-1  no-scrollbar px-6" ref={scrollableRef} onScroll={handleScroll}>
+            <div className="h-full overflow-y-scroll flex-1  no-scrollbar px-6" ref={scrollableRef} >
                 <div className="flex flex-col space-y-3 p-3 items-center">
-                    { (isLoading && !applyFilters() && !applyFilters()?.length) ? 
+                    { (loading && !applyFilters() && !applyFilters()?.length) ? 
                         Array.from({length: 5}).map((_, index) => <HouseCardSkeleton key={index} />) :
                         (applyFilters() && applyFilters()?.length ? 
                         <>
-                        {applyFilters()?.map((imm, index) => <div className="w-full flex justify-center"><HouseCard key={index} ref={(e) => addRef(index, e)} {...imm} /></div>)}
-                        {ended ? <p>Risultati: {applyFilters()?.length}</p> : <ClipLoader />}
+                        {applyFilters()?.map((imm, index) => <div key={index} className="w-full flex justify-center"><HouseCard ref={(e) => addRef(index, e)} {...imm} /></div>)}
+                        {more ? <ClipLoader /> : <p>Risultati: {applyFilters()?.length}</p>}
                         </>
                         : <p className="font-semibold">Nessun risultato</p>    
                         )

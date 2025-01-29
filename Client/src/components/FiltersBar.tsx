@@ -53,7 +53,7 @@ export const FiltersBar = ({setFilters} : FilterBarProps) => {
                     <DropdownMenuMultiple text="Tipo" selected={type} setSelected={setType} icon={FaRegBuilding} options={["Casa", "Villa", "Appartamento"]} />
                     <DropdownMenuRange min={1} max={10} step={1} selected={locals} setSelected={setLocals} text="Locali" icon={MdOutlineMeetingRoom} />
                     <DropdownMenuSingle selected={bathrooms} setSelected={setBathrooms} text="Bagni" icon={LuToilet} options={["1", "2", "3", "4 o più"]} />
-                    <DropdownMenuRange min={1} max={10} step={1} selected={price} setSelected={setPrice} text="Prezzo" icon={RiMoneyEuroCircleLine} />
+                    <DropdownMenuRange min={50000} max={4000000} step={10000} selected={price} setSelected={setPrice} text="Prezzo" icon={RiMoneyEuroCircleLine} />
                     <DropdownMenuRange min={1} max={10} step={1} selected={size} setSelected={setSize} text="Metri Quadri" icon={RxRulerSquare} />
                     <DropdownMenuMultiple text="Caratteristiche" selected={others} setSelected={setOthers} icon={HiOutlineSparkles} options={["con Giardino", "Vicino alla scuola", "Vicino al parco"]} />
                 </div>

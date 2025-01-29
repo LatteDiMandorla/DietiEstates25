@@ -137,10 +137,10 @@ export const ProfilePage = () =>
                 title="Villa sul mare"
                 street="Via dei mille"
                 size="40"
-                bathrooms="2"
-                locals="3"
+                bathrooms={2}
+                locals={3}
                 agentImage="https://informatica.dieti.unina.it/images/foto-docenti/di-martino.png"
-                price="100.000€"
+                price={100000}
                 images={[
                     "https://cdn.pixabay.com/photo/2016/11/18/17/46/house-1836070_1280.jpg",
                     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRxG8ihFgvtyxCvoVxgoVKto6MpkCZzVwNoxA&s",
@@ -153,10 +153,10 @@ export const ProfilePage = () =>
                 title="Villa sul mare"
                 street="Via dei mille"
                 size="40"
-                bathrooms="2"
-                locals="3"
+                bathrooms={2}
+                locals={3}
                 agentImage="https://informatica.dieti.unina.it/images/foto-docenti/di-martino.png"
-                price="100.000€"
+                price={100000}
                 images={[
                     "https://cdn.pixabay.com/photo/2016/11/18/17/46/house-1836070_1280.jpg",
                     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRxG8ihFgvtyxCvoVxgoVKto6MpkCZzVwNoxA&s",
