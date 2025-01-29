@@ -1,19 +1,8 @@
 import RegisterForm from "../components/RegisterForm";
-import image from "../assets/mountain-7300017.jpg";
-import useAxiosPrivate from "../hooks/useAxiosPrivate";
-import useAuth from "../hooks/useAuth";
+import image from "../assets/DietiRealLogo.png";
 
 function RegisterPage() {
-    const axios = useAxiosPrivate();
-    const {setAuth} = useAuth();
-    const test = async () => {
-        try {
-            const {data} = await axios.get("utente/self");
-            alert("loggato");
-        } catch (error) {
-            alert("non loggato");
-        }
-    }
+
     return (
         <div className="flex flex-row h-full bg-[#FAFAFA]">
             <div className="w-full h-full flex-1 flex flex-col justify-center items-center space-y-6">
@@ -27,8 +16,8 @@ function RegisterPage() {
                 </div>
             </div>
 
-            <div className="flex flex-1 overflow-hidden justify-center items-center">
-                <img className="object-cover w-full h-full" src={image} />
+            <div className="flex flex-1 overflow-hidden justify-center items-center bg-[#DDF5FF] rounded-2xl">
+                <img className="object-cover w-48 h-48" src={image} />
             </div>
         </div>
     )
