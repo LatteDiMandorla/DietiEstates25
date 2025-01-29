@@ -1,5 +1,5 @@
 import LoginForm from "../components/LoginForm";
-import image from "../assets/mountain-7300017.jpg";
+import image from "../assets/DietiRealLogo.png";
 import AlternativeLogin from "../components/AlternativeLogin";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import useAuth from "../hooks/useAuth";
@@ -17,8 +17,8 @@ function LoginPage() {
     }
     return (
         <div className="flex h-full bg-[#FAFAFA]">
-            <div className="flex flex-1 overflow-hidden justify-center items-center">
-                <img className="object-cover w-full h-full" src={image} />
+            <div className="flex flex-1 overflow-hidden justify-center items-center bg-[#DDF5FF] rounded-2xl">
+                <img className="object-cover w-48 h-48" src={image} />
             </div>
             <div className="w-full h-full flex-1 flex flex-col justify-center items-center space-y-6">
                 <LoginForm />
