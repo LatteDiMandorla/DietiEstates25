@@ -27,16 +27,16 @@ function RegisterForm() {
     const handleSubmit = async (values: Values, {resetForm} : FormikHelpers<Values>) => {
         if (values.email && values.password && values.confirmPassword && values.nome && values.cognome && values.username) {
             try {
-                const formData = new FormData();
-                formData.append("username", values.username);
-                formData.append("password", values.password);
-                formData.append("nome", values.nome);
-                formData.append("cognome", values.cognome);
-                formData.append("email", values.email);
-
-
-                const { data } = await axios.post("/auth/register", formData, {
-                    headers: { 'Content-Type': 'multipart/form-data' },
+                const payload = {
+                    username: values.username,
+                    password: values.password,
+                    nome: values.nome,
+                    cognome: values.cognome,
+                    email: values.email,
+                };
+    
+                const { data } = await axios.post("/auth/register", payload, {
+                    headers: { 'Content-Type': 'application/json' },
                     withCredentials: true,
                 });
     

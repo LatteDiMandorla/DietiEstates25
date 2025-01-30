@@ -19,11 +19,11 @@ export default class Utente extends Model {
         },
         nome: {
             type: DataTypes.INTEGER,
-
+            allowNull: false,
         },
         cognome: {
             type: DataTypes.INTEGER,
-            
+            allowNull: false,
         },
         email: {
             type: DataTypes.INTEGER,
@@ -32,6 +32,7 @@ export default class Utente extends Model {
         },
         image: {
             type: DataTypes.STRING,
+            allowNull: true
         }
       },
       {
