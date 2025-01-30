@@ -28,8 +28,8 @@ export class AuthController {
     
     public async register(req: Request, res: Response) {
         try {
-            const { email, password, confirmPassword } = req.body;
-            if(!email || !password || !confirmPassword || typeof email != "string" || typeof password != "string" || typeof confirmPassword != "string"){
+            const {username, password, nome, cognome,  email, image = null} = req.body;
+            if(!username || !password || !nome || !cognome || !email  || typeof username != "string" || typeof password != "string" || typeof nome != "string" || typeof cognome != "string" || typeof email != "string"){
                 res.status(400).json({ error: 'invalid user' });
                 return;
             }
