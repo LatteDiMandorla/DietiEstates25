@@ -60,9 +60,7 @@ export abstract class AuthService {
     public async register(user: Utente) : Promise<void> {
         try {
             await this.utenteDAO?.create(user);
-            console.log(user);
         } catch (error) {
-            console.log("Errore!!!!")
             return Promise.reject(error);
         }
     }
