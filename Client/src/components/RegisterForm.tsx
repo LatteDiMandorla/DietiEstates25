@@ -32,7 +32,7 @@ function RegisterForm() {
                     password: values.password,
                     nome: values.nome,
                     cognome: values.cognome,
-                    email: values.email,
+                    email: values.email
                 };
     
                 const { data } = await axios.post("/auth/register", payload, {
