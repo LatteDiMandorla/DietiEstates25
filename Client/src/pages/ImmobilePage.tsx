@@ -8,13 +8,11 @@ import { FaDoorOpen, FaRegEyeSlash, FaRulerCombined } from "react-icons/fa";
 import { CiHeart } from "react-icons/ci";
 import { FaArrowLeft } from "react-icons/fa";
 import {Appointement} from "../components/Appointement";
-import { EnergyEffiency } from "../components/EnergyEfficiency";
 import { Immobile } from "../Interfaces/interfaces";
 import axios from "../api/axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { PiToiletFill } from "react-icons/pi";
 import MapComponent from "../components/MapComponent";
-import { PicturesSlideshowUploader } from "../components/PicturesSlideshowUploader";
 
 function ImmobilePage(){
     const [immobile, setImmobile] = useState<Immobile>();
