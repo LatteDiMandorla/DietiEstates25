@@ -3,14 +3,20 @@ import { AuthServiceLocal } from "../services/authServiceLocal";
 import { AuthServiceGoogle } from "../services/authServiceGoogle";
 import { Utente } from "../models/UtenteT";
 import { RegisterBodyInput } from "../schemas/authSchemas";
+import { MailService } from "../services/interfaces/mailService";
+import { ServiceFactory } from "../services/factory/serviceFactory";
 
 export class AuthController {
     private authService : AuthServiceLocal | undefined;
     private authServiceGoogle : AuthServiceGoogle | undefined;
+    private mailService: MailService | undefined;
 
     constructor() {
         this.authService = new AuthServiceLocal();
         this.authServiceGoogle = new AuthServiceGoogle();
+        const serviceFactory = new ServiceFactory();
+        console.log(process.env.MAIL_API);
+        this.mailService = serviceFactory.getMailService(process.env.MAIL_API || "Mailtrap");
     }
 
     public async login(req: Request, res: Response) {
@@ -29,7 +35,8 @@ export class AuthController {
     
     public async register(req: Request<{}, {}, RegisterBodyInput & {file?: File}>, res: Response) {
         try {
-            await this.authService?.register(req.body);
+            //await this.authService?.register(req.body);
+            await this.mailService?.sendVerificationMail(req.body.email, `${process.env.CLIENT_URL}/auth/verify`);
             res.sendStatus(201);
         } catch (error) {
             res.status(400).json({error});
@@ -61,6 +68,22 @@ export class AuthController {
             }
         } catch (error) {
             res.sendStatus(401);
+        }
+    }
+
+    public async verify(req: Request, res: Response) {
+        try {
+            const {token} = req.query;
+
+            if(!token || typeof token != "string"){
+                res.sendStatus(401);
+                return;
+            }
+
+            await this.authService?.verify(token);
+            res.sendStatus(200);
+        } catch (error) {
+            res.status(401).send(error);
         }
     }
 }

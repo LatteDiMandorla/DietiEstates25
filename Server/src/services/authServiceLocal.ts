@@ -19,11 +19,38 @@ export class AuthServiceLocal extends AuthService {
             if(!samePassword) {
                 return Promise.reject("Wrong Password");
             }
+
             const refreshToken = this.generateRefreshToken(user);
             const accessToken = this.generateAccessToken(user);
             return {accessToken, refreshToken, utente: user};
         }
 
-        return Promise.reject();
+        return Promise.reject("User not found");
+    }
+
+    private verifyVerificationToken(verifyToken: string): Promise<any> {
+        return new Promise((resolve, reject) => {
+            if (!verifyToken) {
+                return reject(new Error('Verify token mancante.'));
+            }
+        
+            // Verifica il refresh token
+            jwt.verify(verifyToken, process.env.JWT_VERIFY_TOKEN_SECRET as string, (err, decoded) => {
+                if (err) {
+                    return reject(new Error('Verify token non valido o scaduto.'));
+                }
+        
+                resolve(decoded);  // Se il token è valido, restituiamo il payload decodificato
+            });
+        });
+    }
+
+    public async verify(token: string) : Promise<void> {
+        try {
+            const email = await this.verifyVerificationToken(token);
+            return;
+        } catch (error) {
+            return Promise.reject(error);
+        }
     }
 }
