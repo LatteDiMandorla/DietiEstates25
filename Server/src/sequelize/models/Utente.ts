@@ -18,15 +18,15 @@ export default class Utente extends Model {
           type: DataTypes.STRING,
         },
         nome: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.STRING,
             allowNull: false,
         },
         cognome: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.STRING,
             allowNull: false,
         },
         email: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.STRING,
             allowNull: false,
             unique: true,
         },
