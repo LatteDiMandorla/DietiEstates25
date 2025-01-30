@@ -14,8 +14,11 @@ export class AuthServiceLocal extends AuthService {
 
     public async login(email: string, password: string) : Promise<{accessToken: string, refreshToken: string, utente: Utente}> {
         const user = await this.utenteDAO?.findByEmail(email);
-
-        if(user && user.password == password) {
+        if(user && user.password){
+            const samePassword = await super.validatePassword(password, user.password);
+            if(!samePassword) {
+                return Promise.reject("Wrong Password");
+            }
             const refreshToken = this.generateRefreshToken(user);
             const accessToken = this.generateAccessToken(user);
             return {accessToken, refreshToken, utente: user};

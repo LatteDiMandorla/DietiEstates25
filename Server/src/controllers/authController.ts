@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { AuthServiceLocal } from "../services/authServiceLocal";
 import { AuthServiceGoogle } from "../services/authServiceGoogle";
 import { Utente } from "../models/UtenteT";
+import { RegisterBodyInput } from "../schemas/authSchemas";
 
 export class AuthController {
     private authService : AuthServiceLocal | undefined;
@@ -26,14 +27,8 @@ export class AuthController {
         }
     }
     
-    public async register(req: Request, res: Response) {
+    public async register(req: Request<{}, {}, RegisterBodyInput & {file?: File}>, res: Response) {
         try {
-            const {username, password, nome, cognome,  email, image = null} = req.body;
-            if(!username || !password || !nome || !cognome || !email  || typeof username != "string" || typeof password != "string" || typeof nome != "string" || typeof cognome != "string" || typeof email != "string"){
-                res.status(400).json({ error: 'invalid user' });
-                return;
-            }
-
             await this.authService?.register(req.body);
             res.sendStatus(201);
         } catch (error) {

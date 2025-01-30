@@ -4,6 +4,7 @@ import { UtenteDAO } from "../daos/interfaces/UtenteDAO";
 import { Utente } from "../models/UtenteT";
 
 import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
 
 export abstract class AuthService {
     protected utenteDAO: UtenteDAO | undefined;
@@ -11,6 +12,16 @@ export abstract class AuthService {
         const factory = new DAOFactory();
         this.utenteDAO = factory.getUtenteDAO(process.env.DAOTYPE || "");
     }
+
+    protected async hashPassword(plainTextPassword: string) : Promise<string> {
+        const saltRounds = 10;
+        const hashed = await bcrypt.hash(plainTextPassword, saltRounds);
+        return hashed;
+    };
+            
+    protected async validatePassword(candidatePassword: string, storedPassword: string): Promise<boolean> {
+        return await bcrypt.compare(candidatePassword, storedPassword);
+    };
 
     protected generateRefreshToken(user: Utente) : string {
         const payload = {id: user.id};
@@ -59,7 +70,11 @@ export abstract class AuthService {
 
     public async register(user: Utente) : Promise<void> {
         try {
-            await this.utenteDAO?.create(user);
+            let hashedPassword = "";
+            if(user.password){
+                hashedPassword = await this.hashPassword(user.password);
+            }
+            await this.utenteDAO?.create({...user, password: hashedPassword});
         } catch (error) {
             return Promise.reject(error);
         }
