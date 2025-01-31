@@ -3,6 +3,7 @@ import { HouseCardSliderSp } from '../components/HouseCardSlider';
 import { TopbarExtended } from '../components/TopbarExtended';
 import { Immobile } from '../Interfaces/interfaces';
 import axios from '../api/axios';
+import Footer from '../components/Footer';
 
 
 const HomePage = () => {
@@ -43,6 +44,7 @@ const HomePage = () => {
 
             <Divider title='Piaciuti' />
             <HouseCardSliderSp houses={lastSearched} />
+            <Footer />
           </div>
         </div>
       </div>
