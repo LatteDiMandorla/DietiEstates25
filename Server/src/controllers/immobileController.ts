@@ -26,10 +26,10 @@ export class ImmobileController {
                 return;
             }
     
-            const data = await this.immobileService?.getById(id);
+            const data = await this.immobileService?.getByIdWithTimes(id);
             res.json(data);
         } catch (error) {
-            res.sendStatus(400);
+            res.status(400).send(error);
         }
     }
 

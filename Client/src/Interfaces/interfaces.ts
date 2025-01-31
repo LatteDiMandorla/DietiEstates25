@@ -11,6 +11,7 @@ export interface Immobile {
     lat: number;
     lon: number;
     tags?: string[];
+    orari?: string[]
 }
 
 export interface Filters {

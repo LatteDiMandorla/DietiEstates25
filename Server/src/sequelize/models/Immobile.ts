@@ -1,4 +1,5 @@
 import { Model, DataTypes, Sequelize } from 'sequelize';
+import Agente from './Agente';
 
 export default class Immobile extends Model {
     public title!: string;
@@ -6,7 +7,6 @@ export default class Immobile extends Model {
     public size!: string;
     public bathrooms!: string;
     public locals!: string;
-    public agentImage!: string; 
     public price!: string;
     public images!: string[];
     public lat!: number;
@@ -33,10 +33,6 @@ export default class Immobile extends Model {
         },
         locals: {
             type: DataTypes.INTEGER,
-            allowNull: false,
-        },
-        agentImage: {
-            type: DataTypes.STRING,
             allowNull: false,
         },
         price: {
@@ -83,4 +79,9 @@ export default class Immobile extends Model {
       }
     );
   }
+
+    static associate() {
+      Agente.hasMany(Immobile);
+      Immobile.belongsTo(Agente);
+    }
 }

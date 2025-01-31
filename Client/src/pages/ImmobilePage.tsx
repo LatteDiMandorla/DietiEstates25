@@ -48,7 +48,6 @@ function ImmobilePage(){
                 const {data} = await axios.get(`immobile/${id}`);
                 if(data) {
                     setImmobile(data);
-                    console.log(data);
                 }
             }
         }
@@ -103,7 +102,7 @@ function ImmobilePage(){
             </div>
         </div>
         <div className="h-full w-fit sticky top-0 hidden lg:block">
-            <Appointement/>
+            {immobile && immobile.id && immobile.orari && <Appointement id={immobile.id} times={immobile.orari.map(o => new Date(o))}/>}
         </div>
     </div>
     </>

@@ -1,6 +1,6 @@
 import { DAOFactory } from "../daos/factory/DAOFactory";
 import { ImmobileDAO } from "../daos/interfaces/ImmobileDAO";
-import { RicercaDAO } from "../daos/interfaces/RicercaDAO";
+import { PrenotazioneDAO } from "../daos/interfaces/PrenotazioneDAO";
 import { Immobile } from "../models/ImmobileT";
 import { Ricerca } from "../models/RicercaT";
 
@@ -10,9 +10,11 @@ type pagination = {page?: number, limit?: number, timestamp?: Date};
 
 export class ImmobileService {
     private immobileDAO: ImmobileDAO | undefined;
+    private prenotazioneDAO: PrenotazioneDAO | undefined;
     constructor() {
         const factory = new DAOFactory();
         this.immobileDAO = factory.getImmobileDAO(process.env.DAOTYPE || "");
+        this.prenotazioneDAO = factory.getPrenotazioneDAO(process.env.DAOTYPE || "");
     }
 
     public async getById(id: number) : Promise<Immobile> {
@@ -22,6 +24,16 @@ export class ImmobileService {
         }
 
         return Promise.reject();
+    }
+
+    public async getByIdWithTimes(id: number) : Promise<Immobile> {
+        const immobile = await this.immobileDAO?.findById(id);
+        if(!immobile || !immobile.Agente) {
+            return Promise.reject("Immobile non trovato");
+        }
+        const orari = await this.prenotazioneDAO?.findByImmobileAgente(id, immobile.Agente.id);
+        console.log({...immobile, orari: orari?.map((o) => o.data)})
+        return {...immobile, orari: orari?.map((o) => o.data)};
     }
   
     public async getInRange({latMin, latMax, lonMin, lonMax} : coordinates, {page, limit, timestamp = new Date()} : pagination) : Promise<Immobile[]>{
@@ -54,7 +66,7 @@ export class ImmobileService {
           lonMin,
           lonMax,
         };
-      }
+    }
 
     public async getFromRecentSearches(searches: Ricerca[]) : Promise<Immobile[]> {
         let immobili : Immobile[] = [];

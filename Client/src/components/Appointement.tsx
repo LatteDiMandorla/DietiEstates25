@@ -7,17 +7,19 @@ import { IoRainyOutline } from "react-icons/io5";
 import { BsCloudFog2Fill } from "react-icons/bs";
 import { Avatar } from "./Avatar";
 import axios from "../api/axios";
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
-export const Appointement = () => {
+export const Appointement = ({times, id} : {times: Date[], id: number}) => {
 
     const [date, setDate] = useState<Date>();
     const [time, setTime] = useState<Date>();
     const [weather, setWeather] = useState<any>();
+    const axios = useAxiosPrivate();
 
     const twoWeeks = 1000 * 60 * 60 * 24 * 14;
 
     const weatherIcons = (state: string) => {
-        if(state == "sereno") return <IoIosSunny />;
+        if(state == "sereno") return IoIosSunny;
         else if(state == "prevalentemente sereno") return IoIosPartlySunny;
         else if(state == "parzialmente nuvoloso") return IoIosCloudy;
         else if(state == "nuvoloso") return IoIosCloud;
@@ -27,16 +29,6 @@ export const Appointement = () => {
         else if(state == "neve") return IoIosSnow;
         else if(state == "temporale") return IoIosThunderstorm;
       };
-
-    const times = [
-        new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), 16),
-        new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), 16, 30),
-        new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), 17),
-        new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), 18),
-        new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), 18, 30),
-        new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), 19),
-
-    ]
     
     const handleAppointmentClick = () => {
         if(date && time) {
@@ -44,15 +36,44 @@ export const Appointement = () => {
         }
     }
 
+    const onDateChange = async (d: Date) => {
+        setDate(d);
+    }
+
     useEffect(() => {
         const fetch = async () => {
-            const {data} = await axios.post("/meteo", {dates: times, lat: 40.8762, lon: 14.5195})
-            console.log(data);
+            console.log(times);
+            const {data} = await axios.post("/meteo", {dates: times.map(t => t.toISOString()), lat: 40.8762, lon: 14.5195})
+            console.log("cambio:", data);
+            console.log("tempi:", times.map(t => t.toISOString()));
             setWeather(data.map((w: any) => ({...w, icon: weatherIcons(w.state)})));
         }
 
         fetch();
     }, [])
+
+    const onClickPrenota = async () => {
+        if(date && time){
+            try {
+                const {data} = await axios.post("/prenotazione/request", {data: time, immobileId: id});
+                console.log(data);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    }
+
+    const formatDate = (date: Date): string => {
+        const options: Intl.DateTimeFormatOptions = {
+          weekday: 'long', // Lunedì, Martedì, ecc.
+          month: 'long', // gennaio, febbraio, ecc.
+          day: 'numeric', // 1, 2, ecc.
+          hour: '2-digit',  // Ora (09)
+          minute: '2-digit',// Minuti (30)
+        };
+        
+        return new Intl.DateTimeFormat('it-IT', options).format(date);
+    }
 
     return (
         <div className="flex flex-col items-center bg-[#DDF5FF] h-fit rounded-xl p-2 w-96 relative">
@@ -70,20 +91,21 @@ export const Appointement = () => {
                 </div>
             </div>
 
-            <div className="flex justify-center bg-white rounded-t-lg w-full pt-1">
-                <button onClick={handleAppointmentClick} className="flex space-x-2 items-center justify-center bg-[#65558F] text-white rounded-full shadow-md w-64 hover:bg-purple-700 px-2 py-1">
+            <div className="flex flex-col items-center bg-white rounded-t-lg w-full pt-1">
+                {(date && time) && <p className="font-semibold">{formatDate(time)}</p>}
+                <button onClick={onClickPrenota} className="flex space-x-2 items-center justify-center bg-[#65558F] text-white rounded-full shadow-md w-64 hover:bg-purple-700 px-2 py-1">
                     <BiSolidCalendar />
-                    <p>Prenota un appuntamento</p>
+                    <p>Prenota ora</p>
                 </button>
             </div>
             <div className="flex-1 flex-col w-full bg-white rounded-b-lg flex justify-center p-2">
-                <Calendar className="" editableDateInputs onChange={item => setDate(item)} date={date} showMonthAndYearPickers={false} disabledDay={(date) => (date < new Date(Date.now() - (1000 * 60 * 60 * 24)) || date > (new Date(Date.now() + twoWeeks)))} />
-                {date &&
+                <Calendar className="" editableDateInputs onChange={onDateChange} date={date} showMonthAndYearPickers={false} disabledDay={(date) => (!times.filter(t => (t.toLocaleDateString() == date.toLocaleDateString())).length)} />
+                {date && weather && weather.length &&
                 <div>
                     Seleziona un orario per la visita:
                     <div className="w-full overflow-y-scroll no-scrollbar">
                         <div className="flex w-fit gap-3 max-h-20">
-                            {times.map((t, i) => <TimeButton key={i} temperature={weather[i].temperature} setTime={setTime} time={t} icon={weather[i].icon} selected={time?.valueOf() == t.valueOf()} />)}
+                            {times.map((t, i) => ({time: t, index: i})).filter((t) => (t.time.getDate() == date.getDate())).map((t, i) => <TimeButton key={i} temperature={weather[t.index]?.temperature} setTime={setTime} time={t.time} icon={weather[t.index]?.icon} selected={time?.valueOf() == t.time.valueOf()} />)}
                         </div>
                     </div>
                 </div>
@@ -98,12 +120,12 @@ const TimeButton = ({setTime, time, icon: Icon, temperature, selected} : {setTim
         console.log(selected);
     },[selected])
     return (
-        <button className={`overflow-hidden flex items-center space-x-2 border-2 border-blue-400 shadow-md pl-2 rounded-md  ${selected ? "bg-blue-400 text-white" : "hover:bg-blue-200"} transition-all `} onClick={() => {setTime(time)}}>
-            <p className="font-semibold w-10">{time.toLocaleTimeString([], {hour: "2-digit", minute: "2-digit"})}</p>
-            <div className="flex w-14 flex-col justify-center items-center bg-blue-400 px-2 text-white">
+        <button className={`overflow-hidden flex items-center space-x-2 border-2 border-blue-400 shadow-md h-10 ${Icon ? "pl-2" : "px-2"} rounded-md  ${selected ? "bg-blue-400 text-white" : "hover:bg-blue-200"} transition-all `} onClick={() => {setTime(time)}}>
+            <p className="font-semibold w-12">{time.toLocaleTimeString([], {hour: "2-digit", minute: "2-digit"})}</p>
+            {Icon && <div className="flex w-14 flex-col justify-center items-center bg-blue-400 px-2 text-white">
                 {Icon && <Icon size={24} />}
                 <p className="text-xs">{temperature}C</p>
-            </div>
+            </div>}
         </button>
     )
 }

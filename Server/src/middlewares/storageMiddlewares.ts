@@ -6,7 +6,7 @@ import path from 'path';  // Modulo Node.js
 class StorageMiddlewares {
     private uploader: multer.Multer;
 
-    constructor(folderPath: string = "uploads/") {  // Cambiato 'path' in 'folderPath'
+    constructor(folderPath: string = "../uploads/") {  // Cambiato 'path' in 'folderPath'
         // Crea il percorso assoluto della cartella
         const uploadPath = path.join(__dirname, folderPath);
         

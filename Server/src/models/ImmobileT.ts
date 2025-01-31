@@ -1,3 +1,5 @@
+import { Agente } from "./AgenteT";
+
 export interface Immobile {
     id?: number;
     title: string;
@@ -5,10 +7,11 @@ export interface Immobile {
     size: string;
     bathrooms: string;
     locals: string;
-    agentImage: string; 
     price: string;
     images: string[];
     lat: number;
     lon: number;
     tags?: string[];
+    orari?: Date[];
+    Agente?: Agente;
 }

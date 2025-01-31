@@ -1,23 +1,15 @@
 import { Model, DataTypes, Sequelize } from 'sequelize';
 
-export default class Utente extends Model {
-    public username!: string;
-    public password!: string;
+export default class Agente extends Model {
     public nome!: string;
     public cognome!: string;
     public email!: string;
     public image!: string;
-    public verificato!: boolean;
+    public password!: string;
 
   static initialize(sequelize: Sequelize) {
-    Utente.init(
+    Agente.init(
       {
-        username: {
-          type: DataTypes.STRING,
-        },
-        password: {
-          type: DataTypes.STRING,
-        },
         nome: {
             type: DataTypes.STRING,
             allowNull: false,
@@ -35,16 +27,14 @@ export default class Utente extends Model {
             type: DataTypes.STRING,
             allowNull: true
         },
-        verificato: {
-            type: DataTypes.BOOLEAN,
-            allowNull: false,
-            defaultValue: false,
+        password: {
+            type: DataTypes.STRING,
         }
       },
       {
         sequelize,
-        modelName: 'Utente',
-        tableName: 'utenti',
+        modelName: 'Agente',
+        tableName: 'agenti',
       }
     );
   }

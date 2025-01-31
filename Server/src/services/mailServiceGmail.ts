@@ -56,4 +56,29 @@ export class MailServiceGmail implements MailService {
             return Promise.reject(error);
         }
     }
+
+    public async sendAgentAppointmentMail(email: string): Promise<void> {
+    try {
+        const info = await this.transporter.sendMail({
+          from: `"DietiEstates" <${process.env.GMAIL_USER}>`, // mittente
+          to: email, // destinatario (puoi usare un indirizzo a tua scelta per il test)
+          subject: 'Appuntamento prenotato', // oggetto
+          text: "Un utente ha prenotato un appuntamento di vistia per un tuo immobile", // corpo del messaggio
+          html: `
+            <h2>Ciao!</h2>
+            <p>Un utente ha appena prenotato un appuntamento il ... per una visita al tuo appartamento</p>
+
+            <p>Grazie per aver scelto il nostro servizio!</p>
+            <footer>
+            <p style="font-size: 12px; color: #888;">Questo è un messaggio automatico. Non rispondere a questa email.</p>
+            </footer>
+        `
+        });
+    
+        console.log('Email inviata');
+        return;
+    } catch (error) {
+        return Promise.reject(error);
+    }
+    }
 }

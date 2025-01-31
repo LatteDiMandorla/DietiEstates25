@@ -35,7 +35,7 @@ export class AuthController {
     
     public async register(req: Request<{}, {}, RegisterBodyInput & {file?: File}>, res: Response) {
         try {
-            //await this.authService?.register(req.body);
+            await this.authService?.register(req.body);
             await this.mailService?.sendVerificationMail(req.body.email, `${process.env.CLIENT_URL}/auth/verify`);
             res.sendStatus(201);
         } catch (error) {

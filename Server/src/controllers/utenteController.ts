@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import { DAOFactory } from "../daos/factory/DAOFactory";
 import { ImmobileDAO } from "../daos/interfaces/ImmobileDAO";
-import { Immobili } from "./immobili";
 import { ImmobileService } from "../services/immobileService";
 import { UtenteService } from "../services/utenteService";
 
