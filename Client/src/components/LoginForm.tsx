@@ -2,6 +2,7 @@ import { ErrorMessage, Field, Form, Formik, FormikHelpers } from "formik";
 import * as Yup from 'yup';
 import axios from "../api/axios";
 import useAuth from "../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 
 interface Values {
     email: string,
@@ -16,6 +17,7 @@ const LoginSchema = Yup.object().shape({
 function LoginForm() {
 
     const {setAuth} = useAuth();
+    const navigate = useNavigate();
 
     const handleSubmit = async (values: Values, {resetForm} : FormikHelpers<Values>) => {
         if(values && values.email && values.password){
@@ -27,6 +29,7 @@ function LoginForm() {
             if(data){
                 console.log(data);
                 setAuth(data);
+                navigate("/home");
             }
         }
         resetForm();

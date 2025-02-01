@@ -43,6 +43,16 @@ export class AmministrazioneDAOSequelize implements AmministrazioneDAO {
         }
     }
 
+    public async findById(id: AmministrazioneT["id"]): Promise<AmministrazioneT | undefined> {
+        try {
+            const agent = await Amministrazione.findOne({where: {id}});
+            return agent?.get({plain: true});
+        } catch (error) {
+            console.log(error)
+            return Promise.reject()
+        }
+    }
+
     public async updatePassword(id: AmministrazioneT["id"], newPassword: string): Promise<void> {
         try {
             await Amministrazione.update({password: newPassword}, {where: {

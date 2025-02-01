@@ -106,8 +106,7 @@ export class AuthController {
 
     public async resetPassword(req: Request, res: Response) {
         try {
-            const {token} = req.query;
-            const {password} = req.body;
+            const {password, token} = req.body;
 
             if(!token || typeof token != "string" || !password || typeof password !== "string"){
                 res.status(401).send("Token o Password mancanti");
@@ -140,6 +139,23 @@ export class AuthController {
             res.sendStatus(200);
         } catch (error) {
             res.status(401).send(error);
+        }
+    }
+
+    public async getSelf(req: Request, res: Response) : Promise<void> {
+        const id = res.locals.id;
+        const role = res.locals.role;
+        if(!id) {
+            res.status(401).send("Not Verified"); 
+            return;
+        }
+
+        try {
+            const utente = await this.authService?.getSelfByIdRole(id, role);
+            res.status(200).json(utente);
+        } catch (error) {
+            res.status(400).send("User not found"); 
+            return
         }
     }
 }

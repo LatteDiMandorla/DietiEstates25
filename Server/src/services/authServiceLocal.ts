@@ -106,6 +106,21 @@ export class AuthServiceLocal extends AuthService {
         }
     }
 
+    public async getSelfByIdRole(id: number, role: Role) {
+        try {
+            const authDAO = this.getDAO(role);
+            const user = await authDAO?.findById(id);
+
+            if(!user){
+                return Promise.reject("Utente non trovato");
+            }
+
+            return {...user, role};
+        } catch (error) {
+            return Promise.reject(error);
+        }
+    }
+
     public async resetPassword(token: string, newPassowrd: string): Promise<void>{
         const {email, role} = await this.verifyVerificationToken(token);
         if(!email || !role || typeof role !== "string"){

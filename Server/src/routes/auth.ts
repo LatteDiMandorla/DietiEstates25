@@ -30,6 +30,7 @@ export class AuthRoute extends Route {
         this.router.post('/register', this.storageMiddlewates.single(), this.validationMiddlewares.validate(registerSchema), (req, res) => this.authController.register(req, res));
         this.router.get('/refresh', (req, res) => this.authController.refresh(req, res));
         this.router.get('/verify', (req, res) => this.authController.verify(req, res));
+        this.router.get('/self', this.authMiddlewares.verifyToken, (req, res) => this.authController.getSelf(req, res));
         this.router.post('/requestResetPassword', (req, res) => this.authController.requestResetPassword(req, res));
         this.router.post('/resetPassword', (req, res) => this.authController.resetPassword(req, res));
         this.router.post('/google', (req, res, next) => this.authController.googleAuth(req, res, next));

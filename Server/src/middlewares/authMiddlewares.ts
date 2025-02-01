@@ -18,9 +18,9 @@ class AuthMiddleware {
       if (err) {
         return res.status(403).json({ message: 'Token non valido!' });
       }
-
       // Assegna i dati decodificati a req.user
       res.locals.id = (decoded as jwt.JwtPayload).id;
+      res.locals.role = (decoded as jwt.JwtPayload).role;
       // Passa al prossimo middleware o alla route
       next();
     });

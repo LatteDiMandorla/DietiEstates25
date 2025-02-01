@@ -11,7 +11,7 @@ function App() {
   useEffect(() => {
     const fetchSelf = async () => {
       try {
-        const {data} = await axios.get("/utente/self");
+        const {data} = await axios.get("/auth/self");
         if(data){
           setAuth(prev => ({...data, accessToken: prev?.accessToken}));
         }

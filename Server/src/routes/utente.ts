@@ -17,7 +17,6 @@ export class UtenteRoute extends Route {
     protected override initRoutes() : void {
         this.router.get("/recentSearches", (req, res) => this.utenteController.getRecentSearches(req, res));
         this.router.post("/recentSearches", (req, res) => this.utenteController.insertRecentSearch(req, res));
-        this.router.get("/self", (req, res, next) => this.authMiddleware.verifyToken(req, res, next), (req, res) => this.utenteController.getSelf(req, res));
         this.router.get("/:id", (req, res, next) => this.authMiddleware.verifyToken(req, res, next), (req, res) => this.utenteController.getById(req, res));
     }
 }

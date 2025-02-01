@@ -36,8 +36,8 @@ export class AuthServiceGoogle extends AuthService {
                     utente = user;
                 }
 
-                const accessToken = this.generateAccessToken(utente);
-                const refreshToken = this.generateRefreshToken(utente);
+                const accessToken = this.generateAccessToken({...utente, role: "USER"});
+                const refreshToken = this.generateRefreshToken({...utente, role: "USER"});
 
                 return {accessToken, refreshToken, utente};
             }

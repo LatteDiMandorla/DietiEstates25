@@ -22,6 +22,8 @@ import SearchPage from './pages/SearchPage.tsx';
 import { ProfilePage } from './pages/ProfilePage.tsx'
 import { AuthProvider } from './contexts/AuthProvider.tsx';
 import AltLayout from './pages/AltLayout.tsx';
+import { ChangePasswordPage } from './pages/ChangePasswordPAge.tsx';
+import ProtectedRoute from './components/ProtectedRoute.tsx';
 
 const router = createBrowserRouter([
   {
@@ -69,7 +71,7 @@ const router = createBrowserRouter([
 
           {
             path: "/SecondStep",
-            element: <SecondStep/>
+            element: <SecondStep />
           }
     
         ]
@@ -89,7 +91,10 @@ const router = createBrowserRouter([
         path: "/Home",
         element: <HomePage />
       },
-
+      {
+        path: "/resetPassword",
+        element: <ChangePasswordPage />
+      },
     ]
   }
 

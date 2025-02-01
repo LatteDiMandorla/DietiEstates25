@@ -8,10 +8,10 @@ import { useState } from "react";
 
 function LoginPage() {
     const axios = useAxiosPrivate();
-    const {setAuth, auth} = useAuth();
     const test = async () => {
         try {
-            const {data} = await axios.post("auth/register/support", {email: "leoleo@gmail.com", nome: "Leo", cognome: "Supporto"});
+            const {data} = await axios.get("auth/self");
+            console.log(data);
             alert("loggato");
         } catch (error) {
             alert("non loggato");
@@ -31,6 +31,10 @@ function LoginPage() {
         }, 500);
     };
 
+    const forgotPassword = async () => {
+        navigate("/forgotPassword");
+    }
+
     return (
         <div className="flex h-full bg-[#FAFAFA]">
             <div className={`flex flex-1 overflow-hidden justify-center items-center bg-[#DDF5FF] rounded-2xl 
@@ -40,9 +44,6 @@ function LoginPage() {
             <div className="w-full h-full flex-1 flex flex-col justify-center items-center space-y-6">
                 <LoginForm />
                 <AlternativeLogin />
-                <button onClick={test}>test</button>
-                <button onClick={() => console.log(auth)}>print</button>
-                <button onClick={() => setAuth(undefined)}>logut</button>
                 <div className="flex space-x-1 font-semibold">
                     <div>Non hai un Account?</div>
                     <div 
@@ -51,6 +52,11 @@ function LoginPage() {
                         Registrati Ora
                     </div>
                 </div>
+                <div 
+                        className="text-blue-500 font-bold hover:cursor-pointer hover:underline transform active:scale-95 transition-all duration-150" 
+                        onClick={forgotPassword}>
+                        Ho dimenticato la password
+                    </div>
             </div>
         </div>
     )
