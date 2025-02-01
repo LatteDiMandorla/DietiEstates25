@@ -6,6 +6,12 @@ import { RicercaDAOSequelize } from "../sequelize/RicercaDAOSequelize";
 import { RicercaDAO } from "../interfaces/RicercaDAO";
 import { PrenotazioneDAO } from "../interfaces/PrenotazioneDAO";
 import { PrenotazioneDAOSequelize } from "../sequelize/PrenotazioneDAOSequelize";
+import { AgenteDAOSequelize } from "../sequelize/AgenteDAOSequelize";
+import { AgenteDAO } from "../interfaces/AgenteDAO";
+import { AmministrazioneDAO } from "../interfaces/AmministrazioneDAO";
+import { AmministrazioneDAOSequelize } from "../sequelize/AmministrazioneDAOSequelize";
+import { AgenziaDAO } from "../interfaces/AgenziaDAO";
+import { AgenziaDAOSequelize } from "../sequelize/AgenziaDAOSequelize";
 
 export class DAOFactory {
     public getImmobileDAO(type: string) : ImmobileDAO | undefined {
@@ -29,6 +35,24 @@ export class DAOFactory {
     public getPrenotazioneDAO(type: string) : PrenotazioneDAO | undefined {
         if(type == "Sequelize"){
             return new PrenotazioneDAOSequelize();
+        }
+    }
+
+    public getAgenteDAO(type: string) : AgenteDAO | undefined {
+        if(type == "Sequelize"){
+            return new AgenteDAOSequelize();
+        }
+    }
+
+    public getAmministrazioneDAO(type: string) : AmministrazioneDAO | undefined {
+        if(type == "Sequelize"){
+            return new AmministrazioneDAOSequelize();
+        }
+    }
+
+    public getAgenziaDAO(type: string) : AgenziaDAO | undefined {
+        if(type == "Sequelize"){
+            return new AgenziaDAOSequelize();
         }
     }
 }

@@ -42,4 +42,15 @@ export class UtenteDAOSequelize implements UtenteDAO {
             return Promise.reject()
         }
     }
+
+    public async updatePassword(id: UtenteT["id"], newPassowrd: string): Promise<void> {
+        try {
+            await Utente.update({password: newPassowrd}, {where: {
+                id,
+            }})
+        } catch (error) {
+            console.log(error)
+            return Promise.reject()
+        }
+    }
 }

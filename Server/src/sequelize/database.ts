@@ -4,6 +4,8 @@ import Utente from './models/Utente';
 import Ricerca from './models/Ricerca';
 import Prenotazione from './models/Prenotazione';
 import Agente from './models/Agente';
+import Agenzia from './models/Agenzia';
+import Amministrazione from './models/Amministrazione';
 
 export default class Database {
   private static instance: Database;
@@ -31,6 +33,8 @@ export default class Database {
     Immobile.initialize(this.sequelize);
     Ricerca.initialize(this.sequelize);
     Prenotazione.initialize(this.sequelize);
+    Agenzia.initialize(this.sequelize);
+    Amministrazione.initialize(this.sequelize);
   }
 
   private initializeAssociations(): void {
@@ -38,6 +42,7 @@ export default class Database {
     Immobile.associate();
     Ricerca.associate();
     Prenotazione.associate();
+    Amministrazione.associate();
   }
 
   public async connect(): Promise<void> {
@@ -87,7 +92,8 @@ export default class Database {
       //     }
       //   }
       // }
-
+      
+      //await Agenzia.create({nome: "Case&Case", email: "business@caseecase.com", password: "cjK2lrz4", image: "https://picsum.photos/seed/CaseeCase/300"});
       await this.sequelize.sync(); // Sincronizza i modelli
 
       console.log('Database synced successfully.');

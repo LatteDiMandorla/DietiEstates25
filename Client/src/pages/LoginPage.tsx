@@ -6,10 +6,10 @@ import useAuth from "../hooks/useAuth";
 
 function LoginPage() {
     const axios = useAxiosPrivate();
-    const {setAuth} = useAuth();
+    const {setAuth, auth} = useAuth();
     const test = async () => {
         try {
-            const {data} = await axios.get("utente/self");
+            const {data} = await axios.post("auth/register/support", {email: "leoleo@gmail.com", nome: "Leo", cognome: "Supporto"});
             alert("loggato");
         } catch (error) {
             alert("non loggato");
@@ -24,6 +24,7 @@ function LoginPage() {
                 <LoginForm />
                 <AlternativeLogin />
                 <button onClick={test}>test</button>
+                <button onClick={() => console.log(auth)}>print</button>
                 <button onClick={() => setAuth(undefined)}>logut</button>
                 <div className="flex space-x-1 font-semibold">
                     <div>Non hai un Account?</div>

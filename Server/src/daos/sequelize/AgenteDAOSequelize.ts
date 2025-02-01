@@ -14,6 +14,7 @@ export class AgenteDAOSequelize implements AgenteDAO {
 
     public async findByEmail(email: string): Promise<AgenteT | undefined> {
         try {
+            console.log(email);
             const data = await Agente.findOne({where: {email}});
             return data?.get({plain: true});
         } catch (error) {
@@ -38,6 +39,17 @@ export class AgenteDAOSequelize implements AgenteDAO {
             });
         } catch (error) {
             console.log(error)
+            return Promise.reject()
+        }
+    }
+
+    public async updatePassword(id: AgenteT["id"], newPassword: string): Promise<void> {
+        try {
+            await Agente.update({password: newPassword}, {where: {
+                id
+            }})
+        } catch (error) {
+            console.log(error);
             return Promise.reject()
         }
     }

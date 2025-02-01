@@ -4,25 +4,25 @@ import { UtenteDAO } from "../daos/interfaces/UtenteDAO";
 import { Utente } from "../models/UtenteT";
 
 import jwt from 'jsonwebtoken';
-import { GeneratePassword } from "js-generate-password";
 import { AuthService } from "./authService";
 import { AgenteDAO } from "../daos/interfaces/AgenteDAO";
 import { Agente } from "../models/AgenteT";
+import { Role } from "../models/AuthT";
+import { Amministrazione } from "../models/AmministrazioneT";
+import { AmministrazioneDAO } from "../daos/interfaces/AmministrazioneDAO";
 
 export class AuthServiceLocal extends AuthService {
-    protected utenteDAO: UtenteDAO | undefined;
-    protected agenteDAO: AgenteDAO | undefined;
-    protected roleDAO;
     constructor() {
         super();
-        this.roleDAO = {
-            "USER": this.utenteDAO,
-            "AGENT": this.agenteDAO,
-        }
     }
 
-    public async findAgenteOrUtente(email: string) : Promise<{user: Utente | Agente | undefined, role: "USER" | "AGENT" | undefined }> {
+    public async findRole(email: string) : Promise<{user: Utente | Agente | undefined, role: Role | undefined }> {
         try {
+            const amministratore = await this.amministrazioneDAO?.findByEmail(email);
+            if(amministratore) {
+                return {user: amministratore, role: amministratore.ruolo};
+            }
+
             const agente = await this.agenteDAO?.findByEmail(email);
             if(agente) {
                 return {user: agente, role: "AGENT"};
@@ -39,16 +39,26 @@ export class AuthServiceLocal extends AuthService {
         }
     }
 
-    public async login(email: string, password: string) : Promise<{accessToken: string, refreshToken: string, utente: Utente, role: "USER" | "AGENT"}> {
-        const {user, role} = await this.findAgenteOrUtente(email);
+    private getDAO(role: Role): UtenteDAO | AgenteDAO | AmministrazioneDAO | undefined{
+        if(role === "USER"){
+            return this.utenteDAO;
+        } else if(role === "AGENT") {
+            return this.agenteDAO;
+        } else if(role === "GESTORE" || role === "SUPPORTO") {
+            return this.amministrazioneDAO;
+        }
+    }
+
+    public async login(email: string, password: string) : Promise<{accessToken: string, refreshToken: string, utente: Utente, role: Role}> {
+        const {user, role} = await this.findRole(email);
         if(user && user.password && role){
             const samePassword = await super.validatePassword(password, user.password);
             if(!samePassword) {
                 return Promise.reject("Wrong Password");
             }
 
-            const refreshToken = this.generateRefreshToken(user);
-            const accessToken = this.generateAccessToken(user);
+            const refreshToken = this.generateRefreshToken({...user, role: role});
+            const accessToken = this.generateAccessToken({...user, role: role});
             return {accessToken, refreshToken, utente: user, role};
         }
 
@@ -81,13 +91,34 @@ export class AuthServiceLocal extends AuthService {
         }
     }
 
-    public async registerAgente(agente: Agente): Promise<void>{
+    public async registerRole(user: Agente | Amministrazione, role: Role): Promise<string>{
         try {
-            let hashedPassword = "";
-            hashedPassword = await this.hashPassword(user.password);
-            await this.utenteDAO?.create({...user, password: hashedPassword});
+            const password = "ABCDEF12345";
+            const hashedPassword = await this.hashPassword(password);
+            if(role == "AGENT"){
+                await this.agenteDAO?.create({...user, password: hashedPassword});
+            } else if (role == "GESTORE" || role == "SUPPORTO"){
+                await this.amministrazioneDAO?.create({...user, password: hashedPassword, ruolo: role});
+            }
+            return hashedPassword;
         } catch (error) {
             return Promise.reject(error);
         }
+    }
+
+    public async resetPassword(token: string, newPassowrd: string): Promise<void>{
+        const {email, role} = await this.verifyVerificationToken(token);
+        if(!email || !role || typeof role !== "string"){
+            return Promise.reject("Token non valido");
+        }
+        
+        const {user, role: storedRole} = await this.findRole(email);
+        if(!user || !user.id || role !== storedRole){
+            return Promise.reject("Utente non trovato");
+        }
+
+        const authDAO = this.getDAO(storedRole);
+        const hashedPassword = await this.hashPassword(newPassowrd);
+        await authDAO?.updatePassword(user.id, hashedPassword);
     }
 }

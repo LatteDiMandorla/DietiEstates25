@@ -39,4 +39,5 @@ export interface Utente {
     email?: string;
     image?: string;
     accessToken?: string,
+    role?: "UTENTE" | "SUPPORTO" | "GESTORE" | "AGENTE",
 }

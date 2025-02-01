@@ -1,6 +1,7 @@
 import { ErrorMessage, Field, Form, Formik, FormikHelpers } from "formik";
 import * as Yup from 'yup';
 import axios from "../api/axios";
+import useAuth from "../hooks/useAuth";
 
 interface Values {
     email: string,
@@ -14,6 +15,8 @@ const LoginSchema = Yup.object().shape({
 
 function LoginForm() {
 
+    const {setAuth} = useAuth();
+
     const handleSubmit = async (values: Values, {resetForm} : FormikHelpers<Values>) => {
         if(values && values.email && values.password){
             const {data} = await axios.post("/auth/login", values, {
@@ -23,6 +26,7 @@ function LoginForm() {
 
             if(data){
                 console.log(data);
+                setAuth(data);
             }
         }
         resetForm();

@@ -7,6 +7,7 @@ import { MeteoServiceOpenMeteo } from "../meteoServiceOpenMeteo";
 import { MailServiceMailtrap } from "../mailServiceMailtrap";
 import { MailService } from "../interfaces/mailService";
 import { MailServiceGmail } from "../mailServiceGmail";
+import { AgenziaDAO } from "../../daos/interfaces/AgenziaDAO";
 
 export class ServiceFactory {
     public getMapService(type: string) : MapService| undefined {

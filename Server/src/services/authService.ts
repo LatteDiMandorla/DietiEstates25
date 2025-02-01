@@ -5,12 +5,19 @@ import { Utente } from "../models/UtenteT";
 
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
+import { AgenteDAO } from "../daos/interfaces/AgenteDAO";
+import { AmministrazioneDAO } from "../daos/interfaces/AmministrazioneDAO";
 
 export abstract class AuthService {
     protected utenteDAO: UtenteDAO | undefined;
+    protected agenteDAO: AgenteDAO | undefined;
+    protected amministrazioneDAO: AmministrazioneDAO | undefined;
     constructor() {
         const factory = new DAOFactory();
         this.utenteDAO = factory.getUtenteDAO(process.env.DAOTYPE || "");
+        this.agenteDAO = factory.getAgenteDAO(process.env.DAOTYPE || "");
+        this.amministrazioneDAO = factory.getAmministrazioneDAO(process.env.DAOTYPE || "");
+        
     }
 
     protected async hashPassword(plainTextPassword: string) : Promise<string> {
@@ -23,8 +30,8 @@ export abstract class AuthService {
         return await bcrypt.compare(candidatePassword, storedPassword);
     };
 
-    protected generateRefreshToken(user: Utente) : string {
-        const payload = {id: user.id};
+    protected generateRefreshToken(user: any) : string {
+        const payload = {id: user.id, role: user.role};
         const refreshToken = jwt.sign(payload, process.env.JWT_REFRESH_TOKEN_SECRET || "1234", {
             expiresIn: process.env.JWT_REFRESH_EXPIRES_IN || "7d",
         });
@@ -32,8 +39,8 @@ export abstract class AuthService {
         return refreshToken;
     }
 
-    protected generateAccessToken(user: Utente) : string {
-        const payload = {id: user.id};
+    protected generateAccessToken(user: any) : string {
+        const payload = {id: user.id, role: user.role};
         const refreshToken = jwt.sign(payload, process.env.JWT_TOKEN_SECRET || "4321", {
             expiresIn: process.env.JWT_EXPIRES_IN || "15m",
         });
