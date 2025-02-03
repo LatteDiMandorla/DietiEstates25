@@ -12,6 +12,7 @@ function App() {
     const fetchSelf = async () => {
       try {
         const {data} = await axios.get("/auth/self");
+        console.log(data);
         if(data){
           setAuth(prev => ({...data, accessToken: prev?.accessToken}));
         }

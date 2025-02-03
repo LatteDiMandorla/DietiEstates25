@@ -2,9 +2,9 @@ import { Request, Response, Router } from "express";
 import { Route } from "./route";
 import { AuthController } from "../controllers/authController";
 import ValidationMiddlewares from "../middlewares/validationMiddlewares";
-import { registerSchema } from "../schemas/authSchemas";
 import StorageMiddlewares from "../middlewares/storageMiddlewares";
 import AuthMiddleware from "../middlewares/authMiddlewares";
+import { registerAgenteSchema, registerClienteSchema, registerGestoreSchema, registerSupportoSchema } from "../schemas/authSchemas";
 
 export class AuthRoute extends Route {
     private authController: AuthController;
@@ -23,16 +23,19 @@ export class AuthRoute extends Route {
 
     protected override initRoutes() : void {
         this.router.post('/login', (req, res) => this.authController.login(req, res));
-        this.router.post('/register', this.storageMiddlewates.single(), this.validationMiddlewares.validate(registerSchema), (req: Parameters<AuthController['register']>[0], res) => this.authController.register(req, res));
-        this.router.post('/register/gestore', (req, res) => this.authController.registerWithoutPassword(req, res, "GESTORE"));
-        this.router.post('/register/support', this.authMiddlewares.verifyTokenWithRole("GESTORE"), (req, res) => this.authController.registerWithoutPassword(req, res, "SUPPORTO"));
-        this.router.post('/register/agent', this.authMiddlewares.verifyTokenWithRole("SUPPORTO"), (req, res) => this.authController.registerWithoutPassword(req, res, "AGENT"));
-        this.router.post('/register', this.storageMiddlewates.single(), this.validationMiddlewares.validate(registerSchema), (req, res) => this.authController.register(req, res));
+        this.router.post('/google', (req, res, next) => this.authController.googleAuth(req, res, next));
+
+        this.router.post('/register/cliente', this.validationMiddlewares.validate(registerClienteSchema), (req: Parameters<AuthController['registerCliente']>[0], res) => this.authController.registerCliente(req, res));
+        this.router.post('/register/gestore', this.validationMiddlewares.validate(registerGestoreSchema), (req: Parameters<AuthController["registerGestore"]>[0], res) => this.authController.registerGestore(req, res));
+        this.router.post('/register/supporto', this.validationMiddlewares.validate(registerSupportoSchema), this.authMiddlewares.verifyTokenWithRole(["GESTORE", "SUPPORTO"]), (req: Parameters<AuthController["registerSupporto"]>[0], res) => this.authController.registerSupporto(req, res));
+        this.router.post('/register/agente', this.validationMiddlewares.validate(registerAgenteSchema), this.authMiddlewares.verifyTokenWithRole(["GESTORE","SUPPORTO"]), (req: Parameters<AuthController["registerAgente"]>[0], res) => this.authController.registerAgente(req, res));
+
+        this.router.get('/self', this.authMiddlewares.verifyToken, (req: Request, res: Response) => this.authController.getInfo(req, res));
+
         this.router.get('/refresh', (req, res) => this.authController.refresh(req, res));
         this.router.get('/verify', (req, res) => this.authController.verify(req, res));
-        this.router.get('/self', this.authMiddlewares.verifyToken, (req, res) => this.authController.getSelf(req, res));
+        this.router.get('/logout', (req, res) => this.authController.logout(req, res));
         this.router.post('/requestResetPassword', (req, res) => this.authController.requestResetPassword(req, res));
         this.router.post('/resetPassword', (req, res) => this.authController.resetPassword(req, res));
-        this.router.post('/google', (req, res, next) => this.authController.googleAuth(req, res, next));
     }
 }

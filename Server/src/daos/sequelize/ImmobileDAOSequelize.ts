@@ -5,7 +5,7 @@ import { Op } from "sequelize";
 import Agente from "../../sequelize/models/Agente";
 
 export class ImmobileDAOSequelize implements ImmobileDAO {
-    public async findById(id: number): Promise<ImmobileT> {
+    public async findById(id: number): Promise<ImmobileT | undefined> {
         const data = await Immobile.findByPk(id, {include: [
             {
                 model: Agente,
@@ -23,6 +23,9 @@ export class ImmobileDAOSequelize implements ImmobileDAO {
             where: {
                 lat: {[Op.between]: [minLat, maxLat]},
                 lon: {[Op.between]: [minLon, maxLon]},
+            },
+            include: {
+                model: Agente,
             }
         })
 
@@ -42,6 +45,9 @@ export class ImmobileDAOSequelize implements ImmobileDAO {
             },
             offset: (page - 1) * limit,
             limit: limit,
+            include: {
+                model: Agente,
+            }
         })
 
         if(data) {

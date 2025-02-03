@@ -5,19 +5,14 @@ import useAuth from '../hooks/useAuth';
 
 interface ProtectedRouteProps {
   element: JSX.Element;
-  roleRequired: string; // Ruolo necessario per accedere
+  roleRequired: string[]; // Ruolo necessario per accedere
   redirectTo?: string;   // Dove reindirizzare se non autorizzato
 }
 
-const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ element, roleRequired, redirectTo = "/login" }) => {
+const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ element, roleRequired}) => {
   const { auth } = useAuth();
 
-  // Controlla se l'utente ha il ruolo richiesto
-  if (auth && auth.role && auth.role !== roleRequired) {
-    return <Navigate to={redirectTo} replace />;
-  }
-
-  return element;
+  return (auth && auth.ruolo && roleRequired.includes(auth.ruolo)) ? element : null;
 };
 
 export default ProtectedRoute;

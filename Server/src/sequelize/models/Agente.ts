@@ -1,41 +1,54 @@
-import { Model, DataTypes, Sequelize } from 'sequelize';
+import { Model, DataTypes, Sequelize, Optional } from 'sequelize';
+import Agenzia from './Agenzia';
+import { Agente as AgenteT } from "../../models/AgenteT";
+import { Agenzia as AgenziaT } from '../../models/AgenziaT';
+import Auth from './Auth';
 
 export default class Agente extends Model {
     public nome!: string;
     public cognome!: string;
-    public email!: string;
-    public image!: string;
-    public password!: string;
+    public image?: string;
+    public biografia?: string;
 
-  static initialize(sequelize: Sequelize) {
-    Agente.init(
-      {
-        nome: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
-        cognome: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
-        email: {
-            type: DataTypes.STRING,
-            allowNull: false,
-            unique: true,
-        },
-        image: {
-            type: DataTypes.STRING,
-            allowNull: true
-        },
-        password: {
-            type: DataTypes.STRING,
-        }
-      },
-      {
-        sequelize,
-        modelName: 'Agente',
-        tableName: 'agenti',
-      }
-    );
-  }
+    static initialize(sequelize: Sequelize) {
+        Agente.init(
+            {
+                nome: {
+                    type: DataTypes.STRING,
+                    allowNull: false,
+                },
+                cognome: {
+                    type: DataTypes.STRING,
+                    allowNull: false,
+                },
+                image: {
+                    type: DataTypes.STRING,
+                    allowNull: true
+                },
+                biografia: {
+                    type: DataTypes.STRING,
+                    allowNull: true
+                }
+            },
+            {
+                sequelize,
+                modelName: 'Agente',
+                tableName: 'agenti',
+                defaultScope: {
+                    include: [{
+                        model: Agenzia,
+                        as: "Agenzia"
+                    }]
+                }
+            }
+        );
+    }
+
+    static associate() {
+        Agenzia.hasMany(Agente, {foreignKey: "AgenziaId", as: "Agenti" });
+        Agente.belongsTo(Agenzia, {foreignKey: "AgenziaId", as: "Agenzia" });
+        
+        Auth.hasOne(Agente, {foreignKey: "AuthId"});
+        Agente.belongsTo(Auth, {foreignKey: "AuthId"});
+    }
 }

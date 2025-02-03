@@ -61,7 +61,7 @@ export default class Immobile extends Model {
         },
         tags: {
             type: DataTypes.TEXT, // Memorizzato come JSON
-            allowNull: true,
+            allowNull: false,
             defaultValue: '[]', // Default: array vuoto
             get() {
               const rawValue = this.getDataValue('tags');

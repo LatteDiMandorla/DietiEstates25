@@ -33,11 +33,11 @@ export interface ReviewComponents
 }
 
 export interface Utente {
+    email?: string;
     username?: string;
     nome?: string;
     cognome?: string;
-    email?: string;
     image?: string;
     accessToken?: string,
-    role?: "UTENTE" | "SUPPORTO" | "GESTORE" | "AGENTE",
+    ruolo?: "UTENTE" | "SUPPORTO" | "GESTORE" | "AGENTE",
 }

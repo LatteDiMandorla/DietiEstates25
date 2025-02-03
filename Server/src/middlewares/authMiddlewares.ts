@@ -20,13 +20,13 @@ class AuthMiddleware {
       }
       // Assegna i dati decodificati a req.user
       res.locals.id = (decoded as jwt.JwtPayload).id;
-      res.locals.role = (decoded as jwt.JwtPayload).role;
+      res.locals.ruolo = (decoded as jwt.JwtPayload).ruolo;
       // Passa al prossimo middleware o alla route
       next();
     });
   }
   
-  public verifyTokenWithRole(role: Role) {
+  public verifyTokenWithRole(ruolo: Role | Role[]) {
     return function(req: Request, res: Response, next: NextFunction): void {
       const token = req.headers['authorization'];
 
@@ -44,9 +44,14 @@ class AuthMiddleware {
 
         // Assegna i dati decodificati a req.user
         res.locals.id = (decoded as jwt.JwtPayload).id;
-        res.locals.role = (decoded as jwt.JwtPayload).role;
+        res.locals.ruolo = (decoded as jwt.JwtPayload).ruolo;
         // Passa al prossimo middleware o alla route
-        if(role !== res.locals.role) {
+        if(Array.isArray(ruolo)){
+          if(!ruolo.includes(res.locals.ruolo)){
+            return res.status(403).json({message: "Non autorizzato"});
+          }
+        }
+        else if(ruolo !== res.locals.ruolo) {
           return res.status(403).json({message: 'Non autorizzato'});
         }
         next();

@@ -6,6 +6,7 @@ import { UtenteService } from "../services/utenteService";
 import { PrenotazioneService } from "../services/prenotazioneService";
 import { MailService } from "../services/interfaces/mailService";
 import { ServiceFactory } from "../services/factory/serviceFactory";
+import { Prenotazione } from "../models/PrenotazioneT";
 
 export class PrenotazioneController {
     private prenotazioneService : PrenotazioneService | undefined;
@@ -42,7 +43,7 @@ export class PrenotazioneController {
                 return;
             }
     
-            await this.prenotazioneService?.insertPrenotazione({data}, immobileId);
+            await this.prenotazioneService?.insertPrenotazione({data} as Prenotazione, immobileId);
             res.sendStatus(200);
         } catch (error) {
             res.status(400).send(error);

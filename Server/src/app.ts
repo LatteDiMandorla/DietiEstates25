@@ -10,6 +10,7 @@ import { UtenteRoute } from "./routes/utente";
 import { AuthRoute } from "./routes/auth";
 import { MeteoRoute } from "./routes/meteo";
 import { PrenotazioneRoute } from "./routes/prenotazione";
+import { AmministrazioneRoute } from "./routes/amministrazione";
 
 class App {
   private readonly app: Express;
@@ -65,6 +66,8 @@ class App {
     this.app.use("/meteo", meteoRoute.router);
     const prenotazioneRoute = new PrenotazioneRoute();
     this.app.use("/prenotazione", prenotazioneRoute.router);
+    const amministrazioneRoute = new AmministrazioneRoute();
+    this.app.use("/amministrazione", amministrazioneRoute.router);
   }
 
   private initErrorHandling() {

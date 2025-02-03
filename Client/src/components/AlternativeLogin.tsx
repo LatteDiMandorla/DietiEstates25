@@ -28,6 +28,7 @@ const GoogleAuth = () => {
                 headers: {'Content-Type': 'application/json'},
                 withCredentials: true,
             });
+            console.log(data);
             setAuth({...data});
             navigate("/home");
         } catch (error) {

@@ -22,8 +22,11 @@ import SearchPage from './pages/SearchPage.tsx';
 import { ProfilePage } from './pages/ProfilePage.tsx'
 import { AuthProvider } from './contexts/AuthProvider.tsx';
 import AltLayout from './pages/AltLayout.tsx';
-import { ChangePasswordPage } from './pages/ChangePasswordPAge.tsx';
+import { ChangePasswordPage } from './pages/ChangePasswordPage.tsx';
 import ProtectedRoute from './components/ProtectedRoute.tsx';
+import { SelfProfilePage } from './pages/SelfProfile.tsx';
+import { AdminPage } from './pages/AdminPage.tsx';
+import { ForgotPasswordPage } from './pages/ForgotPasswordPage.tsx';
 
 const router = createBrowserRouter([
   {
@@ -94,6 +97,18 @@ const router = createBrowserRouter([
       {
         path: "/resetPassword",
         element: <ChangePasswordPage />
+      },
+      {
+        path: "/forgotPassword",
+        element: <ForgotPasswordPage />
+      },
+      {
+        path: "/self",
+        element: <SelfProfilePage />
+      },
+      {
+        path: "/admin",
+        element: <ProtectedRoute element={<AdminPage />} roleRequired={["GESTORE", "SUPPORTO"]} />
       },
     ]
   }

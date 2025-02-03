@@ -16,7 +16,7 @@ export class PrenotazioneService {
         this.immobileDAO = factory.getImmobileDAO(process.env.DAOTYPE || "")
     }
   
-    public async getPrenotazioneById(id: number) : Promise<Utente>{
+    public async getPrenotazioneById(id: number) : Promise<Prenotazione>{
         const data = await this.prenotazioneDAO?.findById(id);
         return data || Promise.reject("Not found"); 
     }

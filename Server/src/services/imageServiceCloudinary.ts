@@ -42,4 +42,15 @@ export class ImageServiceCloudinary implements ImageService {
         }
         return urls;
     }
+
+    public async uploadFromUrl(url: string): Promise<string> {
+        try {
+            const result = await cloudinary.uploader.upload(url);
+
+            return result.secure_url;
+        } catch (error) {
+            console.error('Errore durante il caricamento su Imgur:', error);
+            throw new Error('Impossibile caricare l\'immagine');
+        }
+    }
 }

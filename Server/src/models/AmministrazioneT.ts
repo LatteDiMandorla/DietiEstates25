@@ -1,11 +1,11 @@
 import { Agenzia } from "./AgenziaT";
+import { Auth } from "./AuthT";
 
 export interface Amministrazione {
-    id?: number;
-    email?: string;
-    password?: string;
-    ruolo?: "GESTORE" | "SUPPORTO";
-    nome?: string,
-    cognome?: string,
-    Agenzia?: Agenzia;
+    id: number,
+    nome: string,
+    cognome: string,
+    ruolo: "GESTORE" | "SUPPORTO",
+    Agenzia: Agenzia,
+    AuthId: Auth["id"],
 }

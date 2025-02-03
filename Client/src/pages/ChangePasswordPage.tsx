@@ -1,15 +1,21 @@
 import { useState } from "react";
-import { useSearchParams } from "react-router-dom"
+import { useNavigate, useSearchParams } from "react-router-dom"
 import axios from "../api/axios";
 
 export const ChangePasswordPage = () => {
     const [params] = useSearchParams();
     const token = params.get("code");
+    const navigate = useNavigate();
 
     const [password, setPassword] = useState<string>("");
 
     const handleClick = async () => {
-        await axios.post("/auth/resetPassword", {password, token});
+        try {
+            const {data} = await axios.post("/auth/resetPassword", {password, token});
+            navigate("/home");
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     return (

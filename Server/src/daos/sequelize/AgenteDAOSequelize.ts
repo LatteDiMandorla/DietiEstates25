@@ -8,38 +8,31 @@ export class AgenteDAOSequelize implements AgenteDAO {
             const data = await Agente.findByPk(id);
             return data?.get({plain: true});
         } catch (error) {
-            return undefined;
+            return Promise.reject(error);
         }
     }
 
-    public async findByEmail(email: string): Promise<AgenteT | undefined> {
+    public async findByAuth(authId: number): Promise<AgenteT | undefined> {
         try {
-            console.log(email);
-            const data = await Agente.findOne({where: {email}});
+            const data = await Agente.findOne({where: {AuthId: authId}});
             return data?.get({plain: true});
         } catch (error) {
-            console.log(error);
-            return Promise.reject();
+            return Promise.reject(error);
         }
     }
     
     public async create(agente: AgenteT): Promise<void> {
         try {
-            const agent = await Agente.findOne({where: {email: agente.email}});
-            if(agent) {
-                return Promise.reject("email already registered");
-            }
-
             await Agente.create({
                 nome: agente.nome,
                 cognome: agente.cognome,
-                email: agente.email,
-                password: agente.password,
                 image: agente.image,
+                AgenziaId: agente.Agenzia?.id,
+                AuthId: agente.AuthId,
             });
         } catch (error) {
             console.log(error)
-            return Promise.reject()
+            return Promise.reject(error)
         }
     }
 

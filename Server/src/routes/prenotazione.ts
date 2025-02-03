@@ -14,8 +14,8 @@ export class PrenotazioneRoute extends Route {
     }
 
     protected override initRoutes() : void {
-        this.router.post("/request", this.authMiddleware.verifyTokenWithRole("USER"), (req, res) => this.prenotazioneController.insertUtentePrenotazione(req, res));
-        this.router.post("/", this.authMiddleware.verifyTokenWithRole("AGENT"), (req, res) => this.prenotazioneController.insertPrenotazione(req, res));
+        this.router.post("/request", this.authMiddleware.verifyTokenWithRole("CLIENTE"), (req, res) => this.prenotazioneController.insertUtentePrenotazione(req, res));
+        this.router.post("/", this.authMiddleware.verifyTokenWithRole("AGENTE"), (req, res) => this.prenotazioneController.insertPrenotazione(req, res));
         this.router.get("/:id", (req, res) => this.prenotazioneController.getById(req, res));
     }
 }

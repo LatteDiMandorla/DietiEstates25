@@ -28,7 +28,7 @@ export default class Agenzia extends Model {
       },
       {
         sequelize,
-        modelName: 'Agenzie',
+        modelName: 'Agenzia',
         tableName: 'agenzie',
       }
     );

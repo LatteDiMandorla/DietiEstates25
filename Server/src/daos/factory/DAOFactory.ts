@@ -12,6 +12,8 @@ import { AmministrazioneDAO } from "../interfaces/AmministrazioneDAO";
 import { AmministrazioneDAOSequelize } from "../sequelize/AmministrazioneDAOSequelize";
 import { AgenziaDAO } from "../interfaces/AgenziaDAO";
 import { AgenziaDAOSequelize } from "../sequelize/AgenziaDAOSequelize";
+import { AuthDAOSequelize } from "../sequelize/AuthDAOSequelize";
+import { AuthDAO } from "../interfaces/AuthDAO";
 
 export class DAOFactory {
     public getImmobileDAO(type: string) : ImmobileDAO | undefined {
@@ -53,6 +55,12 @@ export class DAOFactory {
     public getAgenziaDAO(type: string) : AgenziaDAO | undefined {
         if(type == "Sequelize"){
             return new AgenziaDAOSequelize();
+        }
+    }
+
+    public getAuthDAO(type: string) : AuthDAO | undefined {
+        if(type == "Sequelize"){
+            return new AuthDAOSequelize();
         }
     }
 }

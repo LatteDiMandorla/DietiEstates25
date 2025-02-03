@@ -7,11 +7,23 @@ export class AgenziaDAOSequelize implements AgenziaDAO {
     public async findByAmministrazione(id: number): Promise<AgenziaT | undefined> {
         try {
             const amministratore = await Amministrazione.findOne({
-                where: {id},
-                include: {model: Agenzia}
+                where: {id: id},
+                include: {
+                    model: Agenzia,
+                    as: "Agenzia"
+                },
             })
+            return amministratore?.get({plain: true}).Agenzia;
+        } catch (error) {
+            console.log(error);
+            return Promise.reject(error);
+        }
+    }
 
-            return amministratore?.get({plain: true}).Agenzie;
+    public async findById(id: number): Promise<AgenziaT | undefined> {
+        try {
+            const agenzia = await Agenzia.findByPk(id);
+            return agenzia?.get({plain: true});
         } catch (error) {
             return Promise.reject(error);
         }

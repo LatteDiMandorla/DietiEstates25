@@ -29,7 +29,11 @@ function LoginForm() {
             if(data){
                 console.log(data);
                 setAuth(data);
-                navigate("/home");
+                if(data.role == "USER" || data.role == "AGENT"){
+                    navigate("/home");
+                } else {
+                    navigate("/admin");
+                }
             }
         }
         resetForm();

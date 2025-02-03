@@ -2,62 +2,140 @@ import { NextFunction, Request, Response } from "express";
 import { AuthServiceLocal } from "../services/authServiceLocal";
 import { AuthServiceGoogle } from "../services/authServiceGoogle";
 import { Utente } from "../models/UtenteT";
-import { RegisterBodyInput } from "../schemas/authSchemas";
+import { LoginBodyInput, RegisterAgenteBodyInput, RegisterClienteBodyInput, RegisterGestoreBodyInput, RegisterSupportoBodyInput } from "../schemas/authSchemas";
 import { MailService } from "../services/interfaces/mailService";
 import { ServiceFactory } from "../services/factory/serviceFactory";
 import { Role } from "../models/AuthT";
 import { AgenziaService } from "../services/agenziaService";
+import { Agenzia } from "../models/AgenziaT";
+import { UtenteService } from "../services/utenteService";
+import { AmministrazioneService } from "../services/amministrazioneService";
+import { AgenteService } from "../services/agenteService";
+import { TokenService } from "../services/tokenService";
+import { ImageService } from "../services/interfaces/imageService";
 
 export class AuthController {
-    private authService : AuthServiceLocal | undefined;
-    private authServiceGoogle : AuthServiceGoogle | undefined;
-    private mailService: MailService | undefined;
-    private agenziaService: AgenziaService | undefined;
+    private authServiceLocal: AuthServiceLocal;
+    private authServiceGoogle : AuthServiceGoogle;
+    private mailService: MailService;
+    private tokenService: TokenService<{id: number, ruolo: Role}>;
+
+    private utenteService: UtenteService;
+    private agenteService: AgenteService;
+    private amministrazioneService: AmministrazioneService;
+    private agenziaService: AgenziaService;
+    private imageService: ImageService;
 
     constructor() {
-        this.authService = new AuthServiceLocal();
-        this.authServiceGoogle = new AuthServiceGoogle();
-        this.agenziaService = new AgenziaService();
+        this.authServiceLocal = new AuthServiceLocal()!;
+        this.authServiceGoogle = new AuthServiceGoogle()!;
+        this.tokenService = new TokenService(process.env.JWT_VERIFY_TOKEN_SECRET || "", process.env.JWT_VERIFY_EXPIRES_IN || "30m");
+
         const serviceFactory = new ServiceFactory();
-        this.mailService = serviceFactory.getMailService(process.env.MAIL_API || "Mailtrap");
+        this.mailService = serviceFactory.getMailService(process.env.MAIL_API || "Mailtrap")!;
+        this.imageService = serviceFactory.getImageService(process.env.IMAGE_API || "Cloudinary")!;
+
+        this.utenteService = new UtenteService();
+        this.agenteService = new AgenteService();
+        this.amministrazioneService = new AmministrazioneService();
+        this.agenziaService = new AgenziaService();
     }
 
-    public async login(req: Request, res: Response) {
+    public async login(req: Request<{}, {}, LoginBodyInput>, res: Response) {
         try {
             const { email, password } = req.body;
-            if(!email || !password || typeof email != "string" || typeof password != "string"){
-                res.status(400).json({ error: 'email or password not found' });
-                return;
-            }
+            const {accessToken, refreshToken, ruolo} = await this.authServiceLocal.login(email, password);
+            let info: {nome: string, cognome: string, image?: string};
             
-            const {accessToken, refreshToken, utente, role} = await this.authService?.login(email, password) as {accessToken: string, refreshToken: string, utente: Utente, role: Role};
-            res.status(200).cookie("refreshToken", refreshToken, { httpOnly: true, maxAge: 24*60*60*1000, sameSite: "none", secure: true }).json({accessToken, ...utente, role});
+            res.status(200).cookie("refreshToken", refreshToken, { httpOnly: true, maxAge: 24*60*60*1000, sameSite: "none", secure: true }).json({accessToken, ruolo});
         } catch (error) {
           res.sendStatus(401);
         }
     }
     
-    public async register(req: Request<{}, {}, RegisterBodyInput & {file?: File}>, res: Response) {
+    public async registerCliente(req: Request<{}, {}, RegisterClienteBodyInput>, res: Response) {
         try {
-            await this.authService?.register(req.body);
-            await this.mailService?.sendVerificationMail(req.body.email, `${process.env.CLIENT_URL}/auth/verify`);
+            const {email, password, callback} = req.body;
+            const {nome, cognome, username} = req.body;
+            
+            const registeredAuth = await this.authServiceLocal.register({email, password, verified: false, ruolo: "CLIENTE", id: 0});
+            await this.utenteService.register({id: 0, nome, cognome, username, AuthId: registeredAuth.id });
+            console.log("qui");
+            const token = this.tokenService.generateToken({id: registeredAuth.id, ruolo: registeredAuth.ruolo})
+            console.log(token);
+            await this.mailService.sendVerificationMail(email, token, callback);
             res.sendStatus(201);
         } catch (error) {
-            res.status(400).json({error});
+            res.status(400).json(error);
         }
     }
 
-    public async registerWithoutPassword(req: Request, res: Response, roleToReg: Role){
-        const {id, role} = res.locals;
-        const {email, nome, cognome} = req.body;
-        // if(!id || !role){
-        //     res.status(403).send("Non autorizzato");
-        //     return;
-        // }
+    public async registerAgente(req: Request<{}, {}, RegisterAgenteBodyInput>, res: Response){
+        try {
+            const id = res.locals.id;
+            const {email, callback} = req.body;
+            const {nome, cognome, biografia} = req.body;
 
-        const agenzia = await this.agenziaService?.getAgenziaByAmministrazione(1);
-        const user = await this.authService?.registerRole({email, nome, cognome, Agenzia: agenzia}, roleToReg);
-        res.sendStatus(200);
+            const registeredAuth = await this.authServiceLocal.register({email, verified: false, ruolo: "AGENTE", id: 0});
+
+            const agenzia = await this.amministrazioneService.getAgenziaFromId(id);
+            await this.agenteService.register({id: 0, nome, cognome, biografia, Agenzia: agenzia, AuthId: registeredAuth.id});
+            const token = this.tokenService.generateToken({id: registeredAuth.id, ruolo: registeredAuth.ruolo})
+            await this.mailService.sendChangePasswordMail(email, token, callback);
+            res.sendStatus(200);
+        } catch (error) {
+            res.status(400).send(error);
+        }
+    }
+    public async registerSupporto(req: Request<{}, {}, RegisterSupportoBodyInput>, res: Response){
+        try {
+            const id = res.locals.id;
+            const {email, callback} = req.body;
+            const {nome, cognome} = req.body;
+
+            const agenzia = await this.agenziaService.getAgenziaByAmministrazione(id);
+            
+            const registeredAuth = await this.authServiceLocal.register({email, verified: false, ruolo: "SUPPORTO", id: 0});
+            await this.amministrazioneService.register({id: 0, nome, cognome, Agenzia: agenzia, AuthId: registeredAuth.id, ruolo: "SUPPORTO"});
+            const token = this.tokenService.generateToken({id: registeredAuth.id, ruolo: registeredAuth.ruolo})
+            await this.mailService.sendChangePasswordMail(email, token, callback);
+            res.sendStatus(200);
+        } catch (error) {
+            res.status(400).send(error);
+        }
+    }
+    public async registerGestore(req: Request<{}, {}, RegisterGestoreBodyInput>, res: Response){
+        try {
+            const {email, callback} = req.body;
+            const {nome, cognome, AgenziaId} = req.body;
+
+            const registeredAuth = await this.authServiceLocal.register({email, verified: false, ruolo: "GESTORE", id: 0});
+            
+            const agenzia = await this.agenziaService.getFromId(AgenziaId);
+            await this.amministrazioneService.register({id: 0, nome, cognome, Agenzia: agenzia, AuthId: registeredAuth.id, ruolo: "GESTORE"});
+            const token = this.tokenService.generateToken({id: registeredAuth.id, ruolo: registeredAuth.ruolo})
+            await this.mailService.sendChangePasswordMail(email, token, callback);
+            res.sendStatus(200);
+        } catch (error) {
+            res.status(400).send(error);
+        }
+    }
+
+    public async getInfo(req: Request, res: Response) {
+        try {
+            const {id, ruolo} = res.locals;
+            let info;
+            if(ruolo === "CLIENTE") {
+                info = await this.utenteService.getUtenteByAuth(id);
+            } else if (ruolo === "AGENTE") {
+                info = await this.agenteService.getAgenteByAuth(id);
+            } else {
+                info = await this.amministrazioneService.getAmministratoreByAuth(id);
+            }
+            res.json(info);
+        } catch (error) {
+            res.status(400).send(error);
+        }
     }
     
     public async refresh(req: Request, res: Response) {
@@ -68,21 +146,23 @@ export class AuthController {
                 return;
             }
 
-            const accessToken = await this.authService?.refresh(refreshToken);
+            const accessToken = await this.authServiceLocal.refresh(refreshToken);
             res.status(200).json(accessToken);
         } catch (error) {
-            res.status(403).json({error});
+            res.status(403).send(error);
         }
     }
 
     public async googleAuth(req: Request, res: Response, next: NextFunction){
         try {
             const {code} = req.body;
-            const tokens = await this.authServiceGoogle?.login(code);
-            if(tokens && tokens.accessToken && tokens.refreshToken && tokens.utente){
-                res.status(200).cookie("refreshToken", tokens.refreshToken, { httpOnly: true, maxAge: 24*60*60*1000, sameSite: "none", secure: true }).json({accessToken: tokens.accessToken, ...tokens.utente});
-                return;
+            const {nome, cognome, email, image} = await this.authServiceGoogle.verifyGoogleToken(code);
+            const {refreshToken, accessToken, ruolo, authId} = await this.authServiceLocal.providerLogin(email);
+            if(authId){
+                const url = image ? await this.imageService.uploadFromUrl(image) : undefined;
+                await this.utenteService.register({id: 0, nome, cognome, username: nome+cognome, AuthId: authId, image: url});
             }
+            res.status(200).cookie("refreshToken", refreshToken, { httpOnly: true, maxAge: 24*60*60*1000, sameSite: "none", secure: true }).json({accessToken: accessToken, ruolo});
         } catch (error) {
             res.sendStatus(401);
         }
@@ -97,7 +177,7 @@ export class AuthController {
                 return;
             }
 
-            await this.authService?.verify(token);
+            await this.authServiceLocal.verify(token);
             res.sendStatus(200);
         } catch (error) {
             res.status(401).send(error);
@@ -113,7 +193,8 @@ export class AuthController {
                 return;
             }
 
-            await this.authService?.resetPassword(token, password);
+            await this.authServiceLocal.resetPassword(token, password);
+            await this.authServiceLocal.verify(token);
             res.status(200).send("Successo");
         } catch (error) {
             res.status(401).send(error);
@@ -129,33 +210,21 @@ export class AuthController {
                 return;
             }
 
-            const userRole = await this.authService?.findRole(email);
-            if(!userRole || !userRole.role) {
-                res.status(401).send("Email non registrata");
+            const auth = await this.authServiceLocal.getByEmail(email);
+
+            if(!auth.password && auth.verified){
+                res.status(400).json("Effettua il login con Google");
                 return;
             }
-
-            await this.mailService?.sendChangePasswordMail(email, userRole.role, callback);
+            const token = this.tokenService.generateToken({id: auth.id, ruolo: auth.ruolo})
+            await this.mailService.sendChangePasswordMail(email, token, callback);
             res.sendStatus(200);
         } catch (error) {
             res.status(401).send(error);
         }
     }
 
-    public async getSelf(req: Request, res: Response) : Promise<void> {
-        const id = res.locals.id;
-        const role = res.locals.role;
-        if(!id) {
-            res.status(401).send("Not Verified"); 
-            return;
-        }
-
-        try {
-            const utente = await this.authService?.getSelfByIdRole(id, role);
-            res.status(200).json(utente);
-        } catch (error) {
-            res.status(400).send("User not found"); 
-            return
-        }
+    public async logout(req: Request, res: Response): Promise<void>{
+        res.clearCookie("refreshToken").status(200).send("Logout");
     }
 }

@@ -5,17 +5,26 @@ import { Ricerca } from "../models/RicercaT";
 import { Utente } from "../models/UtenteT";
 
 export class UtenteService {
-    private utenteDAO: UtenteDAO | undefined;
-    private ricercaDAO: RicercaDAO | undefined;
+    private utenteDAO: UtenteDAO;
+    private ricercaDAO: RicercaDAO;
     constructor() {
         const factory = new DAOFactory();
-        this.utenteDAO = factory.getUtenteDAO(process.env.DAOTYPE || "");
-        this.ricercaDAO = factory.getRicercaDAO(process.env.DAOTYPE || "");
+        this.utenteDAO = factory.getUtenteDAO(process.env.DAOTYPE || "")!;
+        this.ricercaDAO = factory.getRicercaDAO(process.env.DAOTYPE || "")!;
     }
   
     public async getUtenteById(id: number) : Promise<Utente>{
         const data = await this.utenteDAO?.findById(id);
         return data || Promise.reject(); 
+    }
+
+    public async getUtenteByAuth(id: number) : Promise<Utente>{
+        const data = await this.utenteDAO.findByAuth(id);
+        return data || Promise.reject(); 
+    }
+
+    public async register(utente: Utente) {
+        await this.utenteDAO.create(utente);
     }
 
     public async getSearchesUtente(id: number) : Promise<Ricerca[]>{

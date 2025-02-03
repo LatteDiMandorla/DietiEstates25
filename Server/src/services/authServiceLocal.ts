@@ -1,139 +1,149 @@
 import { DAOFactory } from "../daos/factory/DAOFactory";
-import { RicercaDAO } from "../daos/interfaces/RicercaDAO";
-import { UtenteDAO } from "../daos/interfaces/UtenteDAO";
-import { Utente } from "../models/UtenteT";
+import bcrypt from 'bcrypt';
+import { Auth, Role } from "../models/AuthT";
+import { TokenService } from "./tokenService";
+import { AuthDAO } from "../daos/interfaces/AuthDAO";
 
-import jwt from 'jsonwebtoken';
-import { AuthService } from "./authService";
-import { AgenteDAO } from "../daos/interfaces/AgenteDAO";
-import { Agente } from "../models/AgenteT";
-import { Role } from "../models/AuthT";
-import { Amministrazione } from "../models/AmministrazioneT";
-import { AmministrazioneDAO } from "../daos/interfaces/AmministrazioneDAO";
+interface RefreshTokenPayload {
+    id: number,
+    ruolo: Role
+}
 
-export class AuthServiceLocal extends AuthService {
-    constructor() {
-        super();
+interface AccessTokenPayload {
+    id: number,
+    ruolo: Role
+}
+
+interface VerifyTokenPayload {
+    id: number,
+    ruolo: Role
+}
+
+export class AuthServiceLocal {
+    private authDAO: AuthDAO;
+    private accessTokenService: TokenService<AccessTokenPayload>;
+    private refreshTokenService: TokenService<RefreshTokenPayload>;
+    private verifyTokenService: TokenService<VerifyTokenPayload>;
+
+    constructor(){
+        const factory = new DAOFactory();
+        this.authDAO = factory.getAuthDAO(process.env.DAOTYPE || "")!;
+        this.refreshTokenService = new TokenService(process.env.JWT_REFRESH_TOKEN_SECRET || "", process.env.JWT_REFRESH_EXPIRES_IN || "");
+        this.accessTokenService = new TokenService(process.env.JWT_TOKEN_SECRET || "", process.env.JWT_EXPIRES_IN || "");
+        this.verifyTokenService = new TokenService(process.env.JWT_VERIFY_TOKEN_SECRET || "", process.env.JWT_VERIFY_EXPIRES_IN || "");
     }
 
-    public async findRole(email: string) : Promise<{user: Utente | Agente | undefined, role: Role | undefined }> {
+    private async hashPassword(plainTextPassword: string) : Promise<string> {
+        const saltRounds = 10;
+        const hashed = await bcrypt.hash(plainTextPassword, saltRounds);
+        return hashed;
+    };
+            
+    private async validatePassword(candidatePassword: string, storedPassword: string): Promise<boolean> {
+        return await bcrypt.compare(candidatePassword, storedPassword);
+    };
+
+    public async refresh(refreshToken: string) : Promise<string> {
         try {
-            const amministratore = await this.amministrazioneDAO?.findByEmail(email);
-            if(amministratore) {
-                return {user: amministratore, role: amministratore.ruolo};
-            }
-
-            const agente = await this.agenteDAO?.findByEmail(email);
-            if(agente) {
-                return {user: agente, role: "AGENT"};
-            }
-
-            const utente = await this.utenteDAO?.findByEmail(email);
-            if(utente){
-                return {user: utente, role: "USER"};
-            }
-
-            return {user: undefined, role: undefined};
+            const {id, ruolo} = await this.refreshTokenService.verifyToken(refreshToken);
+            const accessToken = this.accessTokenService.generateToken({id, ruolo});
+            return accessToken;
         } catch (error) {
             return Promise.reject(error);
         }
     }
 
-    private getDAO(role: Role): UtenteDAO | AgenteDAO | AmministrazioneDAO | undefined{
-        if(role === "USER"){
-            return this.utenteDAO;
-        } else if(role === "AGENT") {
-            return this.agenteDAO;
-        } else if(role === "GESTORE" || role === "SUPPORTO") {
-            return this.amministrazioneDAO;
-        }
-    }
-
-    public async login(email: string, password: string) : Promise<{accessToken: string, refreshToken: string, utente: Utente, role: Role}> {
-        const {user, role} = await this.findRole(email);
-        if(user && user.password && role){
-            const samePassword = await super.validatePassword(password, user.password);
-            if(!samePassword) {
-                return Promise.reject("Wrong Password");
-            }
-
-            const refreshToken = this.generateRefreshToken({...user, role: role});
-            const accessToken = this.generateAccessToken({...user, role: role});
-            return {accessToken, refreshToken, utente: user, role};
-        }
-
-        return Promise.reject("User not found");
-    }
-
-    private verifyVerificationToken(verifyToken: string): Promise<any> {
-        return new Promise((resolve, reject) => {
-            if (!verifyToken) {
-                return reject(new Error('Verify token mancante.'));
-            }
-        
-            // Verifica il refresh token
-            jwt.verify(verifyToken, process.env.JWT_VERIFY_TOKEN_SECRET as string, (err, decoded) => {
-                if (err) {
-                    return reject(new Error('Verify token non valido o scaduto.'));
-                }
-        
-                resolve(decoded);  // Se il token è valido, restituiamo il payload decodificato
-            });
-        });
-    }
-
-    public async verify(token: string) : Promise<void> {
+    public async register(auth: Auth) : Promise<Auth> {
         try {
-            const email = await this.verifyVerificationToken(token);
+            let hashedPassword = "";
+            if(auth.password){
+                hashedPassword = await this.hashPassword(auth.password);
+            }
+            const authId = await this.authDAO.create({...auth, password: hashedPassword});
+            return {...auth, id: authId};
+        } catch (error) {
+            return Promise.reject(error);
+        }
+    }
+
+    public async login(email: string, password: string): Promise<{ accessToken: string, refreshToken: string, ruolo: string }> {
+        try {
+            const auth = await this.authDAO.findByEmail(email);
+            if(!auth){
+                return Promise.reject("User not found");
+            }
+            
+            const samePassword = await this.validatePassword(password, auth.password || "");
+            if(!samePassword) {
+                return Promise.reject("Wrong Password")
+            }
+
+            const accessToken = this.accessTokenService.generateToken({id: auth.id, ruolo: auth.ruolo});
+            const refreshToken = this.refreshTokenService.generateToken({id: auth.id, ruolo: auth.ruolo});
+            return {accessToken, refreshToken, ruolo: auth.ruolo};
+        } catch (error) {
+            return Promise.reject(error);
+        }
+    }
+
+    public async providerLogin(email: string) : Promise<{ accessToken: string, refreshToken: string, ruolo: string, authId?: number }> {
+        try {
+            const auth = await this.authDAO.findByEmail(email);
+            let authId;
+            if(!auth){
+                authId = await this.authDAO.create({id: 0, email, ruolo: "CLIENTE", verified: true});
+            } else {
+                authId = auth.id;
+            }
+
+            const accessToken = this.accessTokenService.generateToken({id: authId, ruolo: "CLIENTE"});
+            const refreshToken = this.refreshTokenService.generateToken({id: authId, ruolo: "CLIENTE"});
+            return {accessToken, refreshToken, ruolo: "CLIENTE", authId: auth ? undefined : authId};
+        } catch (error) {
+            return Promise.reject(error);
+        }
+    }
+
+    public async getByEmail(email: string) : Promise<Auth> {
+        try {
+            const auth = await this.authDAO.findByEmail(email);
+            if(!auth){
+                return Promise.reject("Non trovato");
+            }
+
+            return auth;
+        } catch (error) {
+            return Promise.reject(error);
+        }
+    }
+
+
+    public async verify(token: string): Promise<void> {
+        try {
+            const {id, ruolo} = await this.verifyTokenService.verifyToken(token);
+            await this.authDAO.verify(id);
             return;
         } catch (error) {
             return Promise.reject(error);
         }
     }
 
-    public async registerRole(user: Agente | Amministrazione, role: Role): Promise<string>{
-        try {
-            const password = "ABCDEF12345";
-            const hashedPassword = await this.hashPassword(password);
-            if(role == "AGENT"){
-                await this.agenteDAO?.create({...user, password: hashedPassword});
-            } else if (role == "GESTORE" || role == "SUPPORTO"){
-                await this.amministrazioneDAO?.create({...user, password: hashedPassword, ruolo: role});
-            }
-            return hashedPassword;
-        } catch (error) {
-            return Promise.reject(error);
-        }
-    }
-
-    public async getSelfByIdRole(id: number, role: Role) {
-        try {
-            const authDAO = this.getDAO(role);
-            const user = await authDAO?.findById(id);
-
-            if(!user){
-                return Promise.reject("Utente non trovato");
-            }
-
-            return {...user, role};
-        } catch (error) {
-            return Promise.reject(error);
-        }
-    }
-
-    public async resetPassword(token: string, newPassowrd: string): Promise<void>{
-        const {email, role} = await this.verifyVerificationToken(token);
-        if(!email || !role || typeof role !== "string"){
+    public async resetPassword(token: string, newPassowrd: string): Promise<void> {
+        const { id, ruolo } = await this.verifyTokenService.verifyToken(token);
+        if (!id || !ruolo) {
             return Promise.reject("Token non valido");
         }
-        
-        const {user, role: storedRole} = await this.findRole(email);
-        if(!user || !user.id || role !== storedRole){
-            return Promise.reject("Utente non trovato");
+
+        const user = await this.authDAO.findById(id);
+        if(!user || !(user.password || user.verified)){
+            return Promise.reject("Cambio password non possibile");
         }
 
-        const authDAO = this.getDAO(storedRole);
         const hashedPassword = await this.hashPassword(newPassowrd);
-        await authDAO?.updatePassword(user.id, hashedPassword);
+        await this.authDAO.update(id, hashedPassword);
+    }
+
+    public async getInfo(id: number, role: Role) {
+        return await this.authDAO.findInfoByRole(id, role);
     }
 }
