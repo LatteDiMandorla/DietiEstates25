@@ -3,6 +3,7 @@ import image from "../assets/DietiRealLogo.png";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
+
 function RegisterPage() {
     const navigate = useNavigate();
     const [imageMoved, setImageMoved] = useState(false); // Stato per gestire l'animazione

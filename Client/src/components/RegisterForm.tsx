@@ -1,6 +1,8 @@
 import { ErrorMessage, Field, Form, Formik, FormikHelpers } from "formik";
 import * as Yup from 'yup';
 import axios from "../api/axios";
+import { useState, useCallback } from "react";
+import { useDropzone } from "react-dropzone";
 
 
 interface Values {
@@ -23,17 +25,19 @@ const RegisterSchema = Yup.object().shape({
         .oneOf([Yup.ref('password')], "Passwords must match")
         .required("Confirm password is required"),
     image: Yup.mixed<File>()
+        .nullable()
         .test("fileSize", "File is too large (max 2MB)", (value) => {
-            return value instanceof File ? value.size <= 2 * 1024 * 1024 : true;
+          return value ? value.size <= 2 * 1024 * 1024 : true;
         })
         .test("fileType", "Unsupported file format", (value) => {
-            return value instanceof File
-                ? ["image/jpeg", "image/png", "image/jpg"].includes(value.type)
-                : true;
+          return value
+            ? ["image/jpeg", "image/png", "image/jpg"].includes(value.type)
+            : true;
         })
 })
 
 function RegisterForm() {
+    const [imagePreview, setImagePreview] = useState<string | null>(null);
 
     const handleSubmit = async (values: Values, { resetForm }: FormikHelpers<Values>) => {
         if (values.email && values.password && values.confirmPassword && values.nome && values.cognome && values.username && values.image) {
@@ -53,23 +57,48 @@ function RegisterForm() {
                 });
 
                 console.log("Risposta dal server:", data);
+                setImagePreview(null);
 
             } catch (error: any) {
+                console.error("Errore completo:", error);
+            
                 if (error.response) {
-                    console.error('Errore durante la registrazione:', error.response.data.message || error.response.data);
+                    console.error("Errore durante la registrazione:", error.response.status, error.response.data);
                     alert(`Errore: ${error.response.data.message || 'Errore sconosciuto'}`);
+                } else if (error.request) {
+                    console.error("Nessuna risposta dal server:", error.request);
+                    alert("Errore: Nessuna risposta dal server.");
                 } else {
-                    console.error('Errore di rete:', error.message);
-                    alert('Errore di rete: ' + error.message);
+                    console.error("Errore durante la richiesta:", error.message);
+                    alert("Errore durante la richiesta: " + error.message);
                 }
-            }
+            }            
+            
         }
     };
     
 
     return (
         <Formik initialValues={{ email: "", password: "", confirmPassword: "", username: "", nome: "", cognome: "", image: null as File | null }} validationSchema={RegisterSchema} onSubmit={handleSubmit}>
-            {({errors, touched, setFieldValue}) => (
+            {({errors, touched, setFieldValue, values}) => {
+                const onDrop = useCallback((acceptedFiles: File[]) => {
+                    const file = acceptedFiles[0];
+
+                    if (file) {
+                        setFieldValue("image", file); 
+                        setImagePreview(URL.createObjectURL(file));
+                    }
+                }, [setFieldValue]);
+
+                const { getRootProps, getInputProps, isDragActive } = useDropzone({
+                    onDrop,
+                    accept: { "image/*": [] },
+                    maxSize: 2 * 1024 * 1024,
+                    multiple: false
+                });
+
+
+            return (
             <Form className="flex flex-col justify-center items-center space-y-3">
                 <p className="font-bold text-2xl" >Registrazione</p>
                 <div className="flex flex-col items-center">
@@ -97,25 +126,40 @@ function RegisterForm() {
                         <ErrorMessage name="confirmPassword">{msg => <div className="text-xs text-center text-red-500 w-56">{msg}</div>}</ErrorMessage>
                 </div>
                 <div className="flex flex-col items-center">
-                <input 
-                    type="file"
-                    name="image"
-                    accept="image/*"
-                    onChange={(event) => {
-                        if (event.currentTarget.files) {
-                            setFieldValue("image", event.currentTarget.files[0]); // Imposta il file
-                        }
-                    }}
-                    className="bg-gray-200 hover:bg-gray-300 rounded-full ml-2 w-52 px-2 h-10"
-                />
-                {errors.image && touched.image && (
-                    <div className="text-xs text-center text-red-500 w-56">{errors.image}</div>
-                )}
+                        <div
+                            {...getRootProps()}
+                                className="w-24 h-24 border-2 border-gray-400 rounded-full flex items-center justify-center text-center cursor-pointer bg-gray-100 hover:bg-gray-200 transition p-2"
+                            >
+                            <input {...getInputProps()} />
+                            {imagePreview ? (
+                                <img src={imagePreview} alt="Anteprima" className="w-full h-full object-cover rounded-full" />
+                            ) : isDragActive ? (
+                                <p className="text-gray-600 text-sm">Rilascia l'immagine qui...</p>
+                            ) : (
+                                <p className="text-gray-600 text-sm">Aggiungi l'immagine del profilo</p>
+                            )}
+                        </div>
+                        {values.image && (
+                                <button
+                                    type="button"
+                                    onClick={() => {
+                                        setFieldValue("image", null);
+                                        setImagePreview(null);
+                                    }}
+                                    className="bg-red-500 text-white px-3 py-1 mt-2 rounded-md text-sm hover:bg-red-600"
+                                >
+                                    Rimuovi immagine
+                                </button>
+                            )}
+
+                            {/* Errori immagine */}
+                            <ErrorMessage name="image" component="div" className="error-message" />
                 </div>          
                 <button type="submit" className="bg-blue-600 text-white font-bold px-3 py-2 rounded-full">Registrati</button>
             </Form>
             
-            )}
+            );
+        }}
         </Formik>
     )
 }
