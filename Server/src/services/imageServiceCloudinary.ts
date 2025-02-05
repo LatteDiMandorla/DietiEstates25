@@ -53,4 +53,17 @@ export class ImageServiceCloudinary implements ImageService {
             throw new Error('Impossibile caricare l\'immagine');
         }
     }
+
+    public async delete(url: string): Promise<void> {
+        try {
+            const matches = url.match(/\/upload\/(?:v\d+\/)?(.+)\.\w+$/);
+            if(!matches || !matches[1]){
+                return Promise.reject("Cannot get public id from url");
+            }
+
+            const result = await cloudinary.uploader.destroy(matches[1]);
+        } catch (error) {
+            return Promise.reject(error);
+        }
+    }
 }

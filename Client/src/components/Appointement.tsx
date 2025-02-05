@@ -42,10 +42,7 @@ export const Appointement = ({times, id} : {times: Date[], id: number}) => {
 
     useEffect(() => {
         const fetch = async () => {
-            console.log(times);
             const {data} = await axios.post("/meteo", {dates: times.map(t => t.toISOString()), lat: 40.8762, lon: 14.5195})
-            console.log("cambio:", data);
-            console.log("tempi:", times.map(t => t.toISOString()));
             setWeather(data.map((w: any) => ({...w, icon: weatherIcons(w.state)})));
         }
 

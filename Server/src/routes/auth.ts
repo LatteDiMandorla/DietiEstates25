@@ -25,7 +25,7 @@ export class AuthRoute extends Route {
         this.router.post('/login', (req, res) => this.authController.login(req, res));
         this.router.post('/google', (req, res, next) => this.authController.googleAuth(req, res, next));
 
-        this.router.post('/register/cliente', this.validationMiddlewares.validate(registerClienteSchema), (req: Parameters<AuthController['registerCliente']>[0], res) => this.authController.registerCliente(req, res));
+        this.router.post('/register/cliente', this.storageMiddlewates.single(), this.validationMiddlewares.validate(registerClienteSchema), (req: Parameters<AuthController['registerCliente']>[0], res) => this.authController.registerCliente(req, res));
         this.router.post('/register/gestore', this.validationMiddlewares.validate(registerGestoreSchema), (req: Parameters<AuthController["registerGestore"]>[0], res) => this.authController.registerGestore(req, res));
         this.router.post('/register/supporto', this.validationMiddlewares.validate(registerSupportoSchema), this.authMiddlewares.verifyTokenWithRole(["GESTORE", "SUPPORTO"]), (req: Parameters<AuthController["registerSupporto"]>[0], res) => this.authController.registerSupporto(req, res));
         this.router.post('/register/agente', this.validationMiddlewares.validate(registerAgenteSchema), this.authMiddlewares.verifyTokenWithRole(["GESTORE","SUPPORTO"]), (req: Parameters<AuthController["registerAgente"]>[0], res) => this.authController.registerAgente(req, res));

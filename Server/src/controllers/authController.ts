@@ -57,9 +57,9 @@ export class AuthController {
         try {
             const {email, password, callback} = req.body;
             const {nome, cognome, username} = req.body;
-            
+            const url = (req.file && req.file.path) ? await this.imageService.upload(req.file.path) : undefined;
             const registeredAuth = await this.authServiceLocal.register({email, password, verified: false, ruolo: "CLIENTE", id: 0});
-            await this.utenteService.register({id: 0, nome, cognome, username, AuthId: registeredAuth.id });
+            await this.utenteService.register({id: 0, nome, cognome, image: url, username, AuthId: registeredAuth.id });
             console.log("qui");
             const token = this.tokenService.generateToken({id: registeredAuth.id, ruolo: registeredAuth.ruolo})
             console.log(token);
@@ -132,7 +132,7 @@ export class AuthController {
             } else {
                 info = await this.amministrazioneService.getAmministratoreByAuth(id);
             }
-            res.json(info);
+            res.json({...info, ruolo});
         } catch (error) {
             res.status(400).send(error);
         }
@@ -146,8 +146,8 @@ export class AuthController {
                 return;
             }
 
-            const accessToken = await this.authServiceLocal.refresh(refreshToken);
-            res.status(200).json(accessToken);
+            const {accessToken, ruolo} = await this.authServiceLocal.refresh(refreshToken);
+            res.status(200).json({accessToken, ruolo});
         } catch (error) {
             res.status(403).send(error);
         }

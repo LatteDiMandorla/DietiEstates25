@@ -1,17 +1,20 @@
 export interface Immobile {
-    id?: number,
+    id: number;
     title: string;
+    description: string;
     street: string;
-    size: string;
+    size: number;
     bathrooms: number;
     locals: number;
-    agentImage: string; 
     price: number;
+    efficienza: string;
+    type: "AFFITTO" | "VENDITA"; 
     images: string[];
     lat: number;
     lon: number;
-    tags?: string[];
-    orari?: string[]
+    tags: string[];
+    orari?: Date[];
+    Agente?: Agente;
 }
 
 export interface Filters {
@@ -39,5 +42,14 @@ export interface Utente {
     cognome?: string;
     image?: string;
     accessToken?: string,
-    ruolo?: "UTENTE" | "SUPPORTO" | "GESTORE" | "AGENTE",
+    biografia?: string,
+    ruolo?: "CLIENTE" | "SUPPORTO" | "GESTORE" | "AGENTE",
+}
+
+export interface Agente {
+    id: number,
+    nome: string,
+    cognome: string,
+    image?: string;
+    biografia?: string;
 }

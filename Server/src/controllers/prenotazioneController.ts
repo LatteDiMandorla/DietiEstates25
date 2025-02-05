@@ -7,13 +7,18 @@ import { PrenotazioneService } from "../services/prenotazioneService";
 import { MailService } from "../services/interfaces/mailService";
 import { ServiceFactory } from "../services/factory/serviceFactory";
 import { Prenotazione } from "../models/PrenotazioneT";
+import { AgenteService } from "../services/agenteService";
 
 export class PrenotazioneController {
-    private prenotazioneService : PrenotazioneService | undefined;
+    private prenotazioneService : PrenotazioneService;
+    private agenteService : AgenteService;
+    private utenteService : UtenteService;
     private mailService : MailService | undefined;
 
     constructor() {
-        this.prenotazioneService = new PrenotazioneService();
+        this.prenotazioneService = new PrenotazioneService()!;
+        this.agenteService = new AgenteService()!;
+        this.utenteService = new UtenteService()!;
         const serviceFactory = new ServiceFactory();
         this.mailService = serviceFactory.getMailService(process.env.MAIL_API || "");
     }
@@ -58,8 +63,9 @@ export class PrenotazioneController {
                 res.status(400).send("Body not valid"); 
                 return;
             }
-    
-            await this.prenotazioneService?.updatePrenotazioneUtente(data, immobileId, utenteId);
+            const utente = await this.utenteService?.getUtenteByAuth(utenteId);
+            
+            await this.prenotazioneService.updatePrenotazioneUtente(data, immobileId, utente.id);
             res.sendStatus(200);
         } catch (error) {
             res.status(400).send(error);

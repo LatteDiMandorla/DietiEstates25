@@ -47,5 +47,4 @@ export class PrenotazioneService {
         
         return await this.prenotazioneDAO?.updateUser(savedPrenotazione, utenteId);
     }
-
 }

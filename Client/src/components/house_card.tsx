@@ -32,7 +32,7 @@ export const HouseCard = forwardRef<ChildRef, Immobile>((props: Immobile, ref) =
         {/* Immagine di copertina */}
         <div className="relative h-32 md:h-40">
           <img src={props.images[0]} alt="apartment_image" className="w-full h-full object-cover" />
-          <img src={props.agentImage} alt="User_profile_image" className="absolute top-2 right-2 w-14 h-14 object-cover rounded-full border-2 border-white shadow-lg" />
+          <img src={props.Agente?.image} alt="User_profile_image" className="absolute top-2 right-2 w-14 h-14 object-cover rounded-full border-2 border-white shadow-lg" />
         </div>
         {/* Contenuto */}
         <div className="h-fit px-4 py-1 flex flex-col space-y-2 ">

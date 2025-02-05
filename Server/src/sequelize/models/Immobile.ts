@@ -3,11 +3,14 @@ import Agente from './Agente';
 
 export default class Immobile extends Model {
     public title!: string;
+    public description!: string;
     public street!: string;
-    public size!: string;
-    public bathrooms!: string;
-    public locals!: string;
-    public price!: string;
+    public size!: number;
+    public bathrooms!: number;
+    public locals!: number;
+    public price!: number;
+    public efficienza!: string;
+    public type!: string;
     public images!: string[];
     public lat!: number;
     public lon!: number;
@@ -18,6 +21,10 @@ export default class Immobile extends Model {
         title: {
           type: DataTypes.STRING,
           allowNull: false,
+        },
+        description: {
+            type: DataTypes.STRING,
+            allowNull: false,
         },
         street: {
           type: DataTypes.STRING,
@@ -36,6 +43,14 @@ export default class Immobile extends Model {
             allowNull: false,
         },
         price: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+        },
+        efficienza: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        type: {
             type: DataTypes.STRING,
             allowNull: false,
         },

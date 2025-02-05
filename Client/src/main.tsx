@@ -27,6 +27,7 @@ import ProtectedRoute from './components/ProtectedRoute.tsx';
 import { SelfProfilePage } from './pages/SelfProfile.tsx';
 import { AdminPage } from './pages/AdminPage.tsx';
 import { ForgotPasswordPage } from './pages/ForgotPasswordPage.tsx';
+import { VerifyPage } from './pages/VerifyPage.tsx';
 
 const router = createBrowserRouter([
   {
@@ -54,12 +55,14 @@ const router = createBrowserRouter([
             path: "/immobile/:id",
             element: <ImmobilePage />
           },
-
           {
              path: "/ProfilePage", 
              element: <ProfilePage />
-          }
-    
+          },
+          {
+            path: "/self",
+            element: <ProtectedRoute element={<SelfProfilePage />} roleRequired={["CLIENTE", "AGENTE"]} />
+          },
         ]
       },
 
@@ -103,12 +106,12 @@ const router = createBrowserRouter([
         element: <ForgotPasswordPage />
       },
       {
-        path: "/self",
-        element: <SelfProfilePage />
-      },
-      {
         path: "/admin",
         element: <ProtectedRoute element={<AdminPage />} roleRequired={["GESTORE", "SUPPORTO"]} />
+      },
+      {
+        path: "/verify",
+        element: <VerifyPage />
       },
     ]
   }

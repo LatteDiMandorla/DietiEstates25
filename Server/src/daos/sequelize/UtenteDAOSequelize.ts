@@ -51,4 +51,14 @@ export class UtenteDAOSequelize implements UtenteDAO {
             return Promise.reject()
         }
     }
+
+    public async updateInfo(utente: UtenteT): Promise<void> {
+        console.log(utente);
+        try {
+            await Utente.update({...utente}, {where: {id: utente.id}});
+        } catch (error) {
+            console.log(error);
+            return Promise.reject(error);
+        }
+    }
 }

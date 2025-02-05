@@ -11,10 +11,10 @@ function Topbar(){
     const {auth} = useAuth();
 
     return(
-        <div className={`flex flex-col w-full items-center justify-end bg-[#DDF5FF] h-28 md:h-20 py-0 gap-0 transition-all duration-300 relative`}>
+        <div className={`flex flex-col w-full items-center justify-end bg-[#DDF5FF] h-28 md:h-20 py-0 gap-0 transition-all duration-300 relative z-[5000]`}>
             <div className={`flex w-full justify-end items-center p-2 gap-4 h-10 overflow-visible transition-all duration-200 absolute z-50 opacity-100 md:opacity-100 top-1 md:top-5 pointer-events-none`}>
                 <div className="flex items-center z-10 pointer-events-auto"><NotificationsMenu /></div>
-                {auth && <Avatar size="md" className={`transition-all origin-center scale-[65%] md:scale-100 duration-300`} src={auth?.image || ""} />}
+                {auth && <Avatar onClick={() => navigate("/self")} size="md" className={`transition-all origin-center pointer-events-auto scale-[65%] md:scale-100 duration-300`} src={auth?.image || ""} />}
             </div>
 
             {/* Secondo item (centrato) */}

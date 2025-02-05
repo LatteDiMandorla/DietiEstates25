@@ -48,10 +48,11 @@ function RegisterForm() {
                 formData.append("nome", values.nome);
                 formData.append("cognome", values.cognome);
                 formData.append("email", values.email);
+                formData.append("callback", "http://localhost:5173/verify");
                 formData.append("image", values.image); // appending the image file
 
                 // Sending FormData as multipart/form-data
-                const { data } = await axios.post("/auth/register", formData, {
+                const { data } = await axios.post("/auth/register/cliente", formData, {
                     headers: { 'Content-Type': 'multipart/form-data' },
                     withCredentials: true,
                 });

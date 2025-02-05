@@ -19,7 +19,7 @@ export const TopbarExtended = ({shrink} : {shrink: boolean}) => {
                 {auth ? 
                   <>
                   <div className="flex items-center z-10 pointer-events-auto"><NotificationsMenu /></div>
-                  <Avatar size="md" className={`transition-all origin-center ${shrink && "scale-[65%] md:scale-100"} duration-300`} src={auth?.image || ""} />
+                  <Avatar onClick={() => navigate("/self")} size="md" className={`transition-all origin-center pointer-events-auto ${shrink && "scale-[65%] md:scale-100"} duration-300`} src={auth?.image || ""} />
                   </>
                   :
                   <button className="bg-blue-900 text-white px-4 py-1 rounded-full pointer-events-auto" onClick={() => navigate("/login")}>Login</button>

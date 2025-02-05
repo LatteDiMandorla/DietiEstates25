@@ -13,6 +13,7 @@ import axios from "../api/axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { PiToiletFill } from "react-icons/pi";
 import MapComponent from "../components/MapComponent";
+import { EnergyEffiency } from "../components/EnergyEfficiency";
 
 function ImmobilePage(){
     const [immobile, setImmobile] = useState<Immobile>();
@@ -20,18 +21,7 @@ function ImmobilePage(){
     const {id} = useParams();
     const [file, setFile] = useState<File | null>(null);
     const [openImage, setOpenImage] = useState(false); 
-
-    const images = [
-        "https://www.cazampa.it/app/uploads/2023/09/2322506225.jpg",
-        "https://zampol.it/wp-content/uploads/2023/02/Caratteristiche_del_gatto-scaled.jpg",
-        "https://www.zooplus.it/magazine/wp-content/uploads/2020/05/1-4.jpg",
-        "https://www.animalidacompagnia.it/wp-content/uploads/2024/04/gattino-che-miagola.jpg",
-        "https://cucciolichepassione.it/wp-content/uploads/2022/03/Cuccioli-di-Gattini.png",
-        "https://piripu.it/wp-content/uploads/2024/07/trovare-dei-gattini.jpg",
-        "https://www.oipa.org/italia/wp-content/uploads/2024/06/napoli-gattini-soccorsi-7.jpg",
-        "https://www.laryeilmondodeigattini.it/app/uploads/2021/03/determinare_eta-1024x684.jpg"
-    ]
-    const {counter: selected, next, prev, goto} = useRangeCounter(images.length);
+    const {counter: selected, next, prev, goto} = useRangeCounter(immobile ? immobile?.images.length : 1);
 
     const handleImageClick = (imgIndex: number, pos: number) => {
         setOpenImage(true);
@@ -47,6 +37,7 @@ function ImmobilePage(){
             if(id) {
                 const {data} = await axios.get(`immobile/${id}`);
                 if(data) {
+                    console.log(data);
                     setImmobile(data);
                 }
             }
@@ -82,19 +73,19 @@ function ImmobilePage(){
             <div className="w-full p-2 border-t border-gray-400">
                 <p className="text-lg font-semibold">Descrizione:</p>
                 <p className="text-wrap break-words whitespace-pre-wrap">
-                    {"Casa in uno dei quartieri più malfamati di Milano.\nSconsiglio vivamente di vivere qui\nParola di Sergio\nS.D.M."}
+                    {immobile?.description}
                 </p>
             </div>
             <div className="w-full p-2 border-t border-gray-400">
                 <p className="text-lg font-semibold">Caratteristiche:</p>
-                <p className="text-wrap break-words whitespace-pre-wrap">
-                    {"Giardino\nVicino alla Scuola\nLuminosa"}
-                </p>
+                <div className="flex gap-4 flex-wrap">
+                    {immobile?.tags.map(t => <p>•{t}</p>)}
+                </div>
             </div>
             <div className="w-full p-4 border-t border-gray-400">
                 <p className="text-lg font-semibold">Efficienza Energetica:</p>
                 <p className="text-wrap break-words whitespace-pre-wrap">
-                    {"Giardino\nVicino alla Scuola\nLuminosa"}
+                    {immobile && <EnergyEffiency efficiency={immobile?.efficienza} />}
                 </p>
             </div>
             <div className="w-full h-96 p-2 border-t border-gray-400">
@@ -113,12 +104,19 @@ export default ImmobilePage;
 
 const InformationTopBar = ({price, locals, size, bathrooms, title, street} : Immobile) => {
     const navigate = useNavigate();
+
+    const prezzoFormattato = new Intl.NumberFormat('it-IT', {
+        style: 'currency',
+        currency: 'EUR',
+        maximumFractionDigits: 0,
+      }).format(price);
+
     return (
         <div className="bg-[#FFFFFF] h-16 flex items-center w-full z-[100] shadow-md">
             <div className="flex items-center h-full flex-1 md:flex-none px-4 gap-4 border-r border-gray-400">
                 <FaArrowLeft className="hover:cursor-pointer" onClick={() => navigate(-1)} />
                 <div className="flex flex-col"> 
-                    <span className="text-lg font-semibold"> ${price} </span>
+                    <span className="text-lg font-semibold"> {prezzoFormattato} </span>
                     <div className="flex flex-row space-x-4 text-gray-400">
                         <span className="flex gap-2 items-center"> <FaRulerCombined className="text-gray-400" /> {size} m² </span>
                         <span className="flex gap-2 items-center"> <PiToiletFill /> {locals} locali </span>

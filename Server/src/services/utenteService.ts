@@ -36,4 +36,30 @@ export class UtenteService {
         await this.ricercaDAO?.removeOfUser(utenteId);
         await this.ricercaDAO?.createOfUser(utenteId, searches);
     }
+
+    public async updateInfo(id: number, nome: string, cognome: string) : Promise<void> {
+        try {
+            const utente = await this.utenteDAO.findByAuth(id);
+            if(!utente) {
+                return Promise.reject("Utente non trovato");
+            }
+            await this.utenteDAO.updateInfo({...utente, nome: nome, cognome: cognome});
+        } catch (error) {
+            return Promise.reject(error);
+        }
+    }
+
+    public async updateImage(id: number, image: string) : Promise<string | undefined> {
+        try {
+            const utente = await this.utenteDAO.findByAuth(id);
+            const oldUrl = utente?.image;
+            if(!utente) {
+                return Promise.reject("Utente non trovato");
+            }
+            await this.utenteDAO.updateInfo({...utente, image});
+            return oldUrl;
+        } catch (error) {
+            return Promise.reject(error);
+        }
+    }
 }

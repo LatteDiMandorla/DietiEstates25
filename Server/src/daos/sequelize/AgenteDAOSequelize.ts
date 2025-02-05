@@ -1,5 +1,6 @@
 import { Agente as AgenteT } from "../../models/AgenteT";
 import Agente from "../../sequelize/models/Agente";
+import Immobile from "../../sequelize/models/Immobile";
 import { AgenteDAO } from "../interfaces/AgenteDAO";
 
 export class AgenteDAOSequelize implements AgenteDAO {
@@ -7,6 +8,15 @@ export class AgenteDAOSequelize implements AgenteDAO {
         try {
             const data = await Agente.findByPk(id);
             return data?.get({plain: true});
+        } catch (error) {
+            return Promise.reject(error);
+        }
+    }
+
+    public async findByImmobile(id: number): Promise<AgenteT | undefined> {
+        try {
+            const data = await Immobile.findByPk(id, {include: Agente});
+            return data?.get({plain: true}).Agente;
         } catch (error) {
             return Promise.reject(error);
         }

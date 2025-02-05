@@ -47,6 +47,10 @@ const SearchPage = () => {
     const applyFilters = () : Immobile[] | undefined => {
         if(immobili && filter) {
             let filtered = [...immobili];
+            if(filter.type && filter.type.length){
+                filtered = filtered.filter((imm) => filter.type.filter((t) => imm.type.toLowerCase() == t.toLowerCase()).length);
+            }
+
             if(filter.bathrooms){
                 const bathroomFilter = parseInt(filter.bathrooms) || 4;
                 filtered = filtered.filter((imm) => imm.bathrooms >= bathroomFilter);
@@ -67,7 +71,7 @@ const SearchPage = () => {
             if(filter.size && filter.size[0] && filter.size[1]){
                 const minSize = filter.size[0];
                 const maxSize = filter.size[1];
-                filtered = filtered.filter((imm) => parseInt(imm.size) >= minSize && parseInt(imm.size) <= maxSize);
+                filtered = filtered.filter((imm) => imm.size >= minSize && imm.size <= maxSize);
             }
 
             if(filter.type){
@@ -112,7 +116,7 @@ const SearchPage = () => {
 
     return (
         <>
-        <FiltersBar setFilters={setFilter} />
+        <FiltersBar setFilters={setFilter} priceRange={immobili ? [Math.min(...immobili.map(item => (item.price))), Math.max(...immobili?.map(item => item.price))]:  [2000, 400000]} sizeRange={immobili ? [Math.min(...immobili.map(item => (item.size))), Math.max(...immobili?.map(item => item.size))]:  [5, 200]} tags={[...new Set(immobili?.flatMap(item => item.tags || []))]} />
         <div className="flex-1 w-full flex bg-[#FAFAFA] overflow-hidden">
             <div className="absolute lg:hidden right-4 bottom-6 rounded-full flex justify-center items-center z-40 shadow-md"><MapButton onClick={() => setOpenDrawer(true)} /></div>
             <div className="h-full overflow-y-scroll flex-1  no-scrollbar px-6" ref={scrollableRef} >

@@ -29,7 +29,7 @@ function LoginForm() {
             if(data){
                 console.log(data);
                 setAuth(data);
-                if(data.role == "USER" || data.role == "AGENT"){
+                if(data.ruolo == "USER" || data.ruolo == "AGENT"){
                     navigate("/home");
                 } else {
                     navigate("/admin");

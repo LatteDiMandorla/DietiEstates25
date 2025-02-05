@@ -5,4 +5,5 @@ export interface UtenteDAO {
     findByAuth(id: number) : Promise<Utente | undefined>;
     create(user: Utente) : Promise<number>;
     updatePassword(id: Utente["id"], newPassowrd: string): Promise<void>;
+    updateInfo(utente: Utente): Promise<void>;
 }

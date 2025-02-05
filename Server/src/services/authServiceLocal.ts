@@ -43,11 +43,11 @@ export class AuthServiceLocal {
         return await bcrypt.compare(candidatePassword, storedPassword);
     };
 
-    public async refresh(refreshToken: string) : Promise<string> {
+    public async refresh(refreshToken: string) : Promise<{accessToken: string, ruolo: Role}> {
         try {
             const {id, ruolo} = await this.refreshTokenService.verifyToken(refreshToken);
             const accessToken = this.accessTokenService.generateToken({id, ruolo});
-            return accessToken;
+            return {accessToken, ruolo};
         } catch (error) {
             return Promise.reject(error);
         }

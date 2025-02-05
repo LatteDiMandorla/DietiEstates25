@@ -35,6 +35,7 @@ interface DropdownMenuRangeProps {
     selected: [number | undefined, number | undefined] | [],
     setSelected: React.Dispatch<React.SetStateAction<[number | undefined, number | undefined] | []>>, 
     className?: string,
+    prefix?: string,
     ref?: LegacyRef<HTMLDivElement>,
 }
 
@@ -127,7 +128,7 @@ export const DropdownMenuMultiple = ({text, options, icon: Icon, selected, setSe
             <button ref={buttonRef} onClick={() => {handleClick()}} className={buttonStyles.default + (open ? buttonStyles.open : (selected && selected.length > 0 ? buttonStyles.selected : buttonStyles.notSelected))}><Icon className="mr-2" /> {text} <IoMdArrowDropdown size={20} className={"transition-all " + (open && "rotate-180") } /></button>
             <div ref={rectRef}></div>
             { open &&
-                <div ref={menuRef} style={getPopupPosition()} className={`fixed bg-[#FAFAFA] shadow-lg w-fit h-fit rounded-md flex flex-col px-2 py-1 z-[1001]`}>
+                <div ref={menuRef} style={getPopupPosition()} className={`fixed bg-[#FAFAFA] shadow-lg w-fit h-fit max-h-96 overflow-y-scroll rounded-md flex flex-col px-2 py-1 z-[1001]`}>
                     <div className="overflow-y-scroll mb-1">
                     <CheckBoxList elements={options} setSelected={setSelected} selected={selected} />
                     </ div>
@@ -139,7 +140,7 @@ export const DropdownMenuMultiple = ({text, options, icon: Icon, selected, setSe
     )
 }
 
-export const DropdownMenuRange = ({text, min, max, step, icon: Icon, selected, setSelected, className = "", ref} : DropdownMenuRangeProps) => {
+export const DropdownMenuRange = ({text, min, max, step, prefix = "", icon: Icon, selected, setSelected, className = "", ref} : DropdownMenuRangeProps) => {
     const [open, setOpen] = useState<boolean>();
     const [internalSelected, setInternalSelected] = useState<[number | undefined, number | undefined] | []>(selected);
     const buttonRef = useRef<HTMLButtonElement>(null);
@@ -217,15 +218,15 @@ export const DropdownMenuRange = ({text, min, max, step, icon: Icon, selected, s
                 <div ref={menuRef} style={getPopupPosition()} className={`fixed bg-[#FAFAFA] shadow-lg w-64 rounded-md flex flex-col px-2 py-1 z-[1001] ${open ? "visible" : "invisible"}`}>
                     <div className="h-28 mb-1 flex flex-col justify-around">
                         <div className="flex justify-between space-x-2">
-                            <input value={internalSelected[0] ? "€ " + internalSelected[0].toLocaleString() : ""} min={min} max={internalSelected[1]} step={step} className="w-1/2 border p-1 rounded-md" type="text" placeholder="Da:" onChange={(e) => handleMinInput(e.target.value)} />
-                            <input value={internalSelected[1] ? "€ " + internalSelected[1].toLocaleString() : ""} min={internalSelected[0]} max={max} step={step} className="w-1/2 border p-1 rounded-md" type="text" placeholder="A: " onChange={(e) => handleMaxInput(e.target.value)} />
+                            <input value={internalSelected[0] ? (prefix) + internalSelected[0].toLocaleString() : ""} min={min} max={internalSelected[1]} step={step} className="w-1/2 border p-1 rounded-md" type="text" placeholder="Da:" onChange={(e) => handleMinInput(e.target.value)} />
+                            <input value={internalSelected[1] ? (prefix) + internalSelected[1].toLocaleString() : ""} min={internalSelected[0]} max={max} step={step} className="w-1/2 border p-1 rounded-md" type="text" placeholder="A: " onChange={(e) => handleMaxInput(e.target.value)} />
                         </div>
                         <div>
                             <RangeSlider value={[internalSelected[0] || min, internalSelected[1] || max]} min={min} max={max} step={step} onInput={(value: [number, number]) => setInternalSelected(value)} />
                         </div>
                         <div className="flex justify-between mt-2">
-                            <p>{"€ " + (internalSelected[0] ? internalSelected[0].toLocaleString() : min.toLocaleString())}</p>
-                            <p>{"€ " + (internalSelected[1] ? internalSelected[1].toLocaleString() : max.toLocaleString())}</p>
+                            <p>{(prefix) + (internalSelected[0] ? internalSelected[0].toLocaleString() : min.toLocaleString())}</p>
+                            <p>{(prefix) +  (internalSelected[1] ? internalSelected[1].toLocaleString() : max.toLocaleString())}</p>
                         </div>
                     </ div>
                     <button className="bg-red-600 text-white rounded-md" onClick={() => setInternalSelected([])}>Cancella Filtri</button>

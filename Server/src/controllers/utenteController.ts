@@ -3,12 +3,18 @@ import { DAOFactory } from "../daos/factory/DAOFactory";
 import { ImmobileDAO } from "../daos/interfaces/ImmobileDAO";
 import { ImmobileService } from "../services/immobileService";
 import { UtenteService } from "../services/utenteService";
+import { ParamsDictionary } from "express-serve-static-core";
+import { ImageService } from "../services/interfaces/imageService";
+import { ServiceFactory } from "../services/factory/serviceFactory";
 
 export class UtenteController {
     private utenteService : UtenteService | undefined;
+    private imageService : ImageService;
 
     constructor() {
         this.utenteService = new UtenteService();
+        const factory = new ServiceFactory();
+        this.imageService = factory.getImageService(process.env.IMAGE_API || "")!;
     }
 
     public async getById(req : Request, res : Response) : Promise<void> {
@@ -43,5 +49,36 @@ export class UtenteController {
 
         const data = await this.utenteService?.insertSearches(id, recents);
         res.sendStatus(200);
+    }
+
+    public async updateInfo(req: Request, res: Response) {
+        try {            
+            const id = res.locals.id;
+            const {nome, cognome} = req.body;
+            await this.utenteService?.updateInfo(id, nome, cognome);
+            res.sendStatus(200)
+        } catch (error) {
+            res.status(400).json(error);
+        }
+    }
+
+    public async updateImage(req: Request, res: Response) {
+        try {            
+            const id = res.locals.id;
+            const file = req.file;
+            if(!file || !file.path){
+                res.status(400).send("Missing file");
+                return;
+            }
+
+            const url = await this.imageService.upload(file.path);
+            const oldUrl = await this.utenteService?.updateImage(id, url);
+            if(oldUrl) {
+                await this.imageService.delete(oldUrl);
+            }
+            res.sendStatus(200)
+        } catch (error) {
+            res.status(400).json(error);
+        }
     }
 }
