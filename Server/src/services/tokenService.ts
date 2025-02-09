@@ -1,4 +1,3 @@
-import { Role } from "../models/AuthT";
 import jwt from "jsonwebtoken"
 
 export class TokenService<T extends {}> {

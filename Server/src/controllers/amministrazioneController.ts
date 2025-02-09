@@ -3,12 +3,12 @@ import { AmministrazioneService } from "../services/amministrazioneService";
 import { AgenziaService } from "../services/agenziaService";
 
 export class AmministrazioneController {
-    private amministrazioneService: AmministrazioneService | undefined;
-    private agenziaService: AgenziaService | undefined;
+    private amministrazioneService: AmministrazioneService;
+    private agenziaService: AgenziaService;
 
-    constructor(){
-        this.amministrazioneService = new AmministrazioneService();
-        this.agenziaService = new AgenziaService();
+    constructor(amministrazioneService: AmministrazioneService, agenziaService: AgenziaService){
+        this.amministrazioneService = amministrazioneService;
+        this.agenziaService = agenziaService;
     }
 
     public async getAllAdmin(req: Request, res: Response){

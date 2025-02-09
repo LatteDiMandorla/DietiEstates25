@@ -1,4 +1,3 @@
-import { DAOFactory } from "../daos/factory/DAOFactory";
 import { RicercaDAO } from "../daos/interfaces/RicercaDAO";
 import { UtenteDAO } from "../daos/interfaces/UtenteDAO";
 import { Ricerca } from "../models/RicercaT";
@@ -7,10 +6,9 @@ import { Utente } from "../models/UtenteT";
 export class UtenteService {
     private utenteDAO: UtenteDAO;
     private ricercaDAO: RicercaDAO;
-    constructor() {
-        const factory = new DAOFactory();
-        this.utenteDAO = factory.getUtenteDAO(process.env.DAOTYPE || "")!;
-        this.ricercaDAO = factory.getRicercaDAO(process.env.DAOTYPE || "")!;
+    constructor(utenteDAO: UtenteDAO, ricercaDAO: RicercaDAO) {
+        this.utenteDAO = utenteDAO;
+        this.ricercaDAO = ricercaDAO;
     }
   
     public async getUtenteById(id: number) : Promise<Utente>{

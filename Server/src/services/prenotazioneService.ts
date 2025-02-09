@@ -1,19 +1,13 @@
-import { DAOFactory } from "../daos/factory/DAOFactory";
 import { ImmobileDAO } from "../daos/interfaces/ImmobileDAO";
 import { PrenotazioneDAO } from "../daos/interfaces/PrenotazioneDAO";
-import { RicercaDAO } from "../daos/interfaces/RicercaDAO";
-import { UtenteDAO } from "../daos/interfaces/UtenteDAO";
 import { Prenotazione } from "../models/PrenotazioneT";
-import { Ricerca } from "../models/RicercaT";
-import { Utente } from "../models/UtenteT";
 
 export class PrenotazioneService {
-    private prenotazioneDAO: PrenotazioneDAO | undefined;
-    private immobileDAO: ImmobileDAO | undefined;
-    constructor() {
-        const factory = new DAOFactory();
-        this.prenotazioneDAO = factory.getPrenotazioneDAO(process.env.DAOTYPE || "");
-        this.immobileDAO = factory.getImmobileDAO(process.env.DAOTYPE || "")
+    private prenotazioneDAO: PrenotazioneDAO;
+    private immobileDAO: ImmobileDAO;
+    constructor(prenotazioneDAO: PrenotazioneDAO, immobileDAO: ImmobileDAO) {
+        this.prenotazioneDAO = prenotazioneDAO;
+        this.immobileDAO = immobileDAO;
     }
   
     public async getPrenotazioneById(id: number) : Promise<Prenotazione>{

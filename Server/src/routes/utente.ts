@@ -1,4 +1,3 @@
-import { Router } from "express";
 import { Route } from "./route";
 import { UtenteController } from "../controllers/utenteController";
 import AuthMiddleware from "../middlewares/authMiddlewares";
@@ -9,9 +8,9 @@ export class UtenteRoute extends Route {
     private authMiddleware: AuthMiddleware;
     private storageMiddlewares: StorageMiddlewares;
 
-    constructor() {
+    constructor(utenteController: UtenteController) {
         super();
-        this.utenteController = new UtenteController();
+        this.utenteController = utenteController;
         this.authMiddleware = new AuthMiddleware();
         this.storageMiddlewares = new StorageMiddlewares();
         this.initRoutes();

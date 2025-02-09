@@ -1,20 +1,14 @@
 import { Request, Response } from "express";
-import { DAOFactory } from "../daos/factory/DAOFactory";
-import { ImmobileDAO } from "../daos/interfaces/ImmobileDAO";
-import { ImmobileService } from "../services/immobileService";
 import { UtenteService } from "../services/utenteService";
-import { ParamsDictionary } from "express-serve-static-core";
 import { ImageService } from "../services/interfaces/imageService";
-import { ServiceFactory } from "../services/factory/serviceFactory";
 
 export class UtenteController {
     private utenteService : UtenteService | undefined;
     private imageService : ImageService;
 
-    constructor() {
-        this.utenteService = new UtenteService();
-        const factory = new ServiceFactory();
-        this.imageService = factory.getImageService(process.env.IMAGE_API || "")!;
+    constructor(utenteService : UtenteService, imageService : ImageService) {
+        this.utenteService = utenteService;
+        this.imageService = imageService;
     }
 
     public async getById(req : Request, res : Response) : Promise<void> {

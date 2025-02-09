@@ -1,13 +1,11 @@
 import { Request, Response } from "express";
-import { ServiceFactory } from "../services/factory/serviceFactory";
 import { MeteoService } from "../services/interfaces/meteoService";
 
 export class MeteoController {
     private meteoService : MeteoService | undefined;
 
-    constructor() {
-        const serviceFactory = new ServiceFactory();
-        this.meteoService = serviceFactory.getMeteoService(process.env.METEO_API || "OpenMeteo");
+    constructor(meteoService : MeteoService) {
+        this.meteoService = meteoService;
     }
 
     public async getFromDates(req: Request, res: Response) {

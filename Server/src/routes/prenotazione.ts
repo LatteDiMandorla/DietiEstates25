@@ -6,9 +6,9 @@ export class PrenotazioneRoute extends Route {
     private prenotazioneController: PrenotazioneController;
     private authMiddleware: AuthMiddleware;
 
-    constructor() {
+    constructor(prenotazioneController: PrenotazioneController) {
         super();
-        this.prenotazioneController = new PrenotazioneController();
+        this.prenotazioneController = prenotazioneController;
         this.authMiddleware = new AuthMiddleware();
         this.initRoutes();
     }

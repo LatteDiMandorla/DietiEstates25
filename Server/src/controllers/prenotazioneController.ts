@@ -1,7 +1,4 @@
-import e, { Request, Response } from "express";
-import { DAOFactory } from "../daos/factory/DAOFactory";
-import { ImmobileDAO } from "../daos/interfaces/ImmobileDAO";
-import { ImmobileService } from "../services/immobileService";
+import { Request, Response } from "express";
 import { UtenteService } from "../services/utenteService";
 import { PrenotazioneService } from "../services/prenotazioneService";
 import { MailService } from "../services/interfaces/mailService";
@@ -11,16 +8,11 @@ import { AgenteService } from "../services/agenteService";
 
 export class PrenotazioneController {
     private prenotazioneService : PrenotazioneService;
-    private agenteService : AgenteService;
     private utenteService : UtenteService;
-    private mailService : MailService | undefined;
 
-    constructor() {
-        this.prenotazioneService = new PrenotazioneService()!;
-        this.agenteService = new AgenteService()!;
-        this.utenteService = new UtenteService()!;
-        const serviceFactory = new ServiceFactory();
-        this.mailService = serviceFactory.getMailService(process.env.MAIL_API || "");
+    constructor(prenotazioneService : PrenotazioneService, utenteService : UtenteService) {
+        this.prenotazioneService = prenotazioneService;
+        this.utenteService = utenteService;
     }
 
     public async getById(req : Request, res : Response) : Promise<void> {

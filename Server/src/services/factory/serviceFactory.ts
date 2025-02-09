@@ -10,29 +10,38 @@ import { MailServiceGmail } from "../mailServiceGmail";
 import { AgenziaDAO } from "../../daos/interfaces/AgenziaDAO";
 
 export class ServiceFactory {
-    public getMapService(type: string) : MapService| undefined {
+    public getMapService(type: string) : MapService {
         if(type == "Geoapify"){
             return new MapServiceGeoapify();
         }
+
+        throw new Error(`Service of type ${type} not found`);
     }
 
-    public getMeteoService(type: string) : MeteoService | undefined {
+    public getMeteoService(type: string) : MeteoService {
         if(type == "OpenMeteo"){
             return new MeteoServiceOpenMeteo();
         }
+
+        throw new Error(`Service of type ${type} not found`);
+
     }
 
-    public getImageService(type: string) : ImageService | undefined {
+    public getImageService(type: string) : ImageService {
         if(type == "Cloudinary"){
             return new ImageServiceCloudinary();
         }
+
+        throw new Error(`Service of type ${type} not found`);
     }
 
-    public getMailService(type: string) : MailService | undefined {
+    public getMailService(type: string) : MailService {
         if(type == "Mailtrap"){
             return new MailServiceMailtrap();
         } else if (type == "Gmail") {
             return new MailServiceGmail();
         }
+
+        throw new Error(`Service of type ${type} not found`);
     }
 }

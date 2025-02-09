@@ -5,9 +5,9 @@ import { Route } from "./route";
 export class MapRoute extends Route {
     private mapController: MapController;
 
-    constructor() {
+    constructor(mapController: MapController) {
         super();
-        this.mapController = new MapController();
+        this.mapController = mapController;
         this.initRoutes();
     }
 

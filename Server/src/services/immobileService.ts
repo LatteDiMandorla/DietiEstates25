@@ -9,12 +9,11 @@ type center = {lat: number, lon: number};
 type pagination = {page?: number, limit?: number, timestamp?: Date};
 
 export class ImmobileService {
-    private immobileDAO: ImmobileDAO | undefined;
-    private prenotazioneDAO: PrenotazioneDAO | undefined;
-    constructor() {
-        const factory = new DAOFactory();
-        this.immobileDAO = factory.getImmobileDAO(process.env.DAOTYPE || "");
-        this.prenotazioneDAO = factory.getPrenotazioneDAO(process.env.DAOTYPE || "");
+    private immobileDAO: ImmobileDAO;
+    private prenotazioneDAO: PrenotazioneDAO;
+    constructor(immobileDAO: ImmobileDAO, prenotazioneDAO: PrenotazioneDAO) {
+        this.immobileDAO = immobileDAO;
+        this.prenotazioneDAO = prenotazioneDAO;
     }
 
     public async getById(id: number) : Promise<Immobile> {
@@ -39,6 +38,18 @@ export class ImmobileService {
     public async getInRange({latMin, latMax, lonMin, lonMax} : coordinates, {page, limit, timestamp = new Date()} : pagination) : Promise<Immobile[]>{
         let data: Immobile[] | undefined;
 
+        if(latMin > latMax || lonMin > lonMax){
+            return Promise.reject("Bounds non validi");
+        }
+
+        if(page && page < 0){
+            return Promise.reject("Paginazione negativa");
+        }
+
+        if(limit && limit < 0){
+            return Promise.reject("Dimensione pagina negativa");
+        }
+
         const lat = (latMax + latMin) / 2;
         const lon = (lonMax + lonMin) / 2;
 
@@ -50,8 +61,20 @@ export class ImmobileService {
         return data || [];
     }
 
-    private calculateBounds(lat: number, lon: number, radiusKm: number) {
+    public calculateBounds(lat: number, lon: number, radiusKm: number) {
         const earthRadiusKm = 6371; // Raggio della Terra in km
+        if(lat > 90 || lat < -90) {
+            throw new Error("Invalid Latitude");
+        }
+
+        if(lon > 180 || lon < -180) {
+            throw new Error("Invalid Longitude");
+        }
+
+        if(radiusKm < 0) {
+            throw new Error("Invalid Radius");
+        }
+
         const latDelta = radiusKm / 111; // Delta latitudine in gradi
         const lonDelta = radiusKm / (111 * Math.cos((lat * Math.PI) / 180)); // Delta longitudine in gradi
       

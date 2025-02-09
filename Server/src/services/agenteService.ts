@@ -1,23 +1,20 @@
-import { DAOFactory } from "../daos/factory/DAOFactory";
 import { AgenteDAO } from "../daos/interfaces/AgenteDAO";
 import { Agente } from "../models/AgenteT";
-import { Ricerca } from "../models/RicercaT";
 
 export class AgenteService {
     private agenteDAO: AgenteDAO;
-    constructor() {
-        const factory = new DAOFactory();
-        this.agenteDAO = factory.getAgenteDAO(process.env.DAOTYPE || "")!;
+    constructor(agenteDAO: AgenteDAO) {
+        this.agenteDAO = agenteDAO;
     }
 
     public async getAgenteByAuth(id: number){
         const data = await this.agenteDAO.findByAuth(id);
-        return data || Promise.reject("Agente non trovato");
+        return data ?? Promise.reject("Agente non trovato");
     }
 
     public async getByImmobile(id: number){
         const data = await this.agenteDAO.findByImmobile(id);
-        return data || Promise.reject("Agente non trovato");
+        return data ?? Promise.reject("Agente non trovato");
     }
   
     public async register(agente: Agente) {

@@ -1,13 +1,10 @@
 import { NextFunction, Request, Response } from "express";
 import { AuthServiceLocal } from "../services/authServiceLocal";
 import { AuthServiceGoogle } from "../services/authServiceGoogle";
-import { Utente } from "../models/UtenteT";
 import { LoginBodyInput, RegisterAgenteBodyInput, RegisterClienteBodyInput, RegisterGestoreBodyInput, RegisterSupportoBodyInput } from "../schemas/authSchemas";
 import { MailService } from "../services/interfaces/mailService";
-import { ServiceFactory } from "../services/factory/serviceFactory";
 import { Role } from "../models/AuthT";
 import { AgenziaService } from "../services/agenziaService";
-import { Agenzia } from "../models/AgenziaT";
 import { UtenteService } from "../services/utenteService";
 import { AmministrazioneService } from "../services/amministrazioneService";
 import { AgenteService } from "../services/agenteService";
@@ -26,19 +23,19 @@ export class AuthController {
     private agenziaService: AgenziaService;
     private imageService: ImageService;
 
-    constructor() {
-        this.authServiceLocal = new AuthServiceLocal()!;
-        this.authServiceGoogle = new AuthServiceGoogle()!;
+    constructor(authServiceLocal: AuthServiceLocal, authServiceGoogle : AuthServiceGoogle, mailService: MailService, utenteService: UtenteService, agenteService: AgenteService, amministrazioneService: AmministrazioneService, agenziaService: AgenziaService, imageService: ImageService) {
         this.tokenService = new TokenService(process.env.JWT_VERIFY_TOKEN_SECRET || "", process.env.JWT_VERIFY_EXPIRES_IN || "30m");
+        
+        this.authServiceLocal = authServiceLocal;
+        this.authServiceGoogle = authServiceGoogle;
 
-        const serviceFactory = new ServiceFactory();
-        this.mailService = serviceFactory.getMailService(process.env.MAIL_API || "Mailtrap")!;
-        this.imageService = serviceFactory.getImageService(process.env.IMAGE_API || "Cloudinary")!;
+        this.mailService = mailService;
+        this.imageService = imageService;
 
-        this.utenteService = new UtenteService();
-        this.agenteService = new AgenteService();
-        this.amministrazioneService = new AmministrazioneService();
-        this.agenziaService = new AgenziaService();
+        this.utenteService = utenteService;
+        this.agenteService = agenteService;
+        this.amministrazioneService = amministrazioneService;
+        this.agenziaService = agenziaService;
     }
 
     public async login(req: Request<{}, {}, LoginBodyInput>, res: Response) {

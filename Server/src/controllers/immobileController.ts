@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import { ImmobileService } from "../services/immobileService";
 import { ImageService } from "../services/interfaces/imageService";
-import { ServiceFactory } from "../services/factory/serviceFactory";
 import fs from 'fs';
 import path from 'path';
 import { BoundsSearchQueryInput } from "../schemas/immobileSchemas";
@@ -9,13 +8,12 @@ import { PaginationQueryInput } from "../schemas/paginationSchemas";
 
 
 export class ImmobileController {
-    private immobileService : ImmobileService | undefined;
-    private imageService : ImageService | undefined;
+    private immobileService : ImmobileService;
+    private imageService : ImageService;
 
-    constructor() {
-        this.immobileService = new ImmobileService();
-        const serviceFactor = new ServiceFactory();
-        this.imageService = serviceFactor.getImageService(process.env.IMAGE_API || "Cloudinary");
+    constructor(immobileService: ImmobileService, imageService: ImageService) {
+        this.immobileService = immobileService;
+        this.imageService = imageService;
     }
 
     public async getById(req : Request, res : Response) : Promise<void> {

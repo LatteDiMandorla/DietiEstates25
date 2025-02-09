@@ -2,7 +2,7 @@ import { ImageService } from "./interfaces/imageService";
 import { v2 as cloudinary } from 'cloudinary';
 
 export class ImageServiceCloudinary implements ImageService {
-    private baseUrl;
+    private baseUrl: string;
     private API_KEY;
     private API_SECRET;
     private CLOUD_NAME;

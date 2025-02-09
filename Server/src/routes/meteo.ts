@@ -4,9 +4,9 @@ import { Route } from "./route";
 export class MeteoRoute extends Route {
     private meteoController: MeteoController;
 
-    constructor() {
+    constructor(meteoController: MeteoController) {
         super();
-        this.meteoController = new MeteoController();
+        this.meteoController = meteoController;
         this.initRoutes();
     }
 

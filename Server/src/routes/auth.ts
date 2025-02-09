@@ -12,9 +12,10 @@ export class AuthRoute extends Route {
     private storageMiddlewates: StorageMiddlewares;
     private authMiddlewares: AuthMiddleware;
 
-    constructor() {
+    constructor(authController: AuthController) {
         super();
-        this.authController = new AuthController();
+        this.authController = authController;
+        
         this.validationMiddlewares = new ValidationMiddlewares();
         this.storageMiddlewates = new StorageMiddlewares();
         this.authMiddlewares = new AuthMiddleware();

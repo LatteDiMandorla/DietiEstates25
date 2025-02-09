@@ -3,11 +3,10 @@ import { MapService } from "../services/interfaces/mapService";
 import { ServiceFactory } from "../services/factory/serviceFactory";
 
 export class MapController {
-    private mapService : MapService | undefined;
+    private mapService : MapService;
 
-    constructor() {
-        const serviceFactory = new ServiceFactory();
-        this.mapService = serviceFactory.getMapService(process.env.MAP_API || "Geoapify");
+    constructor(mapService : MapService) {
+        this.mapService = mapService;
     }
 
     public async getAutocomplete(req: Request, res: Response): Promise<void> {

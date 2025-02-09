@@ -1,20 +1,19 @@
-import { DAOFactory } from "../daos/factory/DAOFactory";
 import bcrypt from 'bcrypt';
 import { Auth, Role } from "../models/AuthT";
 import { TokenService } from "./tokenService";
 import { AuthDAO } from "../daos/interfaces/AuthDAO";
 
-interface RefreshTokenPayload {
+export interface RefreshTokenPayload {
     id: number,
     ruolo: Role
 }
 
-interface AccessTokenPayload {
+export interface AccessTokenPayload {
     id: number,
     ruolo: Role
 }
 
-interface VerifyTokenPayload {
+export interface VerifyTokenPayload {
     id: number,
     ruolo: Role
 }
@@ -25,11 +24,10 @@ export class AuthServiceLocal {
     private refreshTokenService: TokenService<RefreshTokenPayload>;
     private verifyTokenService: TokenService<VerifyTokenPayload>;
 
-    constructor(){
-        const factory = new DAOFactory();
-        this.authDAO = factory.getAuthDAO(process.env.DAOTYPE || "")!;
-        this.refreshTokenService = new TokenService(process.env.JWT_REFRESH_TOKEN_SECRET || "", process.env.JWT_REFRESH_EXPIRES_IN || "");
-        this.accessTokenService = new TokenService(process.env.JWT_TOKEN_SECRET || "", process.env.JWT_EXPIRES_IN || "");
+    constructor(authDAO: AuthDAO, refreshTokenService?: TokenService<RefreshTokenPayload>, accessTokenService?: TokenService<AccessTokenPayload>){
+        this.authDAO = authDAO;
+        this.refreshTokenService = refreshTokenService ?? new TokenService(process.env.JWT_REFRESH_TOKEN_SECRET || "", process.env.JWT_REFRESH_EXPIRES_IN || "");
+        this.accessTokenService = accessTokenService ?? new TokenService(process.env.JWT_TOKEN_SECRET || "", process.env.JWT_EXPIRES_IN || "");
         this.verifyTokenService = new TokenService(process.env.JWT_VERIFY_TOKEN_SECRET || "", process.env.JWT_VERIFY_EXPIRES_IN || "");
     }
 
@@ -68,6 +66,10 @@ export class AuthServiceLocal {
 
     public async login(email: string, password: string): Promise<{ accessToken: string, refreshToken: string, ruolo: string }> {
         try {
+            if(email == "" || password == "") {
+                return Promise.reject("Missing Email or Password");
+            }
+
             const auth = await this.authDAO.findByEmail(email);
             if(!auth){
                 return Promise.reject("User not found");

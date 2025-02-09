@@ -6,9 +6,9 @@ export class AmministrazioneRoute extends Route {
     private amministrazioneController: AmministrazioneController;
     private authMiddleware: AuthMiddleware;
 
-    constructor() {
+    constructor(amministrazioneController: AmministrazioneController) {
         super();
-        this.amministrazioneController = new AmministrazioneController();
+        this.amministrazioneController = amministrazioneController;
         this.authMiddleware = new AuthMiddleware();
         this.initRoutes();
     }
