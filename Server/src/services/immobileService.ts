@@ -21,13 +21,13 @@ export class ImmobileService {
             return data;
         }
 
-        return Promise.reject();
+        return Promise.reject(new Error());
     }
 
     public async getByIdWithTimes(id: number) : Promise<Immobile> {
         const immobile = await this.immobileDAO?.findById(id);
-        if(!immobile || !immobile.Agente) {
-            return Promise.reject("Immobile non trovato");
+        if(!immobile?.Agente) {
+            return Promise.reject(new Error("Immobile non trovato"));
         }
         const orari = await this.prenotazioneDAO?.findByImmobileAgente(id, immobile.Agente.id);
         console.log({...immobile, orari: orari?.map((o) => o.data)})
@@ -38,15 +38,15 @@ export class ImmobileService {
         let data: Immobile[] | undefined;
 
         if(latMin > latMax || lonMin > lonMax){
-            return Promise.reject("Bounds non validi");
+            return Promise.reject(new Error("Bounds non validi"));
         }
 
         if(page && page < 0){
-            return Promise.reject("Paginazione negativa");
+            return Promise.reject(new Error("Paginazione negativa"));
         }
 
         if(limit && limit < 0){
-            return Promise.reject("Dimensione pagina negativa");
+            return Promise.reject(new Error("Dimensione pagina negativa"));
         }
 
         const lat = (latMax + latMin) / 2;
@@ -61,7 +61,6 @@ export class ImmobileService {
     }
 
     public calculateBounds(lat: number, lon: number, radiusKm: number) {
-        const earthRadiusKm = 6371; // Raggio della Terra in km
         if(lat > 90 || lat < -90) {
             throw new Error("Invalid Latitude");
         }
@@ -95,7 +94,7 @@ export class ImmobileService {
         if(searches && searches.length > 0){
             for(let i : number = 0; i < (searches.length || 0); i++) {
                 const r: Ricerca = searches[i];
-                if(!r || !r.lat || !r.lon){
+                if(!r?.lat || !r?.lon){
                     continue;
                 }
                 const {latMin, latMax, lonMin, lonMax} = this.calculateBounds(r.lat, r.lon, 5);
@@ -106,6 +105,6 @@ export class ImmobileService {
             return immobili;
         }
 
-        return Promise.reject();
+        return Promise.reject(new Error());
     }
 }

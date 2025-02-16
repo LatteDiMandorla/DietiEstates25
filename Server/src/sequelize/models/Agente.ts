@@ -1,7 +1,5 @@
-import { Model, DataTypes, Sequelize, Optional } from 'sequelize';
+import { Model, DataTypes, Sequelize } from 'sequelize';
 import Agenzia from './Agenzia';
-import { Agente as AgenteT } from "../../models/AgenteT";
-import { Agenzia as AgenziaT } from '../../models/AgenziaT';
 import Auth from './Auth';
 
 export default class Agente extends Model {

@@ -1,7 +1,5 @@
-import { Request, Router } from "express";
 import { ImmobileController } from "../controllers/immobileController";
 import { Route } from "./route";
-import multer from 'multer';
 import ValidationMiddlewares from "../middlewares/validationMiddlewares";
 import { boundsSearchSchema } from "../schemas/immobileSchemas";
 import { paginationSchema } from "../schemas/paginationSchemas";

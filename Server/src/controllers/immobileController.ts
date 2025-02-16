@@ -8,8 +8,8 @@ import { PaginationQueryInput } from "../schemas/paginationSchemas";
 
 
 export class ImmobileController {
-    private immobileService : ImmobileService;
-    private imageService : ImageService;
+    private readonly immobileService : ImmobileService;
+    private readonly imageService : ImageService;
 
     constructor(immobileService: ImmobileService, imageService: ImageService) {
         this.immobileService = immobileService;

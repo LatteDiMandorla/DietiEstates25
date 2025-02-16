@@ -1,5 +1,4 @@
 import { MapController } from "../controllers/mapController";
-import ValidationMiddlewares from "../middlewares/validationMiddlewares";
 import { Route } from "./route";
 
 export class MapRoute extends Route {

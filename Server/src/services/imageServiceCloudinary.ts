@@ -32,12 +32,12 @@ export class ImageServiceCloudinary implements ImageService {
 
     public async uploadMultiple(imagesPaths: string[]): Promise<string[]> {
         const urls: string[] = [];
-        for(let i = 0; i < imagesPaths.length; i++){
+        for(const path of imagesPaths){
             try {
-                const url = await this.upload(imagesPaths[i]);
+                const url = await this.upload(path);
                 urls.unshift(url);
             } catch (error) {
-                Promise.reject();
+                Promise.reject(new Error());
             }
         }
         return urls;
@@ -55,15 +55,11 @@ export class ImageServiceCloudinary implements ImageService {
     }
 
     public async delete(url: string): Promise<void> {
-        try {
-            const matches = url.match(/\/upload\/(?:v\d+\/)?(.+)\.\w+$/);
-            if(!matches || !matches[1]){
-                return Promise.reject("Cannot get public id from url");
-            }
-
-            const result = await cloudinary.uploader.destroy(matches[1]);
-        } catch (error) {
-            return Promise.reject(error);
+        const matches = /\/upload\/(?:v\d+\/)?(.+)\.\w+$/.exec(url);
+        if(!matches?.[1]){
+            return Promise.reject(new Error("Cannot get public id from url"));
         }
+
+        await cloudinary.uploader.destroy(matches[1]);
     }
 }

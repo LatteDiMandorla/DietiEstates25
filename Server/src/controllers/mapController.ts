@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { MapService } from "../services/interfaces/mapService";
-import { ServiceFactory } from "../services/factory/serviceFactory";
 
 export class MapController {
     private readonly mapService : MapService;

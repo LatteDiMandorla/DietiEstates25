@@ -16,8 +16,7 @@ export class MailServiceMailtrap implements MailService {
     }
 
     public async sendChangePasswordMail(email: string, token: string, callback: string) {
-        try {
-            const info = await this.transporter.sendMail({
+            await this.transporter.sendMail({
               from: `"DietiEstates" <${process.env.GMAIL_USER}>`, // mittente
               to: email, // destinatario (puoi usare un indirizzo a tua scelta per il test)
               subject: 'Change Password', // oggetto
@@ -41,15 +40,10 @@ export class MailServiceMailtrap implements MailService {
             });
         
             console.log('Email inviata');
-            return;
-        } catch (error) {
-            return Promise.reject(error);
-        }
     }
 
     public async sendVerificationMail(email: string, token: string, callback: string): Promise<void> {
-        try {
-            const info = await this.transporter.sendMail({
+            await this.transporter.sendMail({
               from: `"DietiEstates" <${process.env.GMAIL_USER}>`, // mittente
               to: email, // destinatario (puoi usare un indirizzo a tua scelta per il test)
               subject: 'Verification Email', // oggetto
@@ -72,15 +66,10 @@ export class MailServiceMailtrap implements MailService {
             });
         
             console.log('Email inviata');
-            return;
-        } catch (error) {
-            return Promise.reject(error);
-        }
     }
 
     public async sendAgentAppointmentMail(email: string): Promise<void> {
-        try {
-            const info = await this.transporter.sendMail({
+            await this.transporter.sendMail({
             from: `"DietiEstates" <${process.env.GMAIL_USER}>`, // mittente
             to: email, // destinatario (puoi usare un indirizzo a tua scelta per il test)
             subject: 'Appuntamento prenotato', // oggetto
@@ -97,9 +86,5 @@ export class MailServiceMailtrap implements MailService {
             });
         
             console.log('Email inviata');
-            return;
-        } catch (error) {
-            return Promise.reject(error);
-        }
     }
 }

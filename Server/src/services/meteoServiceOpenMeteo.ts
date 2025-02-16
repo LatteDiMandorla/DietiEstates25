@@ -31,7 +31,7 @@ export class MeteoServiceOpenMeteo implements MeteoService {
 
         const weathers : Weather[] = [];
         const {data} = await axios.get(this.baseUrl, { params });
-        dates.map((date) => {
+        dates.forEach((date) => {
             const index = data.hourly.time.indexOf(date.slice(0, 14) + "00");
             weathers.push({
                 temperature: parseFloat(data.hourly.temperature_2m[index] as string) || 0,

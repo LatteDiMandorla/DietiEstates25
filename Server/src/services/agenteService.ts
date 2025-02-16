@@ -9,12 +9,12 @@ export class AgenteService {
 
     public async getAgenteByAuth(id: number){
         const data = await this.agenteDAO.findByAuth(id);
-        return data ?? Promise.reject("Agente non trovato");
+        return data ?? Promise.reject(new Error("Agente non trovato"));
     }
 
     public async getByImmobile(id: number){
         const data = await this.agenteDAO.findByImmobile(id);
-        return data ?? Promise.reject("Agente non trovato");
+        return data ?? Promise.reject(new Error("Agente non trovato"));
     }
   
     public async register(agente: Agente) {

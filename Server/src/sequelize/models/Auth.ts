@@ -1,5 +1,4 @@
 import { Model, DataTypes, Sequelize, Optional } from 'sequelize';
-import Agenzia from './Agenzia';
 import { Auth as AuthT, Role } from '../../models/AuthT';
 
 export default class Auth extends Model<AuthT, Optional<AuthT, "id" | "password" | "info">> implements AuthT {

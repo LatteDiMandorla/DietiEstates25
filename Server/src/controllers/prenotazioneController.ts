@@ -1,8 +1,6 @@
 import { Request, Response } from "express";
 import { UtenteService } from "../services/utenteService";
 import { PrenotazioneService } from "../services/prenotazioneService";
-import { MailService } from "../services/interfaces/mailService";
-import { ServiceFactory } from "../services/factory/serviceFactory";
 import { Prenotazione } from "../models/PrenotazioneT";
 import { AgenteService } from "../services/agenteService";
 
@@ -69,7 +67,6 @@ export class PrenotazioneController {
     public async acceptAgentePrenotazione(req : Request, res: Response) : Promise<void> {
         try {            
             const {prenotazioneId} = req.body;
-            const agenteId = res.locals.id;
             if(!prenotazioneId || typeof prenotazioneId !== "number") {
                 res.status(400).send("Body not valid"); 
                 return;

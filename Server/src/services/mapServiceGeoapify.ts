@@ -7,7 +7,7 @@ export class MapServiceGeoapify implements MapService {
     private readonly baseUrl: string;
   
     constructor() {
-      this.apiKey = process.env.GEOAPIFY_API_KEY || '';
+      this.apiKey = process.env.GEOAPIFY_API_KEY ?? '';
       this.baseUrl = 'https://api.geoapify.com';
     }
   

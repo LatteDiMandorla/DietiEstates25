@@ -44,7 +44,7 @@ class App {
 
   private init() {
     this.initMiddlewares();
-    const daos = this.initDAOs();
+    this.initDAOs();
     this.initRoutes();
     this.initDatabase();
   }

@@ -7,7 +7,6 @@ import Agente from './models/Agente';
 import Agenzia from './models/Agenzia';
 import Amministrazione from './models/Amministrazione';
 import Auth from './models/Auth';
-import { Immobili } from '../controllers/immobili';
 
 export default class Database {
     private static instance: Database;

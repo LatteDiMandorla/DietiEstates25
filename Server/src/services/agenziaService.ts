@@ -9,11 +9,11 @@ export class AgenziaService {
   
     public async getAgenziaByAmministrazione(id: number) : Promise<Agenzia>{
         const data = await this.agenziaDAO.findByAmministrazione(id);
-        return data ?? Promise.reject("Agenzia non trovata"); 
+        return data ?? Promise.reject(new Error("Agenzia non trovata")); 
     }
 
     public async getFromId(id: number) : Promise<Agenzia>{
         const data = await this.agenziaDAO?.findById(id);
-        return data ?? Promise.reject("Agenzia non trovata");
+        return data ?? Promise.reject(new Error("Agenzia non trovata"));
     }
 }

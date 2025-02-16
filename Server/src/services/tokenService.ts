@@ -10,27 +10,22 @@ export class TokenService<T extends {}> {
     }
 
     public generateToken(payload: T): string {
-        try {
             const refreshToken = jwt.sign(payload, this.tokenSecret, {
                 expiresIn: this.tokenDuration,
             });        
             return refreshToken;
-        } catch (error) {
-            console.log(error);
-            throw error;
-        }
     }
 
     public async verifyToken(token: string): Promise<T> {
         try {
             if (!token) {
-                return Promise.reject("Token Mancante");
+                return Promise.reject(new Error("Token Mancante"));
             }
 
             const payload = jwt.verify(token, this.tokenSecret) as T;
             return payload;
         } catch (error) {
-            return Promise.reject("Refresh token non valido o scaduto");
+            return Promise.reject(new Error("Refresh token non valido o scaduto"));
         }
     }
 }

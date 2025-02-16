@@ -1,4 +1,3 @@
-import { Suggestion } from "../../models/SuggestionT";
 import { Weather } from "../../models/WeatherT";
 
 export interface MeteoService {

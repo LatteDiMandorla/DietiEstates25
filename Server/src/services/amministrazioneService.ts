@@ -1,4 +1,3 @@
-import { DAOFactory } from "../daos/factory/DAOFactory";
 import { AgenziaDAO } from "../daos/interfaces/AgenziaDAO";
 import { AmministrazioneDAO } from "../daos/interfaces/AmministrazioneDAO";
 import { Agenzia } from "../models/AgenziaT";
@@ -8,7 +7,6 @@ export class AmministrazioneService {
     private readonly amministrazioneDAO: AmministrazioneDAO;
     private readonly agenziaDAO: AgenziaDAO;
     constructor(amministrazioneDAO: AmministrazioneDAO, agenziaDAO: AgenziaDAO) {
-        const factory = new DAOFactory();
         this.amministrazioneDAO = amministrazioneDAO
         this.agenziaDAO = agenziaDAO
     }
@@ -16,17 +14,17 @@ export class AmministrazioneService {
     public async getAllFromAgenzia(id: number) : Promise<Amministrazione[]>{
         const data = await this.amministrazioneDAO?.findAllByAgenzia(id);
         console.log(data);
-        return data ?? Promise.reject("Agenzia non trovata"); 
+        return data ?? Promise.reject(new Error("Agenzia non trovata")); 
     }
 
     public async getAgenziaFromId(id: number) : Promise<Agenzia> {
         const data = await this.agenziaDAO.findByAmministrazione(id);
-        return data ?? Promise.reject("Agenzia non trovata");
+        return data ?? Promise.reject(new Error("Agenzia non trovata"));
     }
 
     public async getAmministratoreByAuth(id: number){
         const data = await this.amministrazioneDAO.findByAuth(id);
-        return data ?? Promise.reject("Amministratore non trovato");
+        return data ?? Promise.reject(new Error("Amministratore non trovato"));
     }
 
     public async register(amministratore: Amministrazione) : Promise<Amministrazione> {

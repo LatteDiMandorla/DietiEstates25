@@ -13,12 +13,12 @@ export class UtenteService {
   
     public async getUtenteById(id: number) : Promise<Utente>{
         const data = await this.utenteDAO?.findById(id);
-        return data || Promise.reject(); 
+        return data ?? Promise.reject(new Error()); 
     }
 
     public async getUtenteByAuth(id: number) : Promise<Utente>{
         const data = await this.utenteDAO.findByAuth(id);
-        return data || Promise.reject(); 
+        return data ?? Promise.reject(new Error()); 
     }
 
     public async register(utente: Utente) {
@@ -27,7 +27,7 @@ export class UtenteService {
 
     public async getSearchesUtente(id: number) : Promise<Ricerca[]>{
         const data = await this.ricercaDAO?.findLatest(id);
-        return data || Promise.reject();
+        return data ?? Promise.reject(new Error());
     }
 
     public async insertSearches(utenteId: number, searches: Ricerca[]) : Promise<void>{
@@ -36,28 +36,20 @@ export class UtenteService {
     }
 
     public async updateInfo(id: number, nome: string, cognome: string) : Promise<void> {
-        try {
             const utente = await this.utenteDAO.findByAuth(id);
             if(!utente) {
-                return Promise.reject("Utente non trovato");
+                return Promise.reject(new Error("Utente non trovato"));
             }
             await this.utenteDAO.updateInfo({...utente, nome: nome, cognome: cognome});
-        } catch (error) {
-            return Promise.reject(error);
-        }
     }
 
     public async updateImage(id: number, image: string) : Promise<string | undefined> {
-        try {
             const utente = await this.utenteDAO.findByAuth(id);
             const oldUrl = utente?.image;
             if(!utente) {
-                return Promise.reject("Utente non trovato");
+                return Promise.reject(new Error("Utente non trovato"));
             }
             await this.utenteDAO.updateInfo({...utente, image});
             return oldUrl;
-        } catch (error) {
-            return Promise.reject(error);
-        }
     }
 }
