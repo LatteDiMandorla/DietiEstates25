@@ -8,9 +8,9 @@ import { paginationSchema } from "../schemas/paginationSchemas";
 import StorageMiddlewares from "../middlewares/storageMiddlewares";
 
 export class ImmobileRoute extends Route {
-    private immobileController: ImmobileController;
-    private storageMiddlewares: StorageMiddlewares;
-    private validationMiddlewares: ValidationMiddlewares;
+    private readonly immobileController: ImmobileController;
+    private readonly storageMiddlewares: StorageMiddlewares;
+    private readonly validationMiddlewares: ValidationMiddlewares;
 
     constructor(immobileController: ImmobileController) {
         super();

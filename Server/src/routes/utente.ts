@@ -4,9 +4,9 @@ import AuthMiddleware from "../middlewares/authMiddlewares";
 import StorageMiddlewares from "../middlewares/storageMiddlewares";
 
 export class UtenteRoute extends Route {
-    private utenteController: UtenteController;
-    private authMiddleware: AuthMiddleware;
-    private storageMiddlewares: StorageMiddlewares;
+    private readonly utenteController: UtenteController;
+    private readonly authMiddleware: AuthMiddleware;
+    private readonly storageMiddlewares: StorageMiddlewares;
 
     constructor(utenteController: UtenteController) {
         super();

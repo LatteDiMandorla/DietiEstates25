@@ -1,4 +1,4 @@
-import { Request, Response, Router } from "express";
+import { Request, Response } from "express";
 import { Route } from "./route";
 import { AuthController } from "../controllers/authController";
 import ValidationMiddlewares from "../middlewares/validationMiddlewares";
@@ -7,10 +7,10 @@ import AuthMiddleware from "../middlewares/authMiddlewares";
 import { registerAgenteSchema, registerClienteSchema, registerGestoreSchema, registerSupportoSchema } from "../schemas/authSchemas";
 
 export class AuthRoute extends Route {
-    private authController: AuthController;
-    private validationMiddlewares: ValidationMiddlewares;
-    private storageMiddlewates: StorageMiddlewares;
-    private authMiddlewares: AuthMiddleware;
+    private readonly authController: AuthController;
+    private readonly validationMiddlewares: ValidationMiddlewares;
+    private readonly storageMiddlewates: StorageMiddlewares;
+    private readonly authMiddlewares: AuthMiddleware;
 
     constructor(authController: AuthController) {
         super();

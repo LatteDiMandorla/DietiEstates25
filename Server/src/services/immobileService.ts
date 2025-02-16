@@ -1,4 +1,3 @@
-import { DAOFactory } from "../daos/factory/DAOFactory";
 import { ImmobileDAO } from "../daos/interfaces/ImmobileDAO";
 import { PrenotazioneDAO } from "../daos/interfaces/PrenotazioneDAO";
 import { Immobile } from "../models/ImmobileT";
@@ -9,8 +8,8 @@ type center = {lat: number, lon: number};
 type pagination = {page?: number, limit?: number, timestamp?: Date};
 
 export class ImmobileService {
-    private immobileDAO: ImmobileDAO;
-    private prenotazioneDAO: PrenotazioneDAO;
+    private readonly immobileDAO: ImmobileDAO;
+    private readonly prenotazioneDAO: PrenotazioneDAO;
     constructor(immobileDAO: ImmobileDAO, prenotazioneDAO: PrenotazioneDAO) {
         this.immobileDAO = immobileDAO;
         this.prenotazioneDAO = prenotazioneDAO;

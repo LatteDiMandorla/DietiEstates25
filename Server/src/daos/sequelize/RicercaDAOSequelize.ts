@@ -1,7 +1,4 @@
-import { Op } from "sequelize";
-import { UtenteDAO } from "../interfaces/UtenteDAO";
 import { Ricerca as RicercaT } from "../../models/RicercaT";
-import Utente from "../../sequelize/models/Utente";
 import { RicercaDAO } from "../interfaces/RicercaDAO";
 import Ricerca from "../../sequelize/models/Ricerca";
 

@@ -1,4 +1,3 @@
-import { Op } from "sequelize";
 import { UtenteDAO } from "../interfaces/UtenteDAO";
 import { Utente as UtenteT } from "../../models/UtenteT";
 import Utente from "../../sequelize/models/Utente";

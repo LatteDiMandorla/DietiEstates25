@@ -19,10 +19,10 @@ export interface VerifyTokenPayload {
 }
 
 export class AuthServiceLocal {
-    private authDAO: AuthDAO;
-    private accessTokenService: TokenService<AccessTokenPayload>;
-    private refreshTokenService: TokenService<RefreshTokenPayload>;
-    private verifyTokenService: TokenService<VerifyTokenPayload>;
+    private readonly authDAO: AuthDAO;
+    private readonly accessTokenService: TokenService<AccessTokenPayload>;
+    private readonly refreshTokenService: TokenService<RefreshTokenPayload>;
+    private readonly verifyTokenService: TokenService<VerifyTokenPayload>;
 
     constructor(authDAO: AuthDAO, refreshTokenService?: TokenService<RefreshTokenPayload>, accessTokenService?: TokenService<AccessTokenPayload>){
         this.authDAO = authDAO;

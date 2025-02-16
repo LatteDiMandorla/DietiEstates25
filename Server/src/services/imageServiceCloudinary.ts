@@ -2,10 +2,10 @@ import { ImageService } from "./interfaces/imageService";
 import { v2 as cloudinary } from 'cloudinary';
 
 export class ImageServiceCloudinary implements ImageService {
-    private baseUrl: string;
-    private API_KEY;
-    private API_SECRET;
-    private CLOUD_NAME;
+    private readonly baseUrl: string;
+    private readonly API_KEY;
+    private readonly API_SECRET;
+    private readonly CLOUD_NAME;
 
     constructor() {
         this.API_KEY = process.env.CLOUDINARY_API_KEY;

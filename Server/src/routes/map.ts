@@ -3,7 +3,7 @@ import ValidationMiddlewares from "../middlewares/validationMiddlewares";
 import { Route } from "./route";
 
 export class MapRoute extends Route {
-    private mapController: MapController;
+    private readonly mapController: MapController;
 
     constructor(mapController: MapController) {
         super();

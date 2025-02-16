@@ -4,8 +4,8 @@ import { Ricerca } from "../models/RicercaT";
 import { Utente } from "../models/UtenteT";
 
 export class UtenteService {
-    private utenteDAO: UtenteDAO;
-    private ricercaDAO: RicercaDAO;
+    private readonly utenteDAO: UtenteDAO;
+    private readonly ricercaDAO: RicercaDAO;
     constructor(utenteDAO: UtenteDAO, ricercaDAO: RicercaDAO) {
         this.utenteDAO = utenteDAO;
         this.ricercaDAO = ricercaDAO;

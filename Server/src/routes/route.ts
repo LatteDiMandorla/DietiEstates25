@@ -1,7 +1,7 @@
 import { Router } from "express";
 
 export abstract class Route {
-    public router: Router;
+    public readonly router: Router;
 
     constructor() {
         this.router = Router();

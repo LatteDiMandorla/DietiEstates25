@@ -1,9 +1,8 @@
 import { MailService } from "./interfaces/mailService";
 import nodemailer from 'nodemailer';
-import jwt from 'jsonwebtoken';
 
 export class MailServiceGmail implements MailService {
-    private transporter: ReturnType<typeof nodemailer.createTransport>;
+    private readonly transporter: ReturnType<typeof nodemailer.createTransport>;
     
     constructor() {
         this.transporter = nodemailer.createTransport({

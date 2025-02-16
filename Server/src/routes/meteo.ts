@@ -2,7 +2,7 @@ import { MeteoController } from "../controllers/meteoController";
 import { Route } from "./route";
 
 export class MeteoRoute extends Route {
-    private meteoController: MeteoController;
+    private readonly meteoController: MeteoController;
 
     constructor(meteoController: MeteoController) {
         super();

@@ -1,10 +1,9 @@
-import { Request, Response, NextFunction } from 'express';
 import multer from 'multer';
 import fs from 'fs';
 import path from 'path';  // Modulo Node.js
 
 class StorageMiddlewares {
-    private uploader: multer.Multer;
+    private readonly uploader: multer.Multer;
 
     constructor(folderPath: string = "uploads/") {  // Cambiato 'path' in 'folderPath'
         // Crea il percorso assoluto della cartella

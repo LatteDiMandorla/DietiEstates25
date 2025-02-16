@@ -2,7 +2,7 @@ import { AgenteDAO } from "../daos/interfaces/AgenteDAO";
 import { Agente } from "../models/AgenteT";
 
 export class AgenteService {
-    private agenteDAO: AgenteDAO;
+    private readonly agenteDAO: AgenteDAO;
     constructor(agenteDAO: AgenteDAO) {
         this.agenteDAO = agenteDAO;
     }

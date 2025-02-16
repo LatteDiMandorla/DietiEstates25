@@ -1,5 +1,3 @@
-import { Immobile } from "../models/ImmobileT";
-
 export const Immobili: any = [
     {
         title: "Appartamento Moderno",

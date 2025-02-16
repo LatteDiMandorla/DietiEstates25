@@ -5,8 +5,8 @@ import { Prenotazione } from "../models/PrenotazioneT";
 import { Utente } from "../models/UtenteT";
 
 export class PrenotazioneService {
-    private prenotazioneDAO: PrenotazioneDAO;
-    private immobileDAO: ImmobileDAO;
+    private readonly prenotazioneDAO: PrenotazioneDAO;
+    private readonly immobileDAO: ImmobileDAO;
     constructor(prenotazioneDAO: PrenotazioneDAO, immobileDAO: ImmobileDAO) {
         this.prenotazioneDAO = prenotazioneDAO;
         this.immobileDAO = immobileDAO;

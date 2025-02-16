@@ -2,7 +2,7 @@ import { AgenziaDAO } from "../daos/interfaces/AgenziaDAO";
 import { Agenzia } from "../models/AgenziaT";
 
 export class AgenziaService {
-    private agenziaDAO: AgenziaDAO;
+    private readonly agenziaDAO: AgenziaDAO;
     constructor(agenziaDAO: AgenziaDAO) {
         this.agenziaDAO = agenziaDAO;
     }

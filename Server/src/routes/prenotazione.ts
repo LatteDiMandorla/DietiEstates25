@@ -3,8 +3,8 @@ import AuthMiddleware from "../middlewares/authMiddlewares";
 import { PrenotazioneController } from "../controllers/prenotazioneController";
 
 export class PrenotazioneRoute extends Route {
-    private prenotazioneController: PrenotazioneController;
-    private authMiddleware: AuthMiddleware;
+    private readonly prenotazioneController: PrenotazioneController;
+    private readonly authMiddleware: AuthMiddleware;
 
     constructor(prenotazioneController: PrenotazioneController) {
         super();

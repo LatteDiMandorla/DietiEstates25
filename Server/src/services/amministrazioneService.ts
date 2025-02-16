@@ -5,8 +5,8 @@ import { Agenzia } from "../models/AgenziaT";
 import { Amministrazione } from "../models/AmministrazioneT";
 
 export class AmministrazioneService {
-    private amministrazioneDAO: AmministrazioneDAO;
-    private agenziaDAO: AgenziaDAO;
+    private readonly amministrazioneDAO: AmministrazioneDAO;
+    private readonly agenziaDAO: AgenziaDAO;
     constructor(amministrazioneDAO: AmministrazioneDAO, agenziaDAO: AgenziaDAO) {
         const factory = new DAOFactory();
         this.amministrazioneDAO = amministrazioneDAO

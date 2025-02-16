@@ -1,8 +1,8 @@
 import jwt from "jsonwebtoken"
 
 export class TokenService<T extends {}> {
-    private tokenSecret: string;
-    private tokenDuration: string;
+    private readonly tokenSecret: string;
+    private readonly tokenDuration: string;
 
     constructor(secret: string, duration: string) {
         this.tokenSecret = secret;

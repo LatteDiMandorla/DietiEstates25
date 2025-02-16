@@ -3,10 +3,9 @@ import { PrenotazioneDAO } from "../interfaces/PrenotazioneDAO";
 import { Prenotazione as PrenotazioneT } from "../../models/PrenotazioneT"
 import { Utente as UtenteT } from "../../models/UtenteT"
 import { Immobile as ImmobileT } from "../../models/ImmobileT"
-import Utente  from "../../sequelize/models/Utente";
 import Immobile from "../../sequelize/models/Immobile";
 import { Agente as AgenteT } from "../../models/AgenteT";
-import { Op, where } from "sequelize";
+import { Op } from "sequelize";
 
 export class PrenotazioneDAOSequelize implements PrenotazioneDAO {
     public async findById(id: number): Promise<PrenotazioneT | undefined> {
@@ -21,7 +20,7 @@ export class PrenotazioneDAOSequelize implements PrenotazioneDAO {
 
     public async create(prenotazione: PrenotazioneT, immobileId: ImmobileT["id"], agenteId: AgenteT["id"]): Promise<void> {
         try {
-            const p = await Prenotazione.create({
+            await Prenotazione.create({
                 data: prenotazione.data,
                 ImmobileId: immobileId,
                 AgenteId: agenteId,
@@ -34,7 +33,7 @@ export class PrenotazioneDAOSequelize implements PrenotazioneDAO {
 
     public async updateUser(prenotazione: PrenotazioneT, utenteId: UtenteT["id"]) : Promise<void> {
         try {
-            const p = await Prenotazione.update({UtenteId: utenteId, stato: "Richiesta"}, {where: {
+            await Prenotazione.update({UtenteId: utenteId, stato: "Richiesta"}, {where: {
                 id: prenotazione.id
             }});
             
@@ -46,7 +45,7 @@ export class PrenotazioneDAOSequelize implements PrenotazioneDAO {
 
     public async update(prenotazione: PrenotazioneT): Promise<void> {
         try {
-            const p = await Prenotazione.update({...prenotazione, id: undefined}, {where: {
+            await Prenotazione.update({...prenotazione, id: undefined}, {where: {
                 id: prenotazione.id
             }});
             

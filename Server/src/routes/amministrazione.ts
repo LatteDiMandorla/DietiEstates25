@@ -3,8 +3,8 @@ import AuthMiddleware from "../middlewares/authMiddlewares";
 import { AmministrazioneController } from "../controllers/amministrazioneController";
 
 export class AmministrazioneRoute extends Route {
-    private amministrazioneController: AmministrazioneController;
-    private authMiddleware: AuthMiddleware;
+    private readonly amministrazioneController: AmministrazioneController;
+    private readonly authMiddleware: AuthMiddleware;
 
     constructor(amministrazioneController: AmministrazioneController) {
         super();
