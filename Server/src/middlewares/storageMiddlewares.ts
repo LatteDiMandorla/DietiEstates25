@@ -23,7 +23,7 @@ class StorageMiddlewares {
             },
         });
 
-        this.uploader = multer({ storage });
+        this.uploader = multer({ storage, limits: { fileSize: 5 * 1024 * 1024 } });
     }
 
     // Middleware per un singolo file
