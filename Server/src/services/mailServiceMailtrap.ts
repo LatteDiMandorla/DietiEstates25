@@ -11,7 +11,8 @@ export class MailServiceMailtrap implements MailService {
             auth: {
                 user: process.env.MAILTRAP_USER,
                 pass: process.env.MAILTRAP_PASSWORD
-            }
+            },
+            tls: { rejectUnauthorized: true }
         });
     }
 
