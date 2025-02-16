@@ -1,6 +1,8 @@
 import { ImmobileDAO } from "../daos/interfaces/ImmobileDAO";
 import { PrenotazioneDAO } from "../daos/interfaces/PrenotazioneDAO";
+import { Agente } from "../models/AgenteT";
 import { Prenotazione } from "../models/PrenotazioneT";
+import { Utente } from "../models/UtenteT";
 
 export class PrenotazioneService {
     private prenotazioneDAO: PrenotazioneDAO;
@@ -40,5 +42,34 @@ export class PrenotazioneService {
         }
         
         return await this.prenotazioneDAO?.updateUser(savedPrenotazione, utenteId);
+    }
+
+    public async acceptPrenotazione(prenotazioneId: number) {        
+        const savedPrenotazione = await this.prenotazioneDAO.findById(prenotazioneId);
+        if(!savedPrenotazione){
+            return Promise.reject("Prenotazione non trovata");
+        }
+
+        if(savedPrenotazione.stato !== "Richiesta") {
+            return Promise.reject("Prenotazione non disponibile");
+        }
+        
+        return await this.prenotazioneDAO.update({...savedPrenotazione, stato: "Prenotata"});
+    }
+
+    public async getPrenotazioneByUtente(utente: Utente){
+        const prenotazioni = await this.prenotazioneDAO.findByUtente(utente.id);
+        if(!prenotazioni){
+            return Promise.reject("Prenotazioni non trovate");
+        }
+        return prenotazioni;
+    }
+
+    public async getPrenotazioneByAgente(agente: Agente){
+        const prenotazioni = await this.prenotazioneDAO.findByAgente(agente.id);
+        if(!prenotazioni){
+            return Promise.reject("Prenotazioni non trovate");
+        }
+        return prenotazioni;
     }
 }

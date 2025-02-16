@@ -11,8 +11,6 @@ import { AuthRoute } from "./routes/auth";
 import { MeteoRoute } from "./routes/meteo";
 import { PrenotazioneRoute } from "./routes/prenotazione";
 import { AmministrazioneRoute } from "./routes/amministrazione";
-import { ImmobileDAO } from "./daos/interfaces/ImmobileDAO";
-import { AuthDAO } from "./daos/interfaces/AuthDAO";
 import { ImmobileService } from "./services/immobileService";
 import { AuthServiceLocal } from "./services/authServiceLocal";
 import { DAOFactory } from "./daos/factory/DAOFactory";
@@ -38,18 +36,16 @@ class App {
 
   constructor() {
     this.app = express();
-    this.port = parseInt(process.env.PORT || "3000");
+    this.port = parseInt(process.env.PORT ?? "3000");
     this.db = Database.getInstance();
 
     this.init();
   }
 
   private init() {
-    this.initConfig();
     this.initMiddlewares();
     const daos = this.initDAOs();
     this.initRoutes();
-    this.initErrorHandling();
     this.initDatabase();
   }
 
@@ -62,9 +58,6 @@ class App {
     }
   }
 
-  private initConfig() {
-    
-  }
 
   private initMiddlewares() {
     this.app.use(cors({origin: 'http://localhost:5173', methods: ['GET', 'POST'], credentials: true}));
@@ -79,20 +72,16 @@ class App {
     this.app.use("/immobile", immobileRoute.router);
     const mapRoute = new MapRoute(new MapController(mapService));
     this.app.use("/map", mapRoute.router);
-    const utenteRoute = new UtenteRoute(new UtenteController(utenteService, imageService));
+    const utenteRoute = new UtenteRoute(new UtenteController(utenteService, agenteService, imageService));
     this.app.use("/utente", utenteRoute.router);
     const authRoute = new AuthRoute(new AuthController(authServiceLocal, authServiceGoogle, mailService, utenteService, agenteService, amministrazioneService, agenziaService, imageService));
     this.app.use("/auth", authRoute.router);
     const meteoRoute = new MeteoRoute(new MeteoController(meteoService));
     this.app.use("/meteo", meteoRoute.router);
-    const prenotazioneRoute = new PrenotazioneRoute(new PrenotazioneController(prenotazioneService, utenteService));
+    const prenotazioneRoute = new PrenotazioneRoute(new PrenotazioneController(prenotazioneService, utenteService, agenteService));
     this.app.use("/prenotazione", prenotazioneRoute.router);
     const amministrazioneRoute = new AmministrazioneRoute(new AmministrazioneController(amministrazioneService, agenziaService));
     this.app.use("/amministrazione", amministrazioneRoute.router);
-  }
-
-  private initControllers(){
-
   }
 
   private initDAOs(){
@@ -135,10 +124,6 @@ class App {
     const meteoService = factory.getMeteoService(meteoServiceType);
 
     return {immobileService, authServiceLocal, authServiceGoogle, agenteService, agenziaService, amministrazioneService, prenotazioneService, utenteService, mapService, imageService, mailService, meteoService};
-  }
-
-  private initErrorHandling() {
-
   }
 
   public listen() {

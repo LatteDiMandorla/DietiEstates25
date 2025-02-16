@@ -12,19 +12,19 @@ import { TokenService } from "../services/tokenService";
 import { ImageService } from "../services/interfaces/imageService";
 
 export class AuthController {
-    private authServiceLocal: AuthServiceLocal;
-    private authServiceGoogle : AuthServiceGoogle;
-    private mailService: MailService;
-    private tokenService: TokenService<{id: number, ruolo: Role}>;
+    private readonly authServiceLocal: AuthServiceLocal;
+    private readonly authServiceGoogle : AuthServiceGoogle;
+    private readonly mailService: MailService;
+    private readonly tokenService: TokenService<{id: number, ruolo: Role}>;
 
-    private utenteService: UtenteService;
-    private agenteService: AgenteService;
-    private amministrazioneService: AmministrazioneService;
-    private agenziaService: AgenziaService;
-    private imageService: ImageService;
+    private readonly utenteService: UtenteService;
+    private readonly agenteService: AgenteService;
+    private readonly amministrazioneService: AmministrazioneService;
+    private readonly agenziaService: AgenziaService;
+    private readonly imageService: ImageService;
 
     constructor(authServiceLocal: AuthServiceLocal, authServiceGoogle : AuthServiceGoogle, mailService: MailService, utenteService: UtenteService, agenteService: AgenteService, amministrazioneService: AmministrazioneService, agenziaService: AgenziaService, imageService: ImageService) {
-        this.tokenService = new TokenService(process.env.JWT_VERIFY_TOKEN_SECRET || "", process.env.JWT_VERIFY_EXPIRES_IN || "30m");
+        this.tokenService = new TokenService(process.env.JWT_VERIFY_TOKEN_SECRET ?? "", process.env.JWT_VERIFY_EXPIRES_IN ?? "30m");
         
         this.authServiceLocal = authServiceLocal;
         this.authServiceGoogle = authServiceGoogle;
@@ -54,7 +54,7 @@ export class AuthController {
         try {
             const {email, password, callback} = req.body;
             const {nome, cognome, username} = req.body;
-            const url = (req.file && req.file.path) ? await this.imageService.upload(req.file.path) : undefined;
+            const url = (req.file?.path) ? await this.imageService.upload(req.file.path) : undefined;
             const registeredAuth = await this.authServiceLocal.register({email, password, verified: false, ruolo: "CLIENTE", id: 0});
             await this.utenteService.register({id: 0, nome, cognome, image: url, username, AuthId: registeredAuth.id });
             console.log("qui");

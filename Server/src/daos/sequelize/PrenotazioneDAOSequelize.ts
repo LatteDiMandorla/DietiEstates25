@@ -10,17 +10,7 @@ import { Op, where } from "sequelize";
 
 export class PrenotazioneDAOSequelize implements PrenotazioneDAO {
     public async findById(id: number): Promise<PrenotazioneT | undefined> {
-        const data = await Prenotazione.findByPk(id, {
-            include: [
-                {
-                  model: Utente,
-                  attributes: ["id", "username", "nome", "cognome", "email", "image"]
-                },
-                {
-                    model: Immobile,
-                }
-            ]
-        });
+        const data = await Prenotazione.findByPk(id);
 
         if(data){
             return data.get({ plain: true });
@@ -38,7 +28,7 @@ export class PrenotazioneDAOSequelize implements PrenotazioneDAO {
             });
         } catch (error) {
             console.log(error)
-            return Promise.reject(error)
+            return Promise.reject(new Error("Database error"))
         }
     }
 
@@ -50,7 +40,19 @@ export class PrenotazioneDAOSequelize implements PrenotazioneDAO {
             
         } catch (error) {
             console.log(error)
-            return Promise.reject(error)
+            return Promise.reject(new Error("Database error"))
+        }
+    }
+
+    public async update(prenotazione: PrenotazioneT): Promise<void> {
+        try {
+            const p = await Prenotazione.update({...prenotazione, id: undefined}, {where: {
+                id: prenotazione.id
+            }});
+            
+        } catch (error) {
+            console.log(error)
+            return Promise.reject(new Error("Database error"))
         }
     }
 
@@ -64,7 +66,7 @@ export class PrenotazioneDAOSequelize implements PrenotazioneDAO {
             return data?.get({plain: true}) || undefined;
         } catch (error) {
             console.log(error)
-            return Promise.reject(error)
+            return Promise.reject(new Error("Database error"))
         }
     }
 
@@ -84,7 +86,41 @@ export class PrenotazioneDAOSequelize implements PrenotazioneDAO {
 
             return disponibile;
         } catch (error) {
-            return Promise.reject(error);
+            return Promise.reject(new Error("Database error"));
+        }
+    }
+
+    public async findByUtente(utenteId: UtenteT["id"]): Promise<PrenotazioneT[]> {
+        try {
+            const data = await Prenotazione.findAll({ where: {
+                UtenteId: utenteId,
+            }, 
+            include: {
+                model: Immobile,
+            }
+            });
+            
+            return data?.map((prenotazione) => prenotazione.get({plain: true})) ?? [];
+        } catch (error) {
+            console.log(error)
+            return Promise.reject(new Error("Database error"))
+        }
+    }
+
+    public async findByAgente(agenteId: AgenteT["id"]): Promise<PrenotazioneT[]> {
+        try {
+            const prenotazioni = await Prenotazione.findAll({ where: {
+                AgenteId: agenteId,
+                stato: {[Op.ne]: "Disponibile"}
+            },
+            include: {
+                model: Immobile,
+            }
+            });
+
+            return prenotazioni?.map((prenotazione) => prenotazione.get({plain: true})) ?? [];
+        } catch (error) {
+            return Promise.reject(new Error("Database error"));
         }
     }
 
@@ -98,7 +134,7 @@ export class PrenotazioneDAOSequelize implements PrenotazioneDAO {
             return prenotazione?.get({plain: true});
         } catch (error) {
             console.log(error);
-            return Promise.reject(error);
+            return Promise.reject(new Error("Database error"));
         }
     }
 }

@@ -17,7 +17,7 @@ export class AuthDAOSequelize implements AuthDAO {
 
             return created.id;
         } catch (error) {
-            return Promise.reject(error);
+            return Promise.reject(new Error("Database error"));
         }
     }
 
@@ -41,7 +41,7 @@ export class AuthDAOSequelize implements AuthDAO {
             });
             return auth?.get({plain: true}).info;
         } catch (error) {
-            return Promise.reject(error);
+            return Promise.reject(new Error("Database error"));
         }
     }
 
@@ -51,7 +51,7 @@ export class AuthDAOSequelize implements AuthDAO {
 
             return auth?.get({ plain: true });
         } catch (error) {
-            return Promise.reject(error);
+            return Promise.reject(new Error("Database error"));
         }
     }
 
@@ -59,7 +59,7 @@ export class AuthDAOSequelize implements AuthDAO {
         try {
             await Auth.update({password: newPassword}, {where: {id}});
         } catch (error) {
-            return Promise.reject(error);
+            return Promise.reject(new Error("Database error"));
         }
     }
 
@@ -67,7 +67,7 @@ export class AuthDAOSequelize implements AuthDAO {
         try {
             await Auth.update({verified: true}, {where: {id}});
         } catch (error) {
-            return Promise.reject(error);
+            return Promise.reject(new Error("Database error"));
         }
     }
 
@@ -76,7 +76,7 @@ export class AuthDAOSequelize implements AuthDAO {
             const auth = await Auth.findByPk(id);
             return auth?.get({plain: true});
         } catch (error) {
-            return Promise.reject(error);
+            return Promise.reject(new Error("Database error"));
         }
     }
 
@@ -84,7 +84,7 @@ export class AuthDAOSequelize implements AuthDAO {
         try {
             await Auth.destroy({where: {id}});
         } catch (error) {
-            return Promise.reject(error);
+            return Promise.reject(new Error("Database error"));
         }
     }
 }

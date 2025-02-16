@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { MeteoService } from "../services/interfaces/meteoService";
 
 export class MeteoController {
-    private meteoService : MeteoService | undefined;
+    private readonly meteoService : MeteoService | undefined;
 
     constructor(meteoService : MeteoService) {
         this.meteoService = meteoService;

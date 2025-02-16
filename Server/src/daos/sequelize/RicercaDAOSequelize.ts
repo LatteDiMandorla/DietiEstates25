@@ -18,7 +18,7 @@ export class RicercaDAOSequelize implements RicercaDAO {
             return data.map((i) => (i.get({ plain: true })));
         }
         
-        return Promise.reject();
+        return Promise.reject(new Error("Database error"));
     }
 
     public async removeOfUser(userId: number): Promise<void> {

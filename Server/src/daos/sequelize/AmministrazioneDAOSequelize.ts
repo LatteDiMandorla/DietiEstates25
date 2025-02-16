@@ -9,7 +9,7 @@ export class AmministrazioneDAOSequelize implements AmministrazioneDAO {
             return amministratori?.map((amm) => amm.get({ plain: true }));
         } catch (error) {
             console.log(error)
-            return Promise.reject(error)
+            return Promise.reject(new Error("Database error"))
         }
     }
 
@@ -19,7 +19,7 @@ export class AmministrazioneDAOSequelize implements AmministrazioneDAO {
             return amministratore?.get({ plain: true });
         } catch (error) {
             console.log(error)
-            return Promise.reject(error)
+            return Promise.reject(new Error("Database error"))
         }
     }
 
@@ -35,7 +35,7 @@ export class AmministrazioneDAOSequelize implements AmministrazioneDAO {
 
             return created.get({plain: true}).id;
         } catch (error) {
-            return Promise.reject(error)
+            return Promise.reject(new Error("Database error"))
         }
     }
 
@@ -44,7 +44,7 @@ export class AmministrazioneDAOSequelize implements AmministrazioneDAO {
             const amministratore = await Amministrazione.findByPk(id);
             return amministratore?.get({ plain: true });
         } catch (error) {
-            return Promise.reject(error)
+            return Promise.reject(new Error("Database error"))
         }
     }
 
@@ -54,7 +54,7 @@ export class AmministrazioneDAOSequelize implements AmministrazioneDAO {
             return data?.get({ plain: true });
         } catch (error) {
             console.log(error);
-            return Promise.reject(error);
+            return Promise.reject(new Error("Database error"));
         }
     }
 
@@ -67,7 +67,7 @@ export class AmministrazioneDAOSequelize implements AmministrazioneDAO {
             })
         } catch (error) {
             console.log(error);
-            return Promise.reject(error)
+            return Promise.reject(new Error("Database error"))
         }
     }
 }

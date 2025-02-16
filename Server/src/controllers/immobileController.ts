@@ -47,8 +47,8 @@ export class ImmobileController {
                 return;
             }
             
-            for(let i = 0; i < recents.length; i++){
-                if(!recents[i].lat && !recents[i].lon && !recents[i].text) {
+            for(const r of recents){
+                if(!r.lat && !r.lon && !r.text) {
                     res.status(400).send("Searches not valid"); 
                     return;
                 }

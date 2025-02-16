@@ -16,7 +16,7 @@ export class AgenziaDAOSequelize implements AgenziaDAO {
             return amministratore?.get({plain: true}).Agenzia;
         } catch (error) {
             console.log(error);
-            return Promise.reject(error);
+            return Promise.reject(new Error("Database error"));
         }
     }
 
@@ -25,7 +25,7 @@ export class AgenziaDAOSequelize implements AgenziaDAO {
             const agenzia = await Agenzia.findByPk(id);
             return agenzia?.get({plain: true});
         } catch (error) {
-            return Promise.reject(error);
+            return Promise.reject(new Error("Database error"));
         }
     }
 }

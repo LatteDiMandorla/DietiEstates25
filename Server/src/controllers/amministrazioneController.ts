@@ -3,8 +3,8 @@ import { AmministrazioneService } from "../services/amministrazioneService";
 import { AgenziaService } from "../services/agenziaService";
 
 export class AmministrazioneController {
-    private amministrazioneService: AmministrazioneService;
-    private agenziaService: AgenziaService;
+    private readonly amministrazioneService: AmministrazioneService;
+    private readonly agenziaService: AgenziaService;
 
     constructor(amministrazioneService: AmministrazioneService, agenziaService: AgenziaService){
         this.amministrazioneService = amministrazioneService;
@@ -21,7 +21,7 @@ export class AmministrazioneController {
 
         try {
             const agenzia = await this.agenziaService?.getAgenziaByAmministrazione(id);
-            if(!agenzia || !agenzia.id) {
+            if(!agenzia?.id) {
                 res.status(400).send("Agenzia non trovata");
                 return;
             }

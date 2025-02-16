@@ -1,13 +1,16 @@
 import { Request, Response } from "express";
 import { UtenteService } from "../services/utenteService";
 import { ImageService } from "../services/interfaces/imageService";
+import { AgenteService } from "../services/agenteService";
 
 export class UtenteController {
-    private utenteService : UtenteService | undefined;
-    private imageService : ImageService;
+    private readonly utenteService : UtenteService | undefined;
+    private readonly agenteService : AgenteService | undefined;
+    private readonly imageService : ImageService;
 
-    constructor(utenteService : UtenteService, imageService : ImageService) {
+    constructor(utenteService : UtenteService, agenteService : AgenteService, imageService : ImageService) {
         this.utenteService = utenteService;
+        this.agenteService = agenteService;
         this.imageService = imageService;
     }
 
@@ -41,7 +44,7 @@ export class UtenteController {
             return;
         }
 
-        const data = await this.utenteService?.insertSearches(id, recents);
+        await this.utenteService?.insertSearches(id, recents);
         res.sendStatus(200);
     }
 
@@ -60,7 +63,7 @@ export class UtenteController {
         try {            
             const id = res.locals.id;
             const file = req.file;
-            if(!file || !file.path){
+            if(!file?.path){
                 res.status(400).send("Missing file");
                 return;
             }

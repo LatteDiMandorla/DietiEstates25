@@ -9,7 +9,7 @@ export class AgenteDAOSequelize implements AgenteDAO {
             const data = await Agente.findByPk(id);
             return data?.get({plain: true});
         } catch (error) {
-            return Promise.reject(error);
+            return Promise.reject(new Error("Database error"));
         }
     }
 
@@ -18,7 +18,7 @@ export class AgenteDAOSequelize implements AgenteDAO {
             const data = await Immobile.findByPk(id, {include: Agente});
             return data?.get({plain: true}).Agente;
         } catch (error) {
-            return Promise.reject(error);
+            return Promise.reject(new Error("Database error"));
         }
     }
 
@@ -27,7 +27,7 @@ export class AgenteDAOSequelize implements AgenteDAO {
             const data = await Agente.findOne({where: {AuthId: authId}});
             return data?.get({plain: true});
         } catch (error) {
-            return Promise.reject(error);
+            return Promise.reject(new Error("Database error"));
         }
     }
     
@@ -42,7 +42,7 @@ export class AgenteDAOSequelize implements AgenteDAO {
             });
         } catch (error) {
             console.log(error)
-            return Promise.reject(error)
+            return Promise.reject(new Error("Database error"))
         }
     }
 
@@ -53,7 +53,7 @@ export class AgenteDAOSequelize implements AgenteDAO {
             }})
         } catch (error) {
             console.log(error);
-            return Promise.reject()
+            return Promise.reject(new Error("Database error"))
         }
     }
 }

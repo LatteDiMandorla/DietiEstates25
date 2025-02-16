@@ -7,12 +7,14 @@ import { Prenotazione } from "../models/PrenotazioneT";
 import { AgenteService } from "../services/agenteService";
 
 export class PrenotazioneController {
-    private prenotazioneService : PrenotazioneService;
-    private utenteService : UtenteService;
+    private readonly prenotazioneService : PrenotazioneService;
+    private readonly utenteService : UtenteService;
+    private readonly agenteService : AgenteService;
 
-    constructor(prenotazioneService : PrenotazioneService, utenteService : UtenteService) {
+    constructor(prenotazioneService : PrenotazioneService, utenteService : UtenteService, agenteService : AgenteService) {
         this.prenotazioneService = prenotazioneService;
         this.utenteService = utenteService;
+        this.agenteService = agenteService
     }
 
     public async getById(req : Request, res : Response) : Promise<void> {
@@ -59,6 +61,46 @@ export class PrenotazioneController {
             
             await this.prenotazioneService.updatePrenotazioneUtente(data, immobileId, utente.id);
             res.sendStatus(200);
+        } catch (error) {
+            res.status(400).send(error);
+        }
+    }
+
+    public async acceptAgentePrenotazione(req : Request, res: Response) : Promise<void> {
+        try {            
+            const {prenotazioneId} = req.body;
+            const agenteId = res.locals.id;
+            if(!prenotazioneId || typeof prenotazioneId !== "number") {
+                res.status(400).send("Body not valid"); 
+                return;
+            }
+            
+            await this.prenotazioneService.acceptPrenotazione(prenotazioneId);
+            res.sendStatus(200);
+        } catch (error) {
+            res.status(400).send(error);
+        }
+    }
+
+    public async getByUser(req: Request, res: Response) : Promise<void> {
+        try {            
+            const role = res.locals.ruolo;
+            const id = res.locals.id;
+            if(!role) {
+                res.status(400).send("Role not valid"); 
+                return;
+            }
+
+            let prenotazioni;
+            if(role == "AGENTE") {
+                const agente = await this.agenteService.getAgenteByAuth(id);
+                prenotazioni = await this.prenotazioneService.getPrenotazioneByAgente(agente);
+            } else if (role == "CLIENTE") {
+                const utente = await this.utenteService.getUtenteByAuth(id);
+                prenotazioni = await this.prenotazioneService.getPrenotazioneByUtente(utente);
+            }
+            
+            res.json(prenotazioni);
         } catch (error) {
             res.status(400).send(error);
         }

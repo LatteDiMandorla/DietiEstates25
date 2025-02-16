@@ -9,7 +9,7 @@ export class UtenteDAOSequelize implements UtenteDAO {
             const data = await Utente.findByPk(id);
             return data?.get({ plain: true });
         } catch (error) {
-            return Promise.reject(error);
+            return Promise.reject(new Error("Database error"));
         }
     }
 
@@ -18,7 +18,7 @@ export class UtenteDAOSequelize implements UtenteDAO {
             const data = await Utente.findOne({ where: { AuthId: authId } });
             return data?.get({ plain: true });
         } catch (error) {
-            return Promise.reject(error);
+            return Promise.reject(new Error("Database error"));
         }
     }
 
@@ -35,7 +35,7 @@ export class UtenteDAOSequelize implements UtenteDAO {
             return utente.get({plain: true}).id;
         } catch (error) {
             console.log(error)
-            return Promise.reject()
+            return Promise.reject(new Error("Database error"))
         }
     }
 
@@ -48,7 +48,7 @@ export class UtenteDAOSequelize implements UtenteDAO {
             })
         } catch (error) {
             console.log(error)
-            return Promise.reject()
+            return Promise.reject(new Error("Database error"))
         }
     }
 
@@ -58,7 +58,7 @@ export class UtenteDAOSequelize implements UtenteDAO {
             await Utente.update({...utente}, {where: {id: utente.id}});
         } catch (error) {
             console.log(error);
-            return Promise.reject(error);
+            return Promise.reject(new Error("Database error"));
         }
     }
 }

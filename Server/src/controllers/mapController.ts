@@ -3,7 +3,7 @@ import { MapService } from "../services/interfaces/mapService";
 import { ServiceFactory } from "../services/factory/serviceFactory";
 
 export class MapController {
-    private mapService : MapService;
+    private readonly mapService : MapService;
 
     constructor(mapService : MapService) {
         this.mapService = mapService;

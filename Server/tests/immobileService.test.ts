@@ -14,7 +14,10 @@ const mockPrenotazioneDAO = {
     findByUtenteImmobile: jest.fn(), 
     updateUser: jest.fn(), 
     findByImmobileAgente: jest.fn(),
-    findByDateImmobile: jest.fn()
+    findByDateImmobile: jest.fn(),
+    findByUtente: jest.fn(),
+    findByAgente: jest.fn(),
+    update: jest.fn()
 };
 
 const immobileService = new ImmobileService(mockImmobileDAO, mockPrenotazioneDAO);

@@ -15,7 +15,7 @@ export class ImmobileDAOSequelize implements ImmobileDAO {
         if(data){
             return data.get({plain: true});
         }
-        return Promise.reject();
+        return Promise.reject(new Error("Database error"));
     }
 
     public async findInRange(minLat: number, maxLat: number, minLon: number, maxLon: number, lat: number, lon: number) : Promise<ImmobileT[]> {
@@ -33,7 +33,7 @@ export class ImmobileDAOSequelize implements ImmobileDAO {
             return data.map((i) => (i.get({ plain: true })));
         }
 
-        return Promise.reject();
+        return Promise.reject(new Error("Database error"));
     }
 
     public async findInRangePaginate(minLat: number, maxLat: number, minLon: number, maxLon: number, lat: number, lon: number, page: number, limit: number, timestamp: string): Promise<ImmobileT[]> {
@@ -54,6 +54,6 @@ export class ImmobileDAOSequelize implements ImmobileDAO {
             return data.map((i) => (i.get({ plain: true })));
         }
 
-        return Promise.reject();
+        return Promise.reject(new Error("Database error"));
     }
 }
