@@ -1,4 +1,4 @@
-import { ErrorMessage, Field, Form, Formik, FormikHelpers } from "formik";
+import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from 'yup';
 import axios from "../api/axios";
 import { useState, useCallback } from "react";
@@ -39,7 +39,7 @@ const RegisterSchema = Yup.object().shape({
 function RegisterForm() {
     const [imagePreview, setImagePreview] = useState<string | null>(null);
 
-    const handleSubmit = async (values: Values, { resetForm }: FormikHelpers<Values>) => {
+    const handleSubmit = async (values: Values) => {
         if (values.email && values.password && values.confirmPassword && values.nome && values.cognome && values.username && values.image) {
             try {
                 const formData = new FormData();

@@ -62,8 +62,15 @@ export class ImmobileController {
     }
 
     public async create(req: Request, res: Response) : Promise<void> {
+        console.log(req.files);
         if (!req.files || !Array.isArray(req.files) || req.files.length > 20 || req.files.length <= 0) {
             res.status(400).json({ message: 'No files uploaded' });
+            return;
+        }
+        const immobile = req.body;
+        const id = res.locals.id;
+        if(!immobile || !id){
+            res.status(400).json({ message: 'Immobile non valido' });
             return;
         }
 
@@ -71,12 +78,7 @@ export class ImmobileController {
             const files = req.files;
             
             const imageUrl = await this.imageService?.uploadMultiple(files.map((f) => f.path));
-
-            files.forEach(async (f) => {
-                const fileAbsPath = path.join(__dirname, f.path);
-                await fs.promises.unlink(fileAbsPath);
-            })
-            res.json({ url: imageUrl });
+            res.json({ url: imageUrl, immobile });
         } catch (error) {
             res.status(500).json({ message: 'Error uploading image', error });
         }

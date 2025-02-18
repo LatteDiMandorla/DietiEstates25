@@ -53,3 +53,12 @@ export interface Agente {
     image?: string;
     biografia?: string;
 }
+
+export interface Prenotazione {
+    id?: number;
+    data: string,
+    stato: "Disponibile" | "Richiesta" | "Prenotata" | "Effettuata",
+    Utente?: Utente,
+    Immobile?: Immobile,
+    Agente?: Agente,
+}

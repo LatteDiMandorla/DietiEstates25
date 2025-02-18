@@ -136,7 +136,7 @@ export const ProfilePage = () =>
                 <HouseCard
                 title="Villa sul mare"
                 street="Via dei mille"
-                size="40"
+                size={40}
                 bathrooms={2}
                 locals={3}
                 agentImage="https://informatica.dieti.unina.it/images/foto-docenti/di-martino.png"
@@ -152,7 +152,7 @@ export const ProfilePage = () =>
               <HouseCard
                 title="Villa sul mare"
                 street="Via dei mille"
-                size="40"
+                size={40}
                 bathrooms={2}
                 locals={3}
                 agentImage="https://informatica.dieti.unina.it/images/foto-docenti/di-martino.png"

@@ -14,8 +14,6 @@ import LoginPage from './pages/LoginPage.tsx'
 import RegisterPage from './pages/RegisterPage.tsx';
 import HomePage from './pages/HomePage.tsx'
 import Layout from './pages/Layout.tsx'
-import { FirstStep } from './pages/FirstStep.tsx'
-import { SecondStep } from './pages/SecondStep.tsx'
 import ImmobilePage from './pages/ImmobilePage.tsx';
 import { MapPage } from './pages/MapPage.tsx';
 import SearchPage from './pages/SearchPage.tsx';
@@ -28,6 +26,8 @@ import { SelfProfilePage } from './pages/SelfProfile.tsx';
 import { AdminPage } from './pages/AdminPage.tsx';
 import { ForgotPasswordPage } from './pages/ForgotPasswordPage.tsx';
 import { VerifyPage } from './pages/VerifyPage.tsx';
+import PrenotazioniPage from './pages/PrenotazioniPage.tsx';
+import { InserisciImmobilePage } from './pages/InserisciImmobilePage.tsx';
 
 const router = createBrowserRouter([
   {
@@ -63,26 +63,16 @@ const router = createBrowserRouter([
             path: "/self",
             element: <ProtectedRoute element={<SelfProfilePage />} roleRequired={["CLIENTE", "AGENTE"]} />
           },
-        ]
-      },
-
-      {
-        path: "",
-        element: <AltLayout/>,
-        children: [
           {
-            path: "/FirstStep",
-            element: <FirstStep/>
+            path: "/inserisciImmobile",
+            element: <ProtectedRoute element={<InserisciImmobilePage />} roleRequired={["AGENTE"]} />
           },
-
           {
-            path: "/SecondStep",
-            element: <SecondStep />
-          }
-    
+            path: "/prenotazioni",
+            element: <ProtectedRoute element={<PrenotazioniPage />} roleRequired={["CLIENTE", "AGENTE"]} />
+          },
         ]
       },
-
       {
         
         path: "/login",

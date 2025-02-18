@@ -40,7 +40,7 @@ const SearchPage = () => {
     
             return {data: data.data, timestamp: data.timestamp};
         } else {
-            return Promise.reject("Bounds undefined");
+            return Promise.reject(new Error("Bounds undefined"));
         }
     }, [bounds])
 

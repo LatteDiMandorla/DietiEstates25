@@ -17,9 +17,7 @@ import { EnergyEffiency } from "../components/EnergyEfficiency";
 
 function ImmobilePage(){
     const [immobile, setImmobile] = useState<Immobile>();
-    const [img, setImg] = useState<string>();
     const {id} = useParams();
-    const [file, setFile] = useState<File | null>(null);
     const [openImage, setOpenImage] = useState(false); 
     const {counter: selected, next, prev, goto} = useRangeCounter(immobile ? immobile?.images.length : 1);
 
@@ -45,17 +43,6 @@ function ImmobilePage(){
 
         fetch();
     }, [id])
-
-    const uploadImage = async () => {
-        if (!file) return;
-        console.log(file);
-
-        const formData = new FormData();
-        formData.append('file', file);
-        const { data } = await axios.post("/immobile", formData);
-        console.log(data);
-        setImg(data.url);
-    }
 
 
     return (
@@ -102,7 +89,7 @@ function ImmobilePage(){
 
 export default ImmobilePage;
 
-const InformationTopBar = ({price, locals, size, bathrooms, title, street} : Immobile) => {
+export const InformationTopBar = ({price, locals, size, bathrooms, title, street} : Immobile) => {
     const navigate = useNavigate();
 
     const prezzoFormattato = new Intl.NumberFormat('it-IT', {

@@ -9,7 +9,7 @@ export class MapController {
     }
 
     public async getAutocomplete(req: Request, res: Response): Promise<void> {
-        const {text, lang} = req.query;
+        const {text, lang, type} = req.query;
     
         if (!text || typeof text !== 'string' || !lang || typeof lang !== 'string') {
           res.status(400).json({ error: 'The "text" query parameter is required and must be a string.' });
@@ -17,7 +17,7 @@ export class MapController {
         }
     
         try {
-          const suggestions = await this.mapService?.getAutocompleteSuggestions(text, lang);
+          const suggestions = await this.mapService?.getAutocompleteSuggestions(text, lang, (type && typeof(type) == "string") ? type : undefined);
           res.json(suggestions);
         } catch (error) {
           console.error('Autocomplete error:', error);

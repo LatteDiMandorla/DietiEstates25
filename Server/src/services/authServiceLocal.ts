@@ -112,8 +112,8 @@ export class AuthServiceLocal {
         }
 
         const user = await this.authDAO.findById(id);
-        if (!user || !(user.password || user.verified)) {
-            return Promise.reject(new Error("Cambio password non possibile"));
+        if (!user || (!user.password && user.verified)) {
+            throw new Error("Cambio password non possibile");
         }
 
         const hashedPassword = await this.hashPassword(newPassowrd);

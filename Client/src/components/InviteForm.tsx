@@ -1,7 +1,5 @@
 import { ErrorMessage, Field, Form, Formik, FormikHelpers } from "formik";
 import * as Yup from 'yup';
-import useAuth from "../hooks/useAuth";
-import { useNavigate } from "react-router-dom";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
 interface Values {
@@ -63,7 +61,7 @@ function InviteForm() {
                     </div>
                     <ErrorMessage name="role" component="div" className="text-red-500 text-sm mt-1" />
                 </div>                
-                <button type="submit" className="bg-blue-600 text-white font-bold px-3 py-2 rounded-full">Accedi</button>
+                <button type="submit" className="bg-blue-600 text-white font-bold px-3 py-2 rounded-full">Aggiungi</button>
             </Form>
             )}
         </Formik>

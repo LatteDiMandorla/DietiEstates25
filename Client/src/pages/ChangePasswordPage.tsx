@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom"
 import axios from "../api/axios";
+import { toast } from "react-toastify";
 
 export const ChangePasswordPage = () => {
     const [params] = useSearchParams();
@@ -11,15 +12,17 @@ export const ChangePasswordPage = () => {
 
     const handleClick = async () => {
         try {
-            const {data} = await axios.post("/auth/resetPassword", {password, token});
+            await axios.post("/auth/resetPassword", {password, token});
+            toast.success("Password modificata correttamente");
             navigate("/home");
         } catch (error) {
+            toast.error("Errore nella modifica della password");
             console.log(error);
         }
     }
 
     return (
-        <div>
+        <div className="">
             Nuova password:
             <input type="text" value={password} onChange={(e) => setPassword(e.target.value)} />
             <button onClick={handleClick}>Reset</button>

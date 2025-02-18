@@ -1,13 +1,13 @@
 import axios from "../api/axios";
 import { useState } from "react";
 
-const useAddressAutocomplete = () => {
+const useAddressAutocomplete = (type?: string) => {
     const [suggestions, setSuggestions] = useState<any>([]);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [timeoutId, setTimeoutId] = useState<ReturnType<typeof setTimeout> >(); 
   
     const fetchSuggestions = async (text: string) => {
-      const { data } = await axios.get("/map/autocomplete", { params: { text, lang: navigator.language || "en" } });
+      const { data } = await axios.get("/map/autocomplete", { params: { text, lang: navigator.language || "en", type: type } });
       setSuggestions(data);
       setIsLoading(false);
     };

@@ -1,23 +1,10 @@
 import LoginForm from "../components/LoginForm";
 import image from "../assets/DietiRealLogo.png";
 import AlternativeLogin from "../components/AlternativeLogin";
-import useAxiosPrivate from "../hooks/useAxiosPrivate";
-import useAuth from "../hooks/useAuth";
 import { useNavigate } from "react-router-dom"
 import { useState } from "react";
 
 function LoginPage() {
-    const axios = useAxiosPrivate();
-    const test = async () => {
-        try {
-            const {data} = await axios.get("auth/self");
-            console.log(data);
-            alert("loggato");
-        } catch (error) {
-            alert("non loggato");
-        }
-    }
-
     const navigate = useNavigate();
     const [imageMoved, setImageMoved] = useState(false); // Stato per gestire l'animazione
 

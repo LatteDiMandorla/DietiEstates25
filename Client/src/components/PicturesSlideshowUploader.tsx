@@ -5,14 +5,9 @@ import { MdDeleteOutline } from "react-icons/md";
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
 import { ResponsiveFullscreenPopup } from './ResponsiveFullscreenPopup';
 import { RiCloseFill } from 'react-icons/ri';
-export const PicturesSlideshowUploader = ({ className = ""} : {className?: string}) => {
+export const PicturesSlideshowUploader = ({ className = "", images, setFiles} : {className?: string, images: ImageType[], setFiles: (images: ImageType[]) => void}) => {
 
     const [open, setOpen] = useState<boolean>(false);
-    const [images, setFiles] = useState<ImageType[]>([]);
-    
-    const handleClick = () => {
-        console.log(images);
-    }
 
 
     const styles = [
@@ -69,7 +64,6 @@ export const PicturesSlideshowUploader = ({ className = ""} : {className?: strin
                 </div>
             </div>
         </ResponsiveFullscreenPopup> 
-        <button onClick={handleClick}>Upload</button>
         </>
         }
         </ ImageUploading>

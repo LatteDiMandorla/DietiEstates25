@@ -184,7 +184,8 @@ export class AuthController {
     public async resetPassword(req: Request, res: Response) {
         try {
             const {password, token} = req.body;
-
+            console.log(token);
+            console.log(password);
             if(!token || typeof token != "string" || !password || typeof password !== "string"){
                 res.status(401).send("Token o Password mancanti");
                 return;
@@ -194,7 +195,7 @@ export class AuthController {
             await this.authServiceLocal.verify(token);
             res.status(200).send("Successo");
         } catch (error) {
-            res.status(401).send(error);
+            res.status(500).send(error);
         }
     }
 
