@@ -1,6 +1,4 @@
 import { useRef } from "react";
-import { GiFireFlower } from "react-icons/gi";
-
 export const EnergyEffiency = ({efficiency} : {efficiency: string}) => {
     const ref = useRef(null)
 

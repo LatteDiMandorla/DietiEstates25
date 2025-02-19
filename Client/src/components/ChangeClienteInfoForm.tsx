@@ -1,8 +1,6 @@
 import { ErrorMessage, Field, Form, Formik, FormikHelpers } from "formik";
 import * as Yup from 'yup';
-import axios from "../api/axios";
 import useAuth from "../hooks/useAuth";
-import { useNavigate } from "react-router-dom";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
 interface Values {
@@ -34,7 +32,7 @@ function ChangeClienteInfoForm({nome: nomeI, cognome: cognomeI} : Values) {
 
     return (
         <Formik initialValues={{nome: nomeI, cognome: cognomeI}} validationSchema={ClienteInfoSchema} onSubmit={handleSubmit}>
-            {({errors, touched, resetForm, values, setValues}) => (
+            {({errors, touched, values, setValues}) => (
             <Form className="flex flex-col space-y-3 w-fit h-fit">
                 <div className="flex flex-col">
                         <p className="font-semibold">Nome: </p>

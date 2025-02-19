@@ -21,7 +21,7 @@ function InviteForm() {
 
     const handleSubmit = async (values: Values, {resetForm} : FormikHelpers<Values>) => {
         if(values && values.email && values.role){
-            const {data} = await axios.post(`/auth/register/${values.role}`, {...values, callback: "http://localhost:5173/resetpassword"});
+            const {data} = await axios.post(`/auth/register/${values.role}`, {...values, callback: `${import.meta.env.VITE_API_URL}/resetpassword`});
             console.log(values);
             if(data){
                 console.log(data);

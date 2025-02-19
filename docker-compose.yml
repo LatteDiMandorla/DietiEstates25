@@ -1,0 +1,20 @@
+version: "3"
+services:
+  frontend:
+    build: 
+      context: ./Client
+      args:
+        VITE_API_URL: "http://backend:3000"
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+
+  backend:
+    build: ./Server
+    ports:
+      - "3000:3000"
+    environment:
+      - CLIENT_URL=http://frontend:80
+    volumes:
+      - ./Server/database.sqlite:/app/database.sqlite # Mantieni persistente il database SQLite

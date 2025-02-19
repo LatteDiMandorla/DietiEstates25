@@ -6,7 +6,6 @@ import { IoIosCloud, IoIosSunny, IoIosPartlySunny, IoIosRainy, IoIosCloudy, IoIo
 import { IoRainyOutline } from "react-icons/io5";
 import { BsCloudFog2Fill } from "react-icons/bs";
 import { Avatar } from "./Avatar";
-import axios from "../api/axios";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
 export const Appointement = ({times, id} : {times: Date[], id: number}) => {
@@ -15,8 +14,6 @@ export const Appointement = ({times, id} : {times: Date[], id: number}) => {
     const [time, setTime] = useState<Date>();
     const [weather, setWeather] = useState<any>();
     const axios = useAxiosPrivate();
-
-    const twoWeeks = 1000 * 60 * 60 * 24 * 14;
 
     const weatherIcons = (state: string) => {
         if(state == "sereno") return IoIosSunny;
@@ -29,12 +26,6 @@ export const Appointement = ({times, id} : {times: Date[], id: number}) => {
         else if(state == "neve") return IoIosSnow;
         else if(state == "temporale") return IoIosThunderstorm;
       };
-    
-    const handleAppointmentClick = () => {
-        if(date && time) {
-            console.log("appuntamento preso in data " + date.toLocaleDateString() +" all'ora" + time )
-        }
-    }
 
     const onDateChange = async (d: Date) => {
         setDate(d);

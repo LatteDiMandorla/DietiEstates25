@@ -8,7 +8,7 @@ export const ForgotPasswordPage = () => {
 
     const handleClick = async () => {
         try{
-            const {data} = await axios.post("/auth/requestResetPassword", {email, callback: "http://localhost:5173/resetPassword"});
+            await axios.post("/auth/requestResetPassword", {email, callback: `${import.meta.env.VITE_API_URL}/resetPassword`});
             navigate("/home");
         } catch (error) {
             console.log(error);

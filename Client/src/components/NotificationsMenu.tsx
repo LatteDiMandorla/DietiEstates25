@@ -33,12 +33,6 @@ export const NotificationsMenu = () => {
         }
     }, [openNotify])
 
-    useEffect(() => {
-        const fetch = async () => {
-
-        }
-    }, [])
-
     const dateMsg = useCallback((d: Date): string => {
         const now = new Date();
         const diffMs = now.getTime() - d.getTime();

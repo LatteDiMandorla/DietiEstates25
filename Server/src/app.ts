@@ -60,7 +60,7 @@ class App {
 
 
   private initMiddlewares() {
-    this.app.use(cors({origin: 'http://localhost:5173', methods: ['GET', 'POST'], credentials: true}));
+    this.app.use(cors({origin: ['http://localhost:5173', process.env.CLIENT_URL ?? ""], methods: ['GET', 'POST'], credentials: true}));
     this.app.use(express.json());
     dotenv.config();
     this.app.use(cookieParser());
@@ -128,7 +128,7 @@ class App {
 
   public listen() {
     this.app.listen(this.port, () => {
-      console.log(`Server is running on http://localhost:${this.port}`);
+      console.log(`Server is running`);
     });
   }
 }

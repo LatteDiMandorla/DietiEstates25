@@ -19,7 +19,6 @@ import { MapPage } from './pages/MapPage.tsx';
 import SearchPage from './pages/SearchPage.tsx';
 import { ProfilePage } from './pages/ProfilePage.tsx'
 import { AuthProvider } from './contexts/AuthProvider.tsx';
-import AltLayout from './pages/AltLayout.tsx';
 import { ChangePasswordPage } from './pages/ChangePasswordPage.tsx';
 import ProtectedRoute from './components/ProtectedRoute.tsx';
 import { SelfProfilePage } from './pages/SelfProfile.tsx';

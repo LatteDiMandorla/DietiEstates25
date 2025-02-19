@@ -48,7 +48,7 @@ function RegisterForm() {
                 formData.append("nome", values.nome);
                 formData.append("cognome", values.cognome);
                 formData.append("email", values.email);
-                formData.append("callback", "http://localhost:5173/verify");
+                formData.append("callback", `${import.meta.env.VITE_API_URL}/verify`);
                 formData.append("image", values.image); // appending the image file
 
                 // Sending FormData as multipart/form-data
