@@ -63,12 +63,12 @@ export class AuthServiceLocal {
 
             const auth = await this.authDAO.findByEmail(email);
             if (!auth) {
-                return Promise.reject(new Error("User not found"));
+                throw new Error("Email non registrata");
             }
 
             const samePassword = await this.validatePassword(password, auth.password ?? "");
             if (!samePassword) {
-                return Promise.reject(new Error("Wrong Password"))
+                throw new Error("Password Errata");
             }
 
             const accessToken = this.accessTokenService.generateToken({ id: auth.id, ruolo: auth.ruolo });

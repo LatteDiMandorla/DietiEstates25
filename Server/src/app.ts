@@ -28,6 +28,8 @@ import { AuthServiceGoogle } from "./services/authServiceGoogle";
 import { MeteoController } from "./controllers/meteoController";
 import { PrenotazioneController } from "./controllers/prenotazioneController";
 import { AmministrazioneController } from "./controllers/amministrazioneController";
+import credentials from "./cors/credentials";
+import corsOptions from "./cors/corsConfig";
 
 class App {
   private readonly app: Express;
@@ -60,7 +62,9 @@ class App {
 
 
   private initMiddlewares() {
-    this.app.use(cors({origin: ['http://localhost:5173', process.env.CLIENT_URL ?? ""], methods: ['GET', 'POST'], credentials: true}));
+    console.log("env: ",process.env.CLIENT_URL);
+    this.app.use(credentials);
+    this.app.use(cors(corsOptions));
     this.app.use(express.json());
     dotenv.config();
     this.app.use(cookieParser());

@@ -1,23 +1,21 @@
-# Usa un'immagine con Node.js
 FROM node:18-alpine
 
-# Imposta la directory di lavoro
 WORKDIR /app
 
-# Copia i file del progetto
+ARG CLIENT_URL
+ENV CLIENT_URL=$CLIENT_URL
+# Copia i file di package.json e installa le dipendenze
 COPY package.json package-lock.json ./
-
-# Installa le dipendenze
 RUN npm install
 
-# Copia il resto del codice
+# Copia tutto il codice sorgente
 COPY . .
 
-# Compila TypeScript
+# Esegui la build di TypeScript
 RUN npm run build
 
-# Espone la porta del server (modificala se necessario)
+# Espone la porta 3000
 EXPOSE 3000
 
-# Comando per avviare il server
-CMD ["npm", "start"]
+# Avvia il server
+CMD ["node", "dist/src/index.js"]

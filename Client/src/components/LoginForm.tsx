@@ -3,6 +3,7 @@ import * as Yup from 'yup';
 import axios from "../api/axios";
 import useAuth from "../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
+import { isAxiosError } from "axios";
 
 interface Values {
     email: string,
@@ -19,24 +20,36 @@ function LoginForm() {
     const {setAuth} = useAuth();
     const navigate = useNavigate();
 
-    const handleSubmit = async (values: Values, {resetForm} : FormikHelpers<Values>) => {
+    const handleSubmit = async (values: Values, {resetForm, setFieldError} : FormikHelpers<Values>) => {
         if(values && values.email && values.password){
-            const {data} = await axios.post("/auth/login", values, {
-                headers: {'Content-Type': 'application/json'},
-                withCredentials: true,
-            });
-
-            if(data){
-                console.log(data);
-                setAuth(data);
-                if(data.ruolo == "CLIENTE" || data.ruolo == "AGENTE"){
-                    navigate("/home");
-                } else {
-                    navigate("/admin");
+            try {
+                const {data} = await axios.post("/auth/login", values, {
+                    headers: {'Content-Type': 'application/json'},
+                    withCredentials: true,
+                });
+    
+                if(data){
+                    console.log(data);
+                    setAuth(data);
+                    if(data.ruolo == "CLIENTE" || data.ruolo == "AGENTE"){
+                        navigate("/home");
+                    } else {
+                        navigate("/admin");
+                    }
+                }                
+                resetForm();
+            } catch (error) {
+                if(isAxiosError(error)){
+                    const message: string | undefined = error.response?.data;
+                    if(message?.toLowerCase().includes("email")){
+                        setFieldError("email", message);
+                    } else if (message?.toLowerCase().includes("password")){
+                        setFieldError("password", message);
+                    }
                 }
             }
+
         }
-        resetForm();
     }
 
     return (

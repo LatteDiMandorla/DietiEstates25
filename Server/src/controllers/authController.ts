@@ -45,8 +45,8 @@ export class AuthController {
             let info: {nome: string, cognome: string, image?: string};
             
             res.status(200).cookie("refreshToken", refreshToken, { httpOnly: true, maxAge: 24*60*60*1000, sameSite: "none", secure: true }).json({accessToken, ruolo});
-        } catch (error) {
-          res.sendStatus(401);
+        } catch (error: any) {
+          res.status(401).json(error?.message);
         }
     }
     
