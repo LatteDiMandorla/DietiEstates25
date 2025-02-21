@@ -80,7 +80,7 @@ function ImmobilePage(){
             </div>
         </div>
         <div className="h-full w-fit sticky top-0 hidden lg:block">
-            {immobile && immobile.id && immobile.orari && <Appointement id={immobile.id} times={immobile.orari.map(o => new Date(o))}/>}
+            {immobile && immobile.id && immobile.orari && <Appointement id={immobile.id} times={immobile.orari.map(o => new Date(o))} agente={immobile.Agente}/>}
         </div>
     </div>
     </>

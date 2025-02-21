@@ -7,7 +7,7 @@ function Layout() {
         <div className="flex flex-col w-full h-full">
             <Topbar />
             <Outlet />
-            <div className="lg:hidden">
+            <div className="lg:hidden hidden">
                 <BottomBar />
             </div>
         </div>

@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { BiImageAdd } from "react-icons/bi";
 import ChangeClienteInfoForm from "../components/ChangeClienteInfoForm";
 import ChangeAgenteInfoForm from "../components/ChangeAgenteInfoForm";
+import PrenotazioniPage from "./PrenotazioniPage";
 
 
 export const SelfProfilePage = () => {
@@ -55,8 +56,8 @@ export const SelfProfilePage = () => {
     }, [images])
 
     return (
-        auth &&
-        <div className="w-full flex-1 bg-[#FAFAFA] p-2 flex flex-col items-center">
+        auth && auth.accessToken &&
+        <div className="w-full flex-1 bg-[#FAFAFA] p-2 flex flex-col space-y-3 items-center overflow-y-scroll no-scrollbar">
             <p className="font-bold text-2xl w-fit">Ciao {auth.nome}!</p>
             <div className="bg-white shadow-md rounded-xl w-fit p-4 flex flex-col items-center">
                 <p className="font-semibold text-xl">Informazioni Profilo</p>
@@ -77,6 +78,9 @@ export const SelfProfilePage = () => {
                     </div>
                 </div>
                 <button onClick={logout} className="bg-red-500 mt-2 text-white rounded-full px-2 py-1">Logout</button>
+            </div>
+            <div className="w-full">
+                <PrenotazioniPage />
             </div>
         </div>
     )

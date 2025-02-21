@@ -5,6 +5,8 @@ import { useMediaQuery } from 'react-responsive';
 import { RiCloseFill } from "react-icons/ri";
 import { Notification } from "./Notification";
 import { IoIosSettings } from "react-icons/io";
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
+import { Prenotazione } from "../Interfaces/interfaces";
 
 export const NotificationsMenu = () => {
     const ref = useRef<HTMLDivElement>(null);
@@ -14,6 +16,23 @@ export const NotificationsMenu = () => {
     const isSmallScreen = useMediaQuery({ query: '(max-width: 640px)'});
     const [isClicked, setIsClicked] = useState<boolean>(false);
     const [openSettings, setOpenSettings] = useState<boolean>(false);
+    const axios = useAxiosPrivate();
+
+    const [prenotazioni, setPrenotazioni] = useState<Prenotazione[]>([]);
+
+    useEffect(() => {
+        const fetch = async () => {
+            try {
+                const {data} = await axios.get('/prenotazione/');
+                if(data){
+                    setPrenotazioni(data);
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        fetch();
+    }, [])
 
     const HandleRingClick = () => 
     {
@@ -51,6 +70,15 @@ export const NotificationsMenu = () => {
         return d.toLocaleDateString(); // Data completa se oltre un mese fa
     }, [openNotify]);
 
+    const notificationTitle = (p: Prenotazione) => {
+        if(p.stato == "Prenotata"){
+            return "Hai una visita confermata il " + new Date(p.data).toLocaleDateString();
+        } else if (p.stato == "Richiesta") {
+            return "Hai richiesto una visita il " + new Date(p.data).toLocaleDateString();
+        }
+        else return "";
+    }
+
     const getStyle = () => {
         return isSmallScreen ? "fixed left-0 top-0 h-full w-full z-[2001]" : "absolute top-2 -right-8 bottom-0 h-72 w-96 z-[2001]"
     }
@@ -72,10 +100,7 @@ export const NotificationsMenu = () => {
                     {
                     !openSettings ?    
                     <div className="h-fit">
-                        <Notification date={dateMsg(new Date("Jan 16, 2025 21:58:00"))} title="Ti ho rifiutato l'offerta" text="Se ci riprovi ti spacco la faccia" avatar="https://informatica.dieti.unina.it/images/foto-docenti/di-martino.png" />
-                        <Notification date={dateMsg(new Date("Jan 16, 2025 10:58:00"))} title="Non ti voglio vedere" text="È inutile che insisti" avatar="https://informatica.dieti.unina.it/images/foto-docenti/di-martino.png" />
-                        <Notification date={dateMsg(new Date("Jan 15, 2025 21:58:00"))} title="Hai preso 6 all'esame" text="Sei bocciato, riprova la prossima sessione" avatar="https://informatica.dieti.unina.it/images/foto-docenti/di-martino.png" />
-                        <Notification date={dateMsg(new Date("Jan 01, 2025 21:58:00"))} title="Ho ricevuto la tua prenotazione" text="Buona fortuna per l'esame" avatar="https://informatica.dieti.unina.it/images/foto-docenti/di-martino.png" />
+                        {prenotazioni?.map((p) => <Notification date={dateMsg(new Date(p.data))} title={"Visita"} text={notificationTitle(p)} avatar={p.Agente?.image}/>)}
                     </div>
                     :
                     <div>

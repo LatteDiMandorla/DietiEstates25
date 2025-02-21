@@ -1,13 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import { HouseCard } from "./house_card";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
-import { useResizeDetector } from 'react-resize-detector';
 import { Immobile } from "../Interfaces/interfaces";
 
 export const HouseCardSliderSp = ({houses} : {houses: Immobile[]}) => {
   const [selected, setSelected] = useState<number>(1);
   const itemRefs = useRef<any>([]);
-  const { width, ref } = useResizeDetector<HTMLDivElement>();
+  const ref = useRef<HTMLDivElement>(null);
 
   const handleScrollToId = (id: number, behavior: ScrollBehavior) => {
       if(itemRefs && itemRefs.current && itemRefs.current[id] &&  ref && ref.current){
@@ -16,19 +15,14 @@ export const HouseCardSliderSp = ({houses} : {houses: Immobile[]}) => {
         const scrollOffset = itemRefs.current[id].offsetLeft + itemWidth/2 - scrollableWidth/2;
         ref.current.scrollTo({
           left: scrollOffset,
-          behavior: behavior, // Scroll animato
+          behavior: behavior,
         });
-        // itemRefs.current[id].scrollIntoView({behavior, block: "center", inline: "center"});
       }
   }
 
   useEffect(() => {
       handleScrollToId(selected, "smooth");
-  }, [selected])
-
-  useEffect(() => {
-    handleScrollToId(selected, "auto");
-  }, [width])
+  }, [selected, handleScrollToId])
 
   const selectedStyle = "scale-[115%]"
 

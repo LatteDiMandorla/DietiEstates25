@@ -2,12 +2,17 @@ import { useEffect, useRef, useState } from 'react';
 import { HouseCardSliderSp } from '../components/HouseCardSlider';
 import { TopbarExtended } from '../components/TopbarExtended';
 import { Immobile } from '../Interfaces/interfaces';
+import { FaPlus } from "react-icons/fa";
 import axios from '../api/axios';
 import Footer from '../components/Footer';
+import useAuth from '../hooks/useAuth';
+import { useNavigate } from 'react-router-dom';
 
 
 const HomePage = () => {
     const ref = useRef<HTMLDivElement>(null);
+    const {auth} = useAuth();
+    const navigate = useNavigate();
 
     const [lastSearched, setLastSearched] = useState<Immobile[]>([]);
     const [isAtTop, setIsAtTop] = useState<boolean>(true);
@@ -34,6 +39,7 @@ const HomePage = () => {
     return (
       <div className='flex flex-col h-dvh w-dvw overflow-hidden'>
         <TopbarExtended shrink={!isAtTop} />
+        {auth?.ruolo == "AGENTE" && <button onClick={() => navigate("/inserisciimmobile")} className='w-10 h-10 shadow-sm bg-blue-600 text-white font-bold flex items-center justify-center fixed bottom-5 right-5 z-50 rounded-full'><FaPlus size={24} /></button>}
         <div ref={ref} className='w-full flex-1 bg-[#FAFAFA] overflow-y-scroll no-scrollbar' onScroll={handleScroll} onTouchMove={handleScroll}>
           <div className='flex flex-col w-fullz justify-start'>
             <Divider title='Potrebbero Piacerti' />

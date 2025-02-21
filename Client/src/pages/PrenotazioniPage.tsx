@@ -29,7 +29,7 @@ const PrenotazioniPage = () => {
         fetch();
     }, [])
     return (
-        <div className="relative bg-[#FAFAFA] flex-1 w-full flex flex-col overflow-scroll no-scrollbar">
+        <div className="relative flex-1 w-full flex flex-col overflow-scroll no-scrollbar">
             Le tue prenotazioni:
             {prenotazioni?.map((prenotazione, index) => <PrenotazioneTab key={index} prenotazione={prenotazione} accept={() => accept(index)} />)}
         </div>

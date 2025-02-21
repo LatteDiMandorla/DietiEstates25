@@ -7,8 +7,9 @@ import { IoRainyOutline } from "react-icons/io5";
 import { BsCloudFog2Fill } from "react-icons/bs";
 import { Avatar } from "./Avatar";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
+import { Agente } from "../Interfaces/interfaces";
 
-export const Appointement = ({times, id} : {times: Date[], id: number}) => {
+export const Appointement = ({times, id, agente} : {times: Date[], id: number, agente?: Agente}) => {
 
     const [date, setDate] = useState<Date>();
     const [time, setTime] = useState<Date>();
@@ -67,9 +68,9 @@ export const Appointement = ({times, id} : {times: Date[], id: number}) => {
         <div className="flex flex-col items-center bg-[#DDF5FF] h-fit rounded-xl p-2 w-96 relative">
             <div className="z-10 flex flex-row items-center justify-between p-1 w-full">
                 <div className="flex flex-row items-center space-x-2">
-                    <Avatar src="https://informatica.dieti.unina.it/images/foto-docenti/di-martino.png" size="sm" />
+                    <Avatar src={agente?.image ?? ""} size="sm" />
                     <div className="flex flex-col">
-                        <span className="font-semibold"> Sergio Di Martino </span>
+                        <span className="font-semibold"> {agente?.nome + " " + agente?.cognome} </span>
                         <span> Agente Immobiliare</span>
                     </div> 
                 </div>
