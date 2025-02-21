@@ -65,8 +65,6 @@ export default class Database {
 
     public async sync(): Promise<void> {
         try {
-            await this.sequelize.sync(); // Sincronizza i modelli
-
             console.log('Database synced successfully.');
         } catch (error) {
             console.error('Error syncing database:', error);

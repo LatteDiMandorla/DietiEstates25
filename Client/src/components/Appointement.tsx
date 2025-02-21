@@ -8,6 +8,7 @@ import { BsCloudFog2Fill } from "react-icons/bs";
 import { Avatar } from "./Avatar";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import { Agente } from "../Interfaces/interfaces";
+import { toast } from "react-toastify";
 
 export const Appointement = ({times, id, agente} : {times: Date[], id: number, agente?: Agente}) => {
 
@@ -43,12 +44,7 @@ export const Appointement = ({times, id, agente} : {times: Date[], id: number, a
 
     const onClickPrenota = async () => {
         if(date && time){
-            try {
-                const {data} = await axios.post("/prenotazione/request", {data: time, immobileId: id});
-                console.log(data);
-            } catch (error) {
-                console.log(error);
-            }
+            toast.promise(axios.post("/prenotazione/request", {data: time, immobileId: id}), {success: "Appuntamento richiesto", pending: "Richiesta in corso", error: "Appuntamento già preso"})
         }
     }
 
@@ -82,7 +78,7 @@ export const Appointement = ({times, id, agente} : {times: Date[], id: number, a
 
             <div className="flex flex-col items-center bg-white rounded-t-lg w-full pt-1">
                 {(date && time) && <p className="font-semibold">{formatDate(time)}</p>}
-                <button onClick={onClickPrenota} className="flex space-x-2 items-center justify-center bg-[#65558F] text-white rounded-full shadow-md w-64 hover:bg-purple-700 px-2 py-1">
+                <button onClick={onClickPrenota} disabled={time ? false : true} className="flex space-x-2 items-center justify-center bg-[#65558F] disabled:text-gray-200 disabled:bg-opacity-80 text-white rounded-full shadow-md w-64 enabled:hover:bg-purple-700 px-2 py-1">
                     <BiSolidCalendar />
                     <p>Prenota ora</p>
                 </button>

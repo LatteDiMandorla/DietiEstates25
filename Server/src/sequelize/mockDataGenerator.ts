@@ -10,16 +10,16 @@ export const generator = async () => {
     await Agenzia.create({nome: "IdeAle", email: "prime@idealecasa.com", image: "https://res.cloudinary.com/dietiestates/image/upload/v1738429053/agenzie/acqnheplcmnnjmjsimxa.jpg", password: "123abc"});
 
     const date = [
-        "2025-02-01 ",
-        "2025-02-02 ",
-        "2025-02-03 ",
-        "2025-02-04 ",
-        "2025-02-05 ",
-        "2025-02-06 ",
-        "2025-02-07 ",
-        "2025-02-08 ",
-        "2025-02-09 ",
-        "2025-02-10 ",
+        "2025-02-22 ",
+        "2025-02-23 ",
+        "2025-02-24 ",
+        "2025-02-25 ",
+        "2025-02-26 ",
+        "2025-02-27 ",
+        "2025-02-28 ",
+        "2025-03-01 ",
+        "2025-03-02 ",
+        "2025-03-03 ",
     ]
     const orari = [
         "10:30:00",
