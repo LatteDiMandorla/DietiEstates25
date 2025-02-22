@@ -44,7 +44,7 @@ export const Appointement = ({times, id, agente} : {times: Date[], id: number, a
 
     const onClickPrenota = async () => {
         if(date && time){
-            toast.promise(axios.post("/prenotazione/request", {data: time, immobileId: id}), {success: "Appuntamento richiesto", pending: "Richiesta in corso", error: "Appuntamento già preso"})
+            toast.promise(axios.post("/prenotazione/request", {data: time, immobileId: id}), {success: "Appuntamento richiesto", pending: "Richiesta in corso", error: "Appuntamento già preso per questo immobile"})
         }
     }
 

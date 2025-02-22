@@ -67,27 +67,27 @@ export const PicturesSlideshow = ({openPictures, images, className = ""} : {open
                 <button disabled={disabled} onClick={() => {stop(true) ;handleClickNext()}}><IoIosArrowForward className="hover:cursor-pointer hover:text-blue-500" size={30} /></button>
             </div>
             <div className={styles[n]} onTransitionEndCapture={(e) => (n == 0 && handleTransitionEnd(e))} onClick={() => openPictures(getPictureIndex(0), n)}>
-                <div className={`absolute inset-0 overflow-hidden rounded-lg scale-[220%] z-50 bg-white/15 ${n == 2 || n == 3 ? "visible opacity-100" : "invisible opacity-0"}  transition-all duration-[1200ms] backdrop-blur-lg flex justify-center items-center`}><p className="font-bold text-lg">{n == 3 && "+"+(images.length - 4)}</p></div>
+                <div className={`absolute inset-0 overflow-hidden rounded-lg scale-[220%] z-50 bg-white/15 ${n == 2 || n == 3 ? "visible opacity-100" : "invisible opacity-0"}  transition-all duration-[1200ms] backdrop-blur-lg flex justify-center items-center`}><p className="font-bold text-lg">{n == 3 && images.length > 4 && "+"+(images.length - 4)}</p></div>
                 <img className={`w-full h-full object-cover`} src={images[(Math.floor((counter + 4)/6) * 6) % images.length]} />
             </div>
             <div className={styles[(n + 1) % 6]} onTransitionEndCapture={(e) => (n == 5 && handleTransitionEnd(e))} onClick={() => openPictures(getPictureIndex(1), (n + 1) % 6)}>
-                <div className={`absolute inset-0 overflow-hidden rounded-lg scale-[220%] z-50 bg-white/15 ${n == 1 || n == 2 ? "visible opacity-100" : "invisible opacity-0"} transition-all duration-[1200ms] backdrop-blur-lg flex justify-center items-center`}><p className="font-bold text-lg">{n == 2 && "+"+(images.length - 4)}</p></div>
+                <div className={`absolute inset-0 overflow-hidden rounded-lg scale-[220%] z-50 bg-white/15 ${n == 1 || n == 2 ? "visible opacity-100" : "invisible opacity-0"} transition-all duration-[1200ms] backdrop-blur-lg flex justify-center items-center`}><p className="font-bold text-lg">{n == 2 && images.length > 4  && "+"+(images.length - 4)}</p></div>
                 <img className={`w-full h-full object-cover`}src={images[(Math.floor((counter + 5)/6) * 6 + (6 * images.length - 1)) % images.length]} />
             </div>
             <div className={styles[(n + 2) % 6]} onTransitionEndCapture={(e) => (n == 4 && handleTransitionEnd(e))} onClick={() => openPictures(getPictureIndex(2), (n + 2) % 6)}>
-                <div className={`absolute inset-0 overflow-hidden rounded-lg scale-[220%] z-50 bg-white/15 ${n == 0 || n == 1 ? "visible opacity-100" : "invisible opacity-0"} transition-all duration-[1200ms] backdrop-blur-lg flex justify-center items-center`}><p className="font-bold text-lg">{n == 1 && "+"+(images.length - 4)}</p></div>
+                <div className={`absolute inset-0 overflow-hidden rounded-lg scale-[220%] z-50 bg-white/15 ${n == 0 || n == 1 ? "visible opacity-100" : "invisible opacity-0"} transition-all duration-[1200ms] backdrop-blur-lg flex justify-center items-center`}><p className="font-bold text-lg">{n == 1 && images.length > 4 && "+"+(images.length - 4)}</p></div>
                 <img className={`w-full h-full object-cover`}src={images[(Math.floor((counter)/6) * 6 + 4) % images.length]} />
             </div>
             <div className={styles[(n + 3) % 6]} onTransitionEndCapture={(e) => (n == 3 && handleTransitionEnd(e))} onClick={() => openPictures(getPictureIndex(3), (n + 3) % 6)}>
-                <div className={`absolute inset-0 overflow-hidden rounded-lg scale-[220%] z-50 bg-white/15 ${n == 5 || n == 0 ? "visible opacity-100" : "invisible opacity-0"} transition-all duration-[1200ms] backdrop-blur-lg flex justify-center items-center`}><p className="font-bold text-lg">{n == 0 && "+"+(images.length - 4)}</p></div>
+                <div className={`absolute inset-0 overflow-hidden rounded-lg scale-[220%] z-50 bg-white/15 ${n == 5 || n == 0 ? "visible opacity-100" : "invisible opacity-0"} transition-all duration-[1200ms] backdrop-blur-lg flex justify-center items-center`}><p className="font-bold text-lg">{n == 0 && images.length > 4 && "+"+(images.length - 4)}</p></div>
                 <img className={`w-full h-full object-cover`}src={images[(Math.floor((counter + 1)/6) * 6 + 3) % images.length]} />
             </div>
             <div className={styles[(n + 4) % 6]} onTransitionEndCapture={(e) => (n == 2 && handleTransitionEnd(e))} onClick={() => openPictures(getPictureIndex(4), (n + 4) % 6)}>
-                <div className={`absolute inset-0 overflow-hidden rounded-lg scale-[220%] z-50 bg-white/15 ${n == 4 || n == 5 ? "visible opacity-100" : "invisible opacity-0"} transition-all duration-[1200ms] backdrop-blur-lg flex justify-center items-center`}><p className="font-bold text-lg">{n == 5 && "+"+(images.length - 4)}</p></div>
+                <div className={`absolute inset-0 overflow-hidden rounded-lg scale-[220%] z-50 bg-white/15 ${n == 4 || n == 5 ? "visible opacity-100" : "invisible opacity-0"} transition-all duration-[1200ms] backdrop-blur-lg flex justify-center items-center`}><p className="font-bold text-lg">{n == 5 && images.length > 4 && "+"+(images.length - 4)}</p></div>
                 <img className={`w-full h-full object-cover`} src={images[(Math.floor((counter + 2)/6) * 6 + 2) % images.length]} />
             </div>
             <div className={styles[(n + 5) % 6]} onTransitionEndCapture={(e) => (n == 1 && handleTransitionEnd(e))} onClick={() => openPictures(getPictureIndex(5), (n + 5) % 6)}>
-                <div className={`absolute inset-0 overflow-hidden rounded-lg scale-[220%] z-50 bg-white/15 ${n == 3 || n == 4 ? "visible opacity-100" : "invisible opacity-0"} transition-all duration-[1200ms] backdrop-blur-lg flex justify-center items-center`}><p className="font-bold text-lg">{n == 4 && "+"+(images.length - 4)}</p></div>
+                <div className={`absolute inset-0 overflow-hidden rounded-lg scale-[220%] z-50 bg-white/15 ${n == 3 || n == 4 ? "visible opacity-100" : "invisible opacity-0"} transition-all duration-[1200ms] backdrop-blur-lg flex justify-center items-center`}><p className="font-bold text-lg">{n == 4 && images.length > 4 && "+"+(images.length - 4)}</p></div>
                 <img className={`w-full h-full object-cover`} src={images[(Math.floor((counter + 3)/6) * 6 + 1) % images.length]} />    
             </div>
             {/* <div className={styles[1] + " z-50 bg-gray/10 backdrop-blur-sm"}></div> */}
